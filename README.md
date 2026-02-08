@@ -641,8 +641,7 @@ plancraft/
 │   ├── renderer/     # Scene graph builder and SVG emitter
 │   └── cli/          # Command-line interface
 ├── skill/            # AI agent skill (SKILL.md + rules/)
-├── examples/         # Example .pc files and rendered SVGs
-└── tests/            # Agent test suite
+└── examples/         # Example .pc files and rendered SVGs
 ```
 
 **Data flow:**
