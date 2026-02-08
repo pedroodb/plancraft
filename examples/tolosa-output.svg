@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-750 -1360 9110 16210" width="9110" height="16210">
+  <rect x="-750" y="-1360" width="9110" height="16210" fill="white"/>
+  <defs>
+    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
+    </pattern>
+  </defs>
+  <g transform="scale(1,-1) translate(0,-13490)">
+    <g id="Tolosa">
+      <g id="Planta Baja">
+        <polygon points="0,100 500,100 500,-100 0,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4300,100 4780,100 4780,-100 4300,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4680,0 4680,3220 4880,3220 4880,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4780,3295 5790,3295 5790,3145 4780,3145" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5715,3220 5715,3800 5865,3800 5865,3220" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5715,4600 5715,5000 5865,5000 5865,4600" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5790,4900 3800,4900 3800,5100 5790,5100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3800,4900 900,4900 900,5100 3800,5100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="300,4900 0,4900 0,5100 300,5100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,5000 100,0 -100,0 -100,5000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="500" y1="30" x2="4300" y2="30" stroke="black" stroke-width="25"/>
+        <line x1="500" y1="-30" x2="4300" y2="-30" stroke="black" stroke-width="25"/>
+        <line x1="2096" y1="0" x2="2704" y2="0" stroke="black" stroke-width="25"/>
+        <path d="M 900 5600 A 600 600 0 0 1 300 5000" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="900" y1="5000" x2="300" y2="5000" stroke="black" stroke-width="25"/>
+        <line x1="900" y1="5000" x2="900" y2="5600" stroke="black" stroke-width="25"/>
+        <path d="M 6590 3800 A 800 800 0 0 1 5790 4600" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="5790" y1="3800" x2="5790" y2="4600" stroke="black" stroke-width="25"/>
+        <line x1="5790" y1="3800" x2="6590" y2="3800" stroke="black" stroke-width="25"/>
+        <polygon points="4780,100 5130,100 5130,-100 4780,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5890,100 6270,100 6270,-100 5890,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7130,100 7590,100 7590,-100 7130,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7490,0 7490,3220 7690,3220 7690,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7590,3145 5790,3145 5790,3295 7590,3295" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 7130 0 A 860 860 0 0 1 6270 860" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="6270" y1="0" x2="7130" y2="0" stroke="black" stroke-width="25"/>
+        <line x1="6270" y1="0" x2="6270" y2="860" stroke="black" stroke-width="25"/>
+        <line x1="5130" y1="-50" x2="5890" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="5130" y1="50" x2="5890" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="5130" y1="100" x2="5130" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="5890" y1="100" x2="5890" y2="-100" stroke="black" stroke-width="25"/>
+        <polygon points="7490,3220 7490,5000 7690,5000 7690,3220" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7590,4900 5790,4900 5790,5100 7590,5100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3725,5000 3725,5050 3875,5050 3875,5000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3725,5650 3725,5700 3875,5700 3875,5650" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3725,5700 3725,7600 3875,7600 3875,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3800,7525 1040,7525 1040,7675 3800,7675" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="300,7525 0,7525 0,7675 300,7675" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,7600 100,5000 -100,5000 -100,7600" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4400 5050 A 600 600 0 0 1 3800 5650" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="3800" y1="5050" x2="3800" y2="5650" stroke="black" stroke-width="25"/>
+        <line x1="3800" y1="5050" x2="4400" y2="5050" stroke="black" stroke-width="25"/>
+        <path d="M 1040 8340 A 740 740 0 0 1 300 7600" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="1040" y1="7600" x2="300" y2="7600" stroke="black" stroke-width="25"/>
+        <line x1="1040" y1="7600" x2="1040" y2="8340" stroke="black" stroke-width="25"/>
+        <polygon points="3800,5100 5020,5100 5020,4900 3800,4900" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4945,5000 4945,5700 5095,5700 5095,5000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5020,5625 4910,5625 4910,5775 5020,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3910,5625 3800,5625 3800,5775 3910,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4945,5700 4945,5900 5095,5900 5095,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4945,6600 4945,7600 5095,7600 5095,6600" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5020,7525 3800,7525 3800,7675 5020,7675" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 5720 5900 A 700 700 0 0 1 5020 6600" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="5020" y1="5900" x2="5020" y2="6600" stroke="black" stroke-width="25"/>
+        <line x1="5020" y1="5900" x2="5720" y2="5900" stroke="black" stroke-width="25"/>
+        <polygon points="3980,5650 4840,5650 4840,7450 3980,7450" fill="#e8e8e8" stroke="black" stroke-width="18" stroke-linejoin="miter"/>
+        <line x1="3980" y1="5950" x2="4840" y2="5950" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="6250" x2="4840" y2="6250" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="6550" x2="4840" y2="6550" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="6850" x2="4840" y2="6850" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="7150" x2="4840" y2="7150" stroke="black" stroke-width="18"/>
+        <polygon points="5010,6700 5010,7600 4110,7600 4110,6700" fill="#e8e8e8" stroke="black" stroke-width="18" stroke-linejoin="miter"/>
+        <line x1="5010" y1="6700" x2="5010" y2="7600" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4834.418710185485" y2="7582.7067523629075" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4665.584910871419" y2="7531.491579260158" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4509.986790282358" y2="7448.322651072291" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4373.603896932107" y2="7336.396103067893" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4261.677348927709" y2="7200.013209717642" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4178.508420739842" y2="7044.415089128581" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4127.2932476370925" y2="6875.581289814516" stroke="black" stroke-width="18"/>
+        <line x1="5010" y1="6700" x2="4110" y2="6700" stroke="black" stroke-width="18"/>
+        <polygon points="5020,5100 5790,5100 5790,4900 5020,4900" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7490,5000 7490,7600 7690,7600 7690,5000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7590,7525 5020,7525 5020,7675 7590,7675" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3725,7600 3725,8000 3875,8000 3875,7600" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3725,8800 3725,11650 3875,11650 3875,8800" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3800,11575 2300,11575 2300,11725 3800,11725" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="1500,11575 0,11575 0,11725 1500,11725" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,11650 100,10850 -100,10850 -100,11650" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,9350 100,7600 -100,7600 -100,9350" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4600 8000 A 800 800 0 0 1 3800 8800" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="3800" y1="8000" x2="3800" y2="8800" stroke="black" stroke-width="25"/>
+        <line x1="3800" y1="8000" x2="4600" y2="8000" stroke="black" stroke-width="25"/>
+        <path d="M 1500 11650 A 800 800 0 0 1 2300 10850" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="2300" y1="11650" x2="1500" y2="11650" stroke="black" stroke-width="25"/>
+        <line x1="2300" y1="11650" x2="2300" y2="10850" stroke="black" stroke-width="25"/>
+        <line x1="-50" y1="10850" x2="-50" y2="9350" stroke="black" stroke-width="25"/>
+        <line x1="50" y1="10850" x2="50" y2="9350" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="10850" x2="-100" y2="10850" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="9350" x2="-100" y2="9350" stroke="black" stroke-width="25"/>
+        <polygon points="7490,7600 7490,8400 7690,8400 7690,7600" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7490,9320 7490,11650 7690,11650 7690,9320" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7590,11575 3800,11575 3800,11725 7590,11725" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="7640" y1="8400" x2="7640" y2="9320" stroke="black" stroke-width="25"/>
+        <line x1="7540" y1="8400" x2="7540" y2="9320" stroke="black" stroke-width="25"/>
+        <line x1="7490" y1="8400" x2="7690" y2="8400" stroke="black" stroke-width="25"/>
+        <line x1="7490" y1="9320" x2="7690" y2="9320" stroke="black" stroke-width="25"/>
+        <polygon points="3725,11650 3725,12050 3875,12050 3875,11650" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3725,12850 3725,14250 3875,14250 3875,12850" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3800,14150 3040,14150 3040,14350 3800,14350" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="2280,14150 1520,14150 1520,14350 2280,14350" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="760,14150 0,14150 0,14350 760,14350" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,14250 100,11650 -100,11650 -100,14250" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4600 12050 A 800 800 0 0 1 3800 12850" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="3800" y1="12050" x2="3800" y2="12850" stroke="black" stroke-width="25"/>
+        <line x1="3800" y1="12050" x2="4600" y2="12050" stroke="black" stroke-width="25"/>
+        <line x1="3040" y1="14300" x2="2280" y2="14300" stroke="black" stroke-width="25"/>
+        <line x1="3040" y1="14200" x2="2280" y2="14200" stroke="black" stroke-width="25"/>
+        <line x1="3040" y1="14150" x2="3040" y2="14350" stroke="black" stroke-width="25"/>
+        <line x1="2280" y1="14150" x2="2280" y2="14350" stroke="black" stroke-width="25"/>
+        <line x1="1520" y1="14300" x2="760" y2="14300" stroke="black" stroke-width="25"/>
+        <line x1="1520" y1="14200" x2="760" y2="14200" stroke="black" stroke-width="25"/>
+        <line x1="1520" y1="14150" x2="1520" y2="14350" stroke="black" stroke-width="25"/>
+        <line x1="760" y1="14150" x2="760" y2="14350" stroke="black" stroke-width="25"/>
+        <polygon points="7490,11650 7490,14250 7690,14250 7690,11650" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7590,14150 6790,14150 6790,14350 7590,14350" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5590,14150 3800,14150 3800,14350 5590,14350" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="6790" y1="14300" x2="5590" y2="14300" stroke="black" stroke-width="25"/>
+        <line x1="6790" y1="14200" x2="5590" y2="14200" stroke="black" stroke-width="25"/>
+        <line x1="6790" y1="14150" x2="6790" y2="14350" stroke="black" stroke-width="25"/>
+        <line x1="5590" y1="14150" x2="5590" y2="14350" stroke="black" stroke-width="25"/>
+        <line x1="800" y1="5000" x2="800" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="5000" x2="900" y2="5000" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="0" x2="900" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="5040" x2="840" y2="4960" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="40" x2="840" y2="-40" stroke="black" stroke-width="13"/>
+        <g transform="translate(860,2500) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">5000</text>
+        </g>
+        <line x1="800" y1="7600" x2="800" y2="5000" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="7600" x2="900" y2="7600" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="5000" x2="900" y2="5000" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="7640" x2="840" y2="7560" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="5040" x2="840" y2="4960" stroke="black" stroke-width="13"/>
+        <g transform="translate(860,6300) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2600</text>
+        </g>
+        <line x1="800" y1="11650" x2="800" y2="7600" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="11650" x2="900" y2="11650" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="7600" x2="900" y2="7600" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="11690" x2="840" y2="11610" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="7640" x2="840" y2="7560" stroke="black" stroke-width="13"/>
+        <g transform="translate(860,9625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">4050</text>
+        </g>
+        <line x1="800" y1="14250" x2="800" y2="11650" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="14250" x2="900" y2="14250" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="11650" x2="900" y2="11650" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="14290" x2="840" y2="14210" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="11690" x2="840" y2="11610" stroke="black" stroke-width="13"/>
+        <g transform="translate(860,12950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2600</text>
+        </g>
+        <line x1="6790" y1="0" x2="6790" y2="3220" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="0" x2="6690" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="3220" x2="6690" y2="3220" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="-40" x2="6750" y2="40" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="3180" x2="6750" y2="3260" stroke="black" stroke-width="13"/>
+        <g transform="translate(6730,1610) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3220</text>
+        </g>
+        <line x1="6790" y1="3220" x2="6790" y2="5000" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="3220" x2="6690" y2="3220" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="5000" x2="6690" y2="5000" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="3180" x2="6750" y2="3260" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="4960" x2="6750" y2="5040" stroke="black" stroke-width="13"/>
+        <g transform="translate(6730,4110) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1780</text>
+        </g>
+        <line x1="6790" y1="5000" x2="6790" y2="7600" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="5000" x2="6690" y2="5000" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="7600" x2="6690" y2="7600" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="4960" x2="6750" y2="5040" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="7560" x2="6750" y2="7640" stroke="black" stroke-width="13"/>
+        <g transform="translate(6730,6300) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2600</text>
+        </g>
+        <line x1="6790" y1="7600" x2="6790" y2="11650" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="7600" x2="6690" y2="7600" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="11650" x2="6690" y2="11650" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="7560" x2="6750" y2="7640" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="11610" x2="6750" y2="11690" stroke="black" stroke-width="13"/>
+        <g transform="translate(6730,9625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">4050</text>
+        </g>
+        <line x1="6790" y1="11650" x2="6790" y2="14250" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="11650" x2="6690" y2="11650" stroke="black" stroke-width="13"/>
+        <line x1="7540" y1="14250" x2="6690" y2="14250" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="11610" x2="6750" y2="11690" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="14210" x2="6750" y2="14290" stroke="black" stroke-width="13"/>
+        <g transform="translate(6730,12950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2600</text>
+        </g>
+        <line x1="0" y1="50" x2="0" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="500" y1="50" x2="500" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="4300" y1="50" x2="4300" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="4780" y1="50" x2="4780" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="800" x2="500" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="-40" y1="760" x2="40" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="760" x2="540" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(250,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">500</text>
+        </g>
+        <line x1="500" y1="800" x2="4300" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="760" x2="540" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="4260" y1="760" x2="4340" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(2400,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3800</text>
+        </g>
+        <line x1="4300" y1="800" x2="4780" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="4260" y1="760" x2="4340" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="4740" y1="760" x2="4820" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(4540,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">480</text>
+        </g>
+        <line x1="4780" y1="50" x2="4780" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="5130" y1="50" x2="5130" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="5890" y1="50" x2="5890" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="6270" y1="50" x2="6270" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="7130" y1="50" x2="7130" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="7590" y1="50" x2="7590" y2="900" stroke="black" stroke-width="13"/>
+        <line x1="4780" y1="800" x2="5130" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="4740" y1="760" x2="4820" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="5090" y1="760" x2="5170" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(4955,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">350</text>
+        </g>
+        <line x1="5130" y1="800" x2="5890" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="5090" y1="760" x2="5170" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="5850" y1="760" x2="5930" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(5510,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">760</text>
+        </g>
+        <line x1="5890" y1="800" x2="6270" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="5850" y1="760" x2="5930" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="6230" y1="760" x2="6310" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(6080,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">380</text>
+        </g>
+        <line x1="6270" y1="800" x2="7130" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="6230" y1="760" x2="6310" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="7090" y1="760" x2="7170" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(6700,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">860</text>
+        </g>
+        <line x1="7130" y1="800" x2="7590" y2="800" stroke="black" stroke-width="13"/>
+        <line x1="7090" y1="760" x2="7170" y2="840" stroke="black" stroke-width="13"/>
+        <line x1="7550" y1="760" x2="7630" y2="840" stroke="black" stroke-width="13"/>
+        <g transform="translate(7360,860) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">460</text>
+        </g>
+        <line x1="3800" y1="14200" x2="3800" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="3040" y1="14200" x2="3040" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="2280" y1="14200" x2="2280" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="1520" y1="14200" x2="1520" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="760" y1="14200" x2="760" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="14200" x2="0" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="3800" y1="13750" x2="3040" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="3840" y1="13790" x2="3760" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="3080" y1="13790" x2="3000" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(3420,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">760</text>
+        </g>
+        <line x1="3040" y1="13750" x2="2280" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="3080" y1="13790" x2="3000" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="2320" y1="13790" x2="2240" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(2660,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">760</text>
+        </g>
+        <line x1="2280" y1="13750" x2="1520" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="2320" y1="13790" x2="2240" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="1560" y1="13790" x2="1480" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(1900,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">760</text>
+        </g>
+        <line x1="1520" y1="13750" x2="760" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="1560" y1="13790" x2="1480" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="800" y1="13790" x2="720" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(1140,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">760</text>
+        </g>
+        <line x1="760" y1="13750" x2="0" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="800" y1="13790" x2="720" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="40" y1="13790" x2="-40" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(380,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">760</text>
+        </g>
+        <line x1="7590" y1="14200" x2="7590" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="6790" y1="14200" x2="6790" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="5590" y1="14200" x2="5590" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="3800" y1="14200" x2="3800" y2="13650" stroke="black" stroke-width="13"/>
+        <line x1="7590" y1="13750" x2="6790" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="7630" y1="13790" x2="7550" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="13790" x2="6750" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(7190,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">800</text>
+        </g>
+        <line x1="6790" y1="13750" x2="5590" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="6830" y1="13790" x2="6750" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="5630" y1="13790" x2="5550" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(6190,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1200</text>
+        </g>
+        <line x1="5590" y1="13750" x2="3800" y2="13750" stroke="black" stroke-width="13"/>
+        <line x1="5630" y1="13790" x2="5550" y2="13710" stroke="black" stroke-width="13"/>
+        <line x1="3840" y1="13790" x2="3760" y2="13710" stroke="black" stroke-width="13"/>
+        <g transform="translate(4695,13690) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1790</text>
+        </g>
+        <g transform="translate(2390,2500) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Cochera</text>
+        </g>
+        <g transform="translate(6106,1932) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Estar</text>
+        </g>
+        <g transform="translate(6690,4110) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Toilette</text>
+        </g>
+        <g transform="translate(2280,6180) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Pasillo</text>
+        </g>
+        <g transform="translate(4410,5350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Paso</text>
+        </g>
+        <g transform="translate(4410,6650) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Escalera</text>
+        </g>
+        <g transform="translate(6305,6300) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Baño</text>
+        </g>
+        <g transform="translate(1900,9625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Comedor</text>
+        </g>
+        <g transform="translate(5695,9625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Living</text>
+        </g>
+        <g transform="translate(1900,12950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Cocina</text>
+        </g>
+        <g transform="translate(5695,12950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Dormitorio</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

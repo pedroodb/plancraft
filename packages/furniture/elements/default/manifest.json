@@ -1,0 +1,26 @@
+{
+  "name": "default",
+  "version": "1.0.0",
+  "description": "Standard architectural plan-view furniture symbols",
+  "elements": {
+    "bed": { "name": "Double Bed", "category": "bedroom", "defaultWidth": 1400, "defaultDepth": 2000 },
+    "sofa": { "name": "3-Seat Sofa", "category": "living", "defaultWidth": 2000, "defaultDepth": 900 },
+    "l_sofa": { "name": "L-Shaped Sofa", "category": "living", "defaultWidth": 2400, "defaultDepth": 2000 },
+    "table": { "name": "Dining Table", "category": "living", "defaultWidth": 1200, "defaultDepth": 800 },
+    "round_table": { "name": "Round Table", "category": "living", "defaultWidth": 1000, "defaultDepth": 1000 },
+    "desk": { "name": "Desk", "category": "office", "defaultWidth": 1200, "defaultDepth": 600 },
+    "chair": { "name": "Chair", "category": "living", "defaultWidth": 450, "defaultDepth": 450 },
+    "counter": { "name": "Kitchen Counter", "category": "kitchen", "defaultWidth": 3000, "defaultDepth": 600 },
+    "toilet": { "name": "Toilet", "category": "bathroom", "defaultWidth": 400, "defaultDepth": 700 },
+    "sink": { "name": "Sink", "category": "bathroom", "defaultWidth": 500, "defaultDepth": 400 },
+    "shower": { "name": "Shower", "category": "bathroom", "defaultWidth": 900, "defaultDepth": 900 },
+    "bathtub": { "name": "Bathtub", "category": "bathroom", "defaultWidth": 700, "defaultDepth": 1700 },
+    "wardrobe": { "name": "Wardrobe", "category": "bedroom", "defaultWidth": 1000, "defaultDepth": 500 },
+    "fridge": { "name": "Fridge", "category": "kitchen", "defaultWidth": 700, "defaultDepth": 700 },
+    "stove": { "name": "Stove", "category": "kitchen", "defaultWidth": 600, "defaultDepth": 600 },
+    "oven": { "name": "Oven", "category": "kitchen", "defaultWidth": 600, "defaultDepth": 600 },
+    "car": { "name": "Car", "category": "garage", "defaultWidth": 1800, "defaultDepth": 4200 },
+    "staircase": { "name": "Straight Staircase", "category": "structural", "defaultWidth": 900, "defaultDepth": 2500 },
+    "spiral_staircase": { "name": "Spiral Staircase", "category": "structural", "defaultWidth": 1500, "defaultDepth": 1500 }
+  }
+}

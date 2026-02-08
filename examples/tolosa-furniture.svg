@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-750 -1360 9110 16210" width="9110" height="16210">
+  <rect x="-750" y="-1360" width="9110" height="16210" fill="white"/>
+  <defs>
+    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
+    </pattern>
+  </defs>
+  <g transform="scale(1,-1) translate(0,-13490)">
+    <g id="Tolosa">
+      <g id="Planta Baja">
+        <polygon points="3980,5240 4840,5240 4840,7360 3980,7360" fill="#e8e8e8" stroke="black" stroke-width="18" stroke-linejoin="miter"/>
+        <line x1="3980" y1="5542.857142857143" x2="4840" y2="5542.857142857143" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="5845.714285714285" x2="4840" y2="5845.714285714285" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="6148.571428571428" x2="4840" y2="6148.571428571428" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="6451.428571428572" x2="4840" y2="6451.428571428572" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="6754.285714285714" x2="4840" y2="6754.285714285714" stroke="black" stroke-width="18"/>
+        <line x1="3980" y1="7057.142857142857" x2="4840" y2="7057.142857142857" stroke="black" stroke-width="18"/>
+        <polygon points="3960,5000 4860,5000 4860,5900 3960,5900" fill="#e8e8e8" stroke="black" stroke-width="18" stroke-linejoin="miter"/>
+        <line x1="3960" y1="5000" x2="4860" y2="5000" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4842.7067523629075" y2="5175.581289814515" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4791.491579260158" y2="5344.415089128581" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4708.322651072291" y2="5500.013209717642" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4596.396103067893" y2="5636.396103067893" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4460.013209717642" y2="5748.322651072291" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4304.415089128581" y2="5831.491579260158" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="4135.581289814516" y2="5882.7067523629075" stroke="black" stroke-width="18"/>
+        <line x1="3960" y1="5000" x2="3960" y2="5900" stroke="black" stroke-width="18"/>
+        <g transform="translate(2390,2500) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Cochera</text>
+        </g>
+        <g transform="translate(6185,1610) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Estar</text>
+        </g>
+        <g transform="translate(6185,4110) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Lavadero</text>
+        </g>
+        <g transform="translate(1900,6300) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Pasillo</text>
+        </g>
+        <g transform="translate(4410,6300) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Escalera</text>
+        </g>
+        <g transform="translate(1900,9625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Comedor</text>
+        </g>
+        <g transform="translate(5695,9625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Living</text>
+        </g>
+        <g transform="translate(1900,12950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Cocina</text>
+        </g>
+        <g transform="translate(5695,12950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Dormitorio</text>
+        </g>
+        <g transform="translate(6305,6300) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Baño</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

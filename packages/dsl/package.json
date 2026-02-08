@@ -1,0 +1,22 @@
+{
+  "name": "@plancraft/dsl",
+  "version": "0.1.0",
+  "description": "Parser, validator, and semantic resolver for the .pc floor plan format",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroodb/plancraft.git",
+    "directory": "packages/dsl"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node --test dist/__tests__/*.test.js",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  }
+}

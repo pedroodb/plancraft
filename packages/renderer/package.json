@@ -1,0 +1,26 @@
+{
+  "name": "@plancraft/renderer",
+  "version": "0.1.0",
+  "description": "Scene graph builder and SVG emitter for Plancraft floor plans",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroodb/plancraft.git",
+    "directory": "packages/renderer"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "dependencies": {
+    "@plancraft/dsl": "*",
+    "@plancraft/furniture": "*"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node --test dist/__tests__/*.test.js",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  }
+}

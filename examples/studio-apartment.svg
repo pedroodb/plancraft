@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-600 -600 6200 6000" width="6200" height="6000">
+  <rect x="-600" y="-600" width="6200" height="6000" fill="white"/>
+  <defs>
+    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
+    </pattern>
+  </defs>
+  <g transform="scale(1,-1) translate(0,-4800)">
+    <g id="Studio Apartment">
+      <g id="Ground Floor">
+        <polygon points="0,100 5000,100 5000,-100 0,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4900,0 4900,1000 5100,1000 5100,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4900,2200 4900,4000 5100,4000 5100,2200" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5000,3900 3000,3900 3000,4100 5000,4100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="2100,3900 0,3900 0,4100 2100,4100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4000 100,0 -100,0 -100,4000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 2100 4000 A 900 900 0 0 1 3000 3100" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="4000" x2="2100" y2="4000" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="4000" x2="3000" y2="3100" stroke="black" stroke-width="25"/>
+        <line x1="5050" y1="1000" x2="5050" y2="2200" stroke="black" stroke-width="25"/>
+        <line x1="4950" y1="1000" x2="4950" y2="2200" stroke="black" stroke-width="25"/>
+        <line x1="4900" y1="1000" x2="5100" y2="1000" stroke="black" stroke-width="25"/>
+        <line x1="4900" y1="2200" x2="5100" y2="2200" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="500" x2="5000" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="50" x2="0" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="5000" y1="50" x2="5000" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="-40" y1="460" x2="40" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="4960" y1="460" x2="5040" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(2500,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">5000</text>
+        </g>
+        <line x1="4500" y1="0" x2="4500" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="4950" y1="0" x2="4400" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="4950" y1="4000" x2="4400" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="-40" x2="4460" y2="40" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="3960" x2="4460" y2="4040" stroke="black" stroke-width="13"/>
+        <g transform="translate(4440,2000) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">4000</text>
+        </g>
+        <g transform="translate(2500,2000) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Studio</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

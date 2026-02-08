@@ -1,0 +1,22 @@
+{
+  "name": "plancraft",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "packages/dsl",
+    "packages/furniture",
+    "packages/renderer",
+    "packages/cli"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "openai": "^6.18.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.0"
+  }
+}

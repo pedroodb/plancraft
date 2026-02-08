@@ -1,0 +1,12 @@
+{
+  "name": "office",
+  "version": "1.0.0",
+  "description": "Office and workspace furniture elements",
+  "elements": {
+    "executive_desk": { "name": "Executive Desk", "category": "office", "defaultWidth": 1800, "defaultDepth": 900 },
+    "office_chair": { "name": "Office Chair", "category": "office", "defaultWidth": 550, "defaultDepth": 550 },
+    "filing_cabinet": { "name": "Filing Cabinet", "category": "office", "defaultWidth": 400, "defaultDepth": 600 },
+    "conference_table": { "name": "Conference Table", "category": "office", "defaultWidth": 2400, "defaultDepth": 1200 },
+    "whiteboard": { "name": "Whiteboard", "category": "office", "defaultWidth": 1800, "defaultDepth": 100 }
+  }
+}

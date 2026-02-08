@@ -1,0 +1,35 @@
+{
+  "name": "@plancraft/cli",
+  "version": "0.1.0",
+  "description": "Command-line tool for compiling .pc floor plans to SVG",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedroodb/plancraft.git",
+    "directory": "packages/cli"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "plancraft": "./bin/plancraft"
+  },
+  "files": [
+    "dist",
+    "src",
+    "bin"
+  ],
+  "dependencies": {
+    "@plancraft/dsl": "*",
+    "@plancraft/furniture": "*",
+    "@plancraft/renderer": "*",
+    "commander": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "node --test dist/__tests__/*.test.js",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  }
+}

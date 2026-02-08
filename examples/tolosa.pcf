@@ -1,0 +1,19 @@
+{
+  "placements": [
+    {
+      "element": "default/staircase",
+      "position": {"x": 4410, "y": 6550},
+      "width": 860,
+      "depth": 1800,
+      "room": "Escalera"
+    },
+    {
+      "element": "default/spiral_staircase",
+      "position": {"x": 4560, "y": 7150},
+      "width": 900,
+      "depth": 900,
+      "rotation": 90,
+      "room": "Escalera"
+    }
+  ]
+}

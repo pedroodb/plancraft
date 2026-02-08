@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.tsbuildinfo
+*.js.map
+*.d.ts.map
+.DS_Store
+out/
+.test-output/
+*.svg
+!examples/*.svg
+.env
+.env.local
+.env*.local
+examples/*-test-output.*
+examples/*-original.svg
+test-agent.ts
+tests/results/
