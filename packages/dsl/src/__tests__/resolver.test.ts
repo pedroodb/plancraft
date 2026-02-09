@@ -200,4 +200,118 @@ describe("Resolver", () => {
     });
     assert.throws(() => resolve(parse(source)), ResolveError);
   });
+
+  it("resolves a wall with bulge (curved wall)", () => {
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [{
+          name: "R1",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200, bulge: 0.5 },
+            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
+            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+    const resolved = resolve(parse(source));
+    const wall = resolved.floors[0].rooms[0].walls[0]; // north wall with bulge
+    assert.equal(wall.bulge, 0.5);
+    // Curved wall polygon has more than 4 points
+    assert.ok(wall.polygon.length > 4, `Expected polygon with > 4 points, got ${wall.polygon.length}`);
+    // curvePoints should be populated
+    assert.ok(wall.curvePoints !== undefined, "curvePoints should be defined");
+    assert.ok(wall.curvePoints!.length > 2, "curvePoints should have multiple samples");
+    // First curve point should be near 'from', last near 'to'
+    assert.ok(Math.abs(wall.curvePoints![0].x - 0) < 1, "First curve point x should be near from.x");
+    assert.ok(Math.abs(wall.curvePoints![0].y - 0) < 1, "First curve point y should be near from.y");
+    const lastPt = wall.curvePoints![wall.curvePoints!.length - 1];
+    assert.ok(Math.abs(lastPt.x - 5000) < 1, "Last curve point x should be near to.x");
+    assert.ok(Math.abs(lastPt.y - 0) < 1, "Last curve point y should be near to.y");
+  });
+
+  it("straight walls have no bulge or curvePoints", () => {
+    const ast = parse(MINIMAL);
+    const resolved = resolve(ast);
+    const wall = resolved.floors[0].rooms[0].walls[0];
+    assert.equal(wall.bulge, undefined);
+    assert.equal(wall.curvePoints, undefined);
+    assert.equal(wall.polygon.length, 4);
+  });
+
+  it("negative bulge curves the other way", () => {
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [{
+          name: "R1",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200, bulge: -0.3 },
+            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
+            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+    const resolved = resolve(parse(source));
+    const wall = resolved.floors[0].rooms[0].walls[0];
+    assert.equal(wall.bulge, -0.3);
+    assert.ok(wall.polygon.length > 4);
+    // With negative bulge on north wall (from left to right), arc curves downward (negative Y)
+    // The midpoint of curvePoints should have y < 0
+    const midIdx = Math.floor(wall.curvePoints!.length / 2);
+    assert.ok(wall.curvePoints![midIdx].y < 0, "Negative bulge should curve in opposite direction");
+  });
+
+  it("area accounts for curved walls", () => {
+    // Negative bulge on the north wall curves outward (away from room interior),
+    // increasing the room area compared to a straight-walled room.
+    const straightSource = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [{
+          name: "R1",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 4000, y: 0 }, thickness: 200 },
+            { direction: "east", from: { x: 4000, y: 0 }, to: { x: 4000, y: 4000 }, thickness: 200 },
+            { direction: "south", from: { x: 4000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+    const curvedSource = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [{
+          name: "R1",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 4000, y: 0 }, thickness: 200, bulge: -0.5 },
+            { direction: "east", from: { x: 4000, y: 0 }, to: { x: 4000, y: 4000 }, thickness: 200 },
+            { direction: "south", from: { x: 4000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+    const straightRoom = resolve(parse(straightSource)).floors[0].rooms[0];
+    const curvedRoom = resolve(parse(curvedSource)).floors[0].rooms[0];
+    assert.ok(curvedRoom.area > straightRoom.area,
+      `Curved room area (${curvedRoom.area}) should be larger than straight (${straightRoom.area})`);
+  });
 });

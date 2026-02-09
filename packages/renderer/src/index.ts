@@ -5,6 +5,7 @@ export type {
   SGNode,
   SGLine,
   SGPolygon,
+  SGPath,
   SGArc,
   SGText,
   SGCircle,

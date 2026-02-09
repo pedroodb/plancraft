@@ -26,6 +26,13 @@ export interface WallNode {
   from: Point;
   to: Point;
   thickness: number;
+  /** Optional wall curvature (bulge factor).
+   *  0 or omitted = straight line.
+   *  Positive = arc curves left (CCW from `from` to `to`).
+   *  Negative = arc curves right (CW).
+   *  1 = semicircle (180°).
+   *  Formula: bulge = tan(arcAngle / 4). */
+  bulge?: number;
 }
 
 export interface SharedWallNode {
@@ -113,8 +120,12 @@ export interface ResolvedWall {
   to: Point;
   thickness: number;
   roomName: string;
-  /** The four corners of the wall polygon */
-  polygon: [Point, Point, Point, Point];
+  /** Wall polygon points. 4 points for straight walls, more for curved walls (arc approximation). */
+  polygon: Point[];
+  /** Optional bulge factor (preserved from input). 0 or undefined = straight. */
+  bulge?: number;
+  /** Sampled centerline points along the arc (only present when bulge is set and non-zero). */
+  curvePoints?: Point[];
 }
 
 export interface ResolvedDoor {

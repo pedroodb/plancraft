@@ -260,4 +260,57 @@ describe("Parser", () => {
   it("throws on missing project name", () => {
     assert.throws(() => parse(JSON.stringify({ floors: [] })), ParseError);
   });
+
+  it("parses walls with bulge", () => {
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [{
+          name: "R1",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200, bulge: 0.3 },
+            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
+            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+    const ast = parse(source);
+    const room = ast.floors[0].children[0];
+    if (room.type !== "room") return;
+    const wall = room.children[0];
+    if (wall.type !== "wall") return;
+    assert.equal(wall.bulge, 0.3);
+  });
+
+  it("omits bulge when not provided", () => {
+    const ast = parse(MINIMAL);
+    const room = ast.floors[0].children[0];
+    if (room.type !== "room") return;
+    const wall = room.children[0];
+    if (wall.type !== "wall") return;
+    assert.equal(wall.bulge, undefined);
+  });
+
+  it("throws on non-numeric bulge", () => {
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [{
+          name: "R1",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200, bulge: "bad" },
+          ],
+        }],
+      }],
+    });
+    assert.throws(() => parse(source), ParseError);
+  });
 });

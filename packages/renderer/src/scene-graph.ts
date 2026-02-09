@@ -79,13 +79,28 @@ export interface SGSvgEmbed {
   layer: Layer;
 }
 
+/**
+ * An SVG path node for complex shapes (e.g. curved walls).
+ * Uses an SVG path data string for maximum flexibility.
+ */
+export interface SGPath {
+  type: "path";
+  /** SVG path data string (e.g. "M 0 0 A ...") */
+  d: string;
+  fill: string;
+  strokeWidth: number;
+  layer: Layer;
+  /** Bounding polygon points for hit-testing / bbox computation (approximation) */
+  boundingPoints?: Array<{ x: number; y: number }>;
+}
+
 export interface SGGroup {
   type: "group";
   id: string;
   children: SGNode[];
 }
 
-export type SGNode = SGLine | SGPolygon | SGArc | SGText | SGCircle | SGSvgEmbed | SGGroup;
+export type SGNode = SGLine | SGPolygon | SGArc | SGText | SGCircle | SGSvgEmbed | SGPath | SGGroup;
 
 export type Layer = "walls" | "openings" | "dimensions" | "labels" | "furniture";
 

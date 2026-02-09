@@ -7,7 +7,7 @@
  * - Stroke widths are scaled by the project scale ratio
  */
 
-import type { SGArc, SGCircle, SGGroup, SGLine, SGNode, SGPolygon, SGSvgEmbed, SGText } from "../scene-graph.js";
+import type { SGArc, SGCircle, SGGroup, SGLine, SGNode, SGPath, SGPolygon, SGSvgEmbed, SGText } from "../scene-graph.js";
 import type { Layer } from "../scene-graph.js";
 
 export interface SVGEmitterOptions {
@@ -122,6 +122,10 @@ function emitNode(
     case "svg_embed":
       emitSvgEmbed(node, lines, opts, indent);
       break;
+
+    case "path":
+      emitPath(node, lines, opts, indent);
+      break;
   }
 }
 
@@ -143,6 +147,25 @@ function emitPolygon(
     // Non-wall polygons: always use black stroke so outlines are visible
     lines.push(
       `${indent}<polygon points="${points}" fill="${poly.fill}" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
+    );
+  }
+}
+
+function emitPath(
+  pathNode: SGPath,
+  lines: string[],
+  opts: SVGEmitterOptions,
+  indent: string,
+): void {
+  const sw = pathNode.strokeWidth * opts.scaleRatio;
+
+  if (pathNode.layer === "walls") {
+    lines.push(
+      `${indent}<path d="${pathNode.d}" fill="url(#wall-hatch)" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
+    );
+  } else {
+    lines.push(
+      `${indent}<path d="${pathNode.d}" fill="${pathNode.fill}" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
     );
   }
 }
@@ -322,6 +345,19 @@ function expandBBox(node: SGNode, bbox: BBox): void {
       bbox.minY = Math.min(bbox.minY, node.y - halfH);
       bbox.maxX = Math.max(bbox.maxX, node.x + halfW);
       bbox.maxY = Math.max(bbox.maxY, node.y + halfH);
+      break;
+    }
+
+    case "path": {
+      // Use bounding points if available, otherwise skip (path is complex to parse)
+      if (node.boundingPoints) {
+        for (const p of node.boundingPoints) {
+          bbox.minX = Math.min(bbox.minX, p.x);
+          bbox.minY = Math.min(bbox.minY, p.y);
+          bbox.maxX = Math.max(bbox.maxX, p.x);
+          bbox.maxY = Math.max(bbox.maxY, p.y);
+        }
+      }
       break;
     }
   }

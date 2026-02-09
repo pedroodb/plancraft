@@ -162,4 +162,72 @@ describe("Renderer", () => {
 
     assert.equal(svgA, svgB);
   });
+
+  it("renders curved walls as SVG paths", () => {
+    const source = JSON.stringify({
+      name: "Curved",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F",
+        rooms: [{
+          name: "Bay",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200, bulge: 0.3 },
+            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
+            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+
+    const resolved = resolve(parse(source));
+    const scene = buildScene(resolved);
+    const svg = emitSVG(scene, { scaleRatio: 100 });
+
+    // The north wall should be an SVG path with arc commands (not a polygon)
+    const pathMatches = svg.match(/<path[^>]*d="M[^"]*A[^"]*"/g);
+    assert.ok(pathMatches, "SVG should contain a path element with arc commands");
+    assert.ok(pathMatches.length >= 1, "At least one curved wall path expected");
+
+    // Other 3 walls are still polygons
+    const polygonMatches = svg.match(/<polygon/g);
+    assert.ok(polygonMatches);
+    assert.equal(polygonMatches.length, 3);
+  });
+
+  it("renders mixed straight and curved walls", () => {
+    const source = JSON.stringify({
+      name: "Mixed",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F",
+        rooms: [{
+          name: "R",
+          walls: [
+            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200, bulge: 0.2 },
+            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200, bulge: -0.15 },
+            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+          ],
+        }],
+      }],
+    });
+
+    const resolved = resolve(parse(source));
+    const scene = buildScene(resolved);
+    const svg = emitSVG(scene, { scaleRatio: 100 });
+
+    // 2 curved walls = 2 path elements
+    const pathMatches = svg.match(/<path[^>]*d="M[^"]*A[^"]*"/g);
+    assert.ok(pathMatches);
+    assert.equal(pathMatches.length, 2, "Should have 2 curved wall paths");
+
+    // 2 straight walls = 2 polygons
+    const polygonMatches = svg.match(/<polygon/g);
+    assert.ok(polygonMatches);
+    assert.equal(polygonMatches.length, 2);
+  });
 });

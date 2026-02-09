@@ -156,13 +156,21 @@ function transformWall(raw: unknown, roomName: string): WallNode {
   }
   const obj = raw as Record<string, unknown>;
   const ctx = `Wall in room "${roomName}"`;
-  return {
+  const node: WallNode = {
     type: "wall",
     direction: requireString(obj, "direction", ctx),
     from: requirePoint(obj["from"], `${ctx} "from"`),
     to: requirePoint(obj["to"], `${ctx} "to"`),
     thickness: requireNumber(obj, "thickness", ctx),
   };
+  // Optional bulge (wall curvature)
+  if (obj["bulge"] !== undefined && obj["bulge"] !== null) {
+    if (typeof obj["bulge"] !== "number") {
+      throw new ParseError(`${ctx}: "bulge" must be a number when provided`);
+    }
+    node.bulge = obj["bulge"] as number;
+  }
+  return node;
 }
 
 function transformSharedWall(raw: unknown, roomName: string): SharedWallNode {

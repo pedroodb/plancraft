@@ -37,11 +37,17 @@ export class ResolveError extends Error {
 
 // ── Geometry helpers ─────────────────────────────────────────────────
 
-function wallPolygon(
+/** Number of line segments used to approximate a curved wall arc. */
+const ARC_SEGMENTS = 32;
+
+/**
+ * Build a straight wall polygon (4 corners).
+ */
+function straightWallPolygon(
   from: Point,
   to: Point,
   thickness: number,
-): [Point, Point, Point, Point] {
+): Point[] {
   const dx = to.x - from.x;
   const dy = to.y - from.y;
   const len = Math.sqrt(dx * dx + dy * dy);
@@ -58,6 +64,149 @@ function wallPolygon(
     { x: to.x - nx * half, y: to.y - ny * half },
     { x: from.x - nx * half, y: from.y - ny * half },
   ];
+}
+
+/**
+ * Compute arc geometry from two endpoints and a bulge factor.
+ *
+ * bulge = tan(includedAngle / 4)
+ * Positive bulge → arc curves to the left (CCW from `from` to `to`).
+ * Negative bulge → arc curves to the right (CW).
+ */
+export function arcFromBulge(
+  from: Point,
+  to: Point,
+  bulge: number,
+): { center: Point; radius: number; startAngle: number; endAngle: number; ccw: boolean } {
+  const dx = to.x - from.x;
+  const dy = to.y - from.y;
+  const chord = Math.sqrt(dx * dx + dy * dy);
+  if (chord === 0) throw new ResolveError("Wall has zero length");
+
+  const halfChord = chord / 2;
+  const sagitta = Math.abs(bulge) * halfChord;
+  const radius = (halfChord * halfChord + sagitta * sagitta) / (2 * sagitta);
+
+  // Midpoint of the chord
+  const mx = (from.x + to.x) / 2;
+  const my = (from.y + to.y) / 2;
+
+  // Unit normal to chord (perpendicular, 90° CCW)
+  const nx = -dy / chord;
+  const ny = dx / chord;
+
+  // Distance from chord midpoint to arc center
+  const d = radius - sagitta;
+
+  // Center is on the opposite side of the bulge direction.
+  // Positive bulge → sagitta on the left of travel → center on the right → sign = -1.
+  // Negative bulge → sagitta on the right of travel → center on the left → sign = +1.
+  const sign = bulge > 0 ? -1 : 1;
+  const center: Point = {
+    x: mx + sign * nx * d,
+    y: my + sign * ny * d,
+  };
+
+  // Start and end angles (from center to from/to)
+  const startAngle = Math.atan2(from.y - center.y, from.x - center.x);
+  const endAngle = Math.atan2(to.y - center.y, to.x - center.x);
+
+  // The minor arc direction:
+  // Positive bulge → center below chord → CW traversal gives the upward-curving minor arc → ccw = false
+  // Negative bulge → center above chord → CCW traversal gives the downward-curving minor arc → ccw = true
+  const ccw = bulge < 0;
+
+  return { center, radius, startAngle, endAngle, ccw };
+}
+
+/**
+ * Sample points along an arc from startAngle to endAngle.
+ */
+export function sampleArc(
+  center: Point,
+  radius: number,
+  startAngle: number,
+  endAngle: number,
+  ccw: boolean,
+  segments: number,
+): Point[] {
+  let sweep = endAngle - startAngle;
+  if (ccw) {
+    // Ensure positive sweep for CCW
+    if (sweep <= 0) sweep += 2 * Math.PI;
+  } else {
+    // Ensure negative sweep for CW
+    if (sweep >= 0) sweep -= 2 * Math.PI;
+  }
+
+  const points: Point[] = [];
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const angle = startAngle + sweep * t;
+    points.push({
+      x: center.x + radius * Math.cos(angle),
+      y: center.y + radius * Math.sin(angle),
+    });
+  }
+  return points;
+}
+
+/**
+ * Build a curved wall polygon by sampling the arc and offsetting by thickness.
+ * Returns the polygon points (outer arc + reversed inner arc) and the
+ * centerline sample points.
+ */
+function curvedWallPolygon(
+  from: Point,
+  to: Point,
+  thickness: number,
+  bulge: number,
+): { polygon: Point[]; curvePoints: Point[] } {
+  const { center, radius, startAngle, endAngle, ccw } = arcFromBulge(from, to, bulge);
+  const half = thickness / 2;
+
+  // Sample centerline points along the arc
+  const curvePoints = sampleArc(center, radius, startAngle, endAngle, ccw, ARC_SEGMENTS);
+
+  // Outer and inner arcs: offset perpendicular to the arc (radially)
+  // For each centerline point, the outward normal points away from center.
+  // "outer" = away from center, "inner" = toward center.
+  // Which side is the architectural "outside" depends on convention;
+  // we simply create both edges and let the polygon enclose them.
+  const outerPoints: Point[] = [];
+  const innerPoints: Point[] = [];
+
+  for (const p of curvePoints) {
+    // Radial direction from center to point (outward)
+    const rdx = p.x - center.x;
+    const rdy = p.y - center.y;
+    const rlen = Math.sqrt(rdx * rdx + rdy * rdy);
+    const rnx = rdx / rlen;
+    const rny = rdy / rlen;
+
+    outerPoints.push({ x: p.x + rnx * half, y: p.y + rny * half });
+    innerPoints.push({ x: p.x - rnx * half, y: p.y - rny * half });
+  }
+
+  // Polygon: outer edge forward, then inner edge reversed (forms a closed ring)
+  const polygon = [...outerPoints, ...innerPoints.reverse()];
+
+  return { polygon, curvePoints };
+}
+
+/**
+ * Build a wall polygon, handling both straight and curved walls.
+ */
+function wallPolygon(
+  from: Point,
+  to: Point,
+  thickness: number,
+  bulge?: number,
+): { polygon: Point[]; curvePoints?: Point[] } {
+  if (bulge !== undefined && bulge !== 0) {
+    return curvedWallPolygon(from, to, thickness, bulge);
+  }
+  return { polygon: straightWallPolygon(from, to, thickness) };
 }
 
 function wallLength(from: Point, to: Point): number {
@@ -216,28 +365,42 @@ function resolveRoom(
     }
   }
 
-  // Compute area from wall midpoints (assuming walls form a closed polygon)
-  const midpoints = walls.map((w) => ({
-    x: (w.from.x + w.to.x) / 2,
-    y: (w.from.y + w.to.y) / 2,
-  }));
-  // Use wall endpoints in order for area calculation
-  const cornerPoints = walls.map((w) => w.from);
-  const area = polygonArea(cornerPoints);
-  const center = polygonCenter(cornerPoints);
+  // Compute area and center from wall centerline points.
+  // For straight walls, use the wall start point (from).
+  // For curved walls, use the sampled arc centerline points
+  // (excluding the last point which duplicates the next wall's from).
+  const areaPoints: Point[] = [];
+  for (const w of walls) {
+    if (w.curvePoints && w.curvePoints.length > 0) {
+      // Add all arc samples except the last (which is w.to = next wall's from)
+      for (let i = 0; i < w.curvePoints.length - 1; i++) {
+        areaPoints.push(w.curvePoints[i]);
+      }
+    } else {
+      areaPoints.push(w.from);
+    }
+  }
+  const area = polygonArea(areaPoints);
+  const center = polygonCenter(areaPoints);
 
   return { name: room.name, walls, doors, windows, openings, area, center };
 }
 
 function resolveWall(wall: WallNode, roomName: string): ResolvedWall {
-  return {
+  const { polygon, curvePoints } = wallPolygon(wall.from, wall.to, wall.thickness, wall.bulge);
+  const resolved: ResolvedWall = {
     direction: wall.direction,
     from: wall.from,
     to: wall.to,
     thickness: wall.thickness,
     roomName,
-    polygon: wallPolygon(wall.from, wall.to, wall.thickness),
+    polygon,
   };
+  if (wall.bulge !== undefined && wall.bulge !== 0) {
+    resolved.bulge = wall.bulge;
+    resolved.curvePoints = curvePoints;
+  }
+  return resolved;
 }
 
 function resolveSharedWall(

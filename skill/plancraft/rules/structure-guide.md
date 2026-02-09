@@ -106,6 +106,7 @@ Before considering the structure complete:
 - [ ] **Window positions**: Every window is on the correct wall with correct offset
 - [ ] **Opening bounds**: `offset + width` fits within wall length for every opening
 - [ ] **No duplicate doors on shared walls**: Doors only defined on the first room
+- [ ] **Curved walls**: If the design has curved walls, `bulge` values are set correctly (positive = left/CCW, negative = right/CW, 1 = semicircle). Avoid placing doors/windows on curved walls when possible.
 - [ ] **Compile test**: `plancraft compile plan.pc --structure-only` succeeds
 
 ### 8. Compile and Verify
