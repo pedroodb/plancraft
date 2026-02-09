@@ -3,13 +3,11 @@
  */
 
 import type {
-  ResolvedDoor,
+  Point,
   ResolvedFloor,
-  ResolvedOpening,
   ResolvedProject,
   ResolvedRoom,
   ResolvedWall,
-  ResolvedWindow,
 } from "@plancraft/dsl";
 import { wallToPolygons } from "./geometry/wall-geometry.js";
 import type { WallOpening } from "./geometry/wall-geometry.js";
@@ -156,55 +154,131 @@ export function buildFurnitureScene(
 }
 
 /**
- * Collect all openings (doors + windows) that belong to a given wall,
- * returning them as offset+width pairs for wall clipping.
+ * An opening stored with its absolute start/end positions so that the
+ * parametric offset can be recomputed relative to whichever wall object
+ * ends up being drawn (two adjacent rooms may define the same wall with
+ * reversed from/to, and the drawing order is non-deterministic).
+ *
+ * `start` is the hinge/origin end of the opening.
+ * `end` is the opposite end (hinge + width along the wall direction).
  */
-function collectOpenings(
+interface CollectedOpening {
+  start: Point;
+  end: Point;
+}
+
+/**
+ * Collect all openings (doors + windows + plain openings) that belong to a
+ * given wall, returning them with absolute start/end positions.
+ *
+ * The opening extent is computed along the wall's own from→to direction so
+ * that the absolute range is always correct, regardless of which wall object
+ * eventually gets drawn.
+ */
+function collectOpeningsAbsolute(
   wall: ResolvedWall,
   room: ResolvedRoom,
-): WallOpening[] {
-  const openings: WallOpening[] = [];
+): CollectedOpening[] {
+  const openings: CollectedOpening[] = [];
+
+  // Wall unit direction — used to compute the end position of each opening
+  const wdx = wall.to.x - wall.from.x;
+  const wdy = wall.to.y - wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  if (wlen === 0) return openings;
+  const ux = wdx / wlen;
+  const uy = wdy / wlen;
 
   for (const door of room.doors) {
     if (door.wall === wall) {
-      openings.push({ offset: doorOffset(door, wall), width: door.width });
+      const s = door.position;
+      openings.push({
+        start: s,
+        end: { x: s.x + ux * door.width, y: s.y + uy * door.width },
+      });
     }
   }
 
   for (const win of room.windows) {
     if (win.wall === wall) {
-      openings.push({ offset: windowOffset(win, wall), width: win.width });
+      const s = win.position;
+      openings.push({
+        start: s,
+        end: { x: s.x + ux * win.width, y: s.y + uy * win.width },
+      });
     }
   }
 
   for (const op of room.openings) {
     if (op.wall === wall) {
-      openings.push({ offset: openingOffset(op, wall), width: op.width });
+      const s = op.position;
+      openings.push({
+        start: s,
+        end: { x: s.x + ux * op.width, y: s.y + uy * op.width },
+      });
     }
   }
 
   return openings;
 }
 
-/** Compute the parametric offset of a door along its wall. */
-function doorOffset(door: ResolvedDoor, wall: ResolvedWall): number {
-  const dx = door.position.x - wall.from.x;
-  const dy = door.position.y - wall.from.y;
-  return Math.sqrt(dx * dx + dy * dy);
-}
+/**
+ * Find all openings that are collinear with a wall and overlap its extent.
+ *
+ * This handles three cases:
+ * 1. Exact wall match (same endpoints, possibly reversed)
+ * 2. Partially overlapping walls (different extents on the same line)
+ * 3. One wall fully containing another
+ *
+ * For each matching opening, both endpoints are projected onto the drawn
+ * wall's direction and clamped to the wall's extent [0, len]. This ensures
+ * the gap is always correct regardless of wall direction.
+ */
+function findOverlappingOpenings(
+  allOpenings: CollectedOpening[],
+  wall: ResolvedWall,
+): WallOpening[] {
+  const dx = wall.to.x - wall.from.x;
+  const dy = wall.to.y - wall.from.y;
+  const len = Math.sqrt(dx * dx + dy * dy);
+  if (len === 0) return [];
+  const ux = dx / len;
+  const uy = dy / len;
+  // Normal perpendicular to wall direction
+  const nx = -uy;
+  const ny = ux;
 
-/** Compute the parametric offset of a window along its wall. */
-function windowOffset(win: ResolvedWindow, wall: ResolvedWall): number {
-  const dx = win.position.x - wall.from.x;
-  const dy = win.position.y - wall.from.y;
-  return Math.sqrt(dx * dx + dy * dy);
-}
+  const result: WallOpening[] = [];
+  // Tolerance for "on the same line" check (1mm accounts for float imprecision)
+  const EPSILON = 1;
 
-/** Compute the parametric offset of a plain opening along its wall. */
-function openingOffset(op: ResolvedOpening, wall: ResolvedWall): number {
-  const dx = op.position.x - wall.from.x;
-  const dy = op.position.y - wall.from.y;
-  return Math.sqrt(dx * dx + dy * dy);
+  for (const op of allOpenings) {
+    // Check if the opening lies on this wall's line (perpendicular distance ≈ 0)
+    const perpDist = Math.abs(
+      (op.start.x - wall.from.x) * nx + (op.start.y - wall.from.y) * ny,
+    );
+    if (perpDist > EPSILON) continue;
+
+    // Project both endpoints onto the wall direction
+    const t0 = (op.start.x - wall.from.x) * ux + (op.start.y - wall.from.y) * uy;
+    const t1 = (op.end.x - wall.from.x) * ux + (op.end.y - wall.from.y) * uy;
+
+    const tMin = Math.min(t0, t1);
+    const tMax = Math.max(t0, t1);
+
+    // Check if the opening overlaps with this wall's extent [0, len]
+    if (tMax <= 0 || tMin >= len) continue;
+
+    // Clamp to wall extent
+    const clampedMin = Math.max(0, tMin);
+    const clampedMax = Math.min(len, tMax);
+
+    if (clampedMax > clampedMin) {
+      result.push({ offset: clampedMin, width: clampedMax - clampedMin });
+    }
+  }
+
+  return result;
 }
 
 function buildFloorScene(floor: ResolvedFloor): SGGroup {
@@ -213,16 +287,15 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
   // Track which walls we've already drawn (to avoid duplicating shared walls)
   const drawnWalls = new Set<string>();
 
-  // First pass: collect all openings keyed by wall geometry key,
-  // since a shared wall might have openings from multiple rooms.
-  const openingsByWallKey = new Map<string, WallOpening[]>();
+  // Collect ALL openings from every room/wall with absolute start/end positions.
+  // These are matched against each wall by collinearity and overlap, not just
+  // by exact wallKey — so a door on one wall also clips any other wall that
+  // shares the same line segment (even partially).
+  const allOpenings: CollectedOpening[] = [];
 
   for (const room of floor.rooms) {
     for (const wall of room.walls) {
-      const key = wallKey(wall.from.x, wall.from.y, wall.to.x, wall.to.y);
-      const existing = openingsByWallKey.get(key) ?? [];
-      existing.push(...collectOpenings(wall, room));
-      openingsByWallKey.set(key, existing);
+      allOpenings.push(...collectOpeningsAbsolute(wall, room));
     }
   }
 
@@ -232,7 +305,8 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
       const key = wallKey(wall.from.x, wall.from.y, wall.to.x, wall.to.y);
       if (!drawnWalls.has(key)) {
         drawnWalls.add(key);
-        const openings = openingsByWallKey.get(key) ?? [];
+        // Find all openings that lie on this wall's line and overlap its extent
+        const openings = findOverlappingOpenings(allOpenings, wall);
         children.push(...wallToPolygons(wall, openings));
       }
     }
