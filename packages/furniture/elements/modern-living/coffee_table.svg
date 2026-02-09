@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="600" rx="30" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Lower shelf -->
+  <rect x="80" y="80" width="1040" height="440" rx="20" fill="#d8d8d8" stroke="black" stroke-width="3"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 2000">
+  <!-- Horizontal section back -->
+  <rect x="0" y="0" width="2400" height="200" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Horizontal section seat -->
+  <rect x="0" y="200" width="2400" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Vertical section back (right side) -->
+  <rect x="2200" y="200" width="200" height="1800" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Vertical section seat -->
+  <rect x="1500" y="900" width="700" height="1100" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Cushion dividers horizontal -->
+  <line x1="200" y1="250" x2="200" y2="850" stroke="black" stroke-width="4"/>
+  <line x1="850" y1="250" x2="850" y2="850" stroke="black" stroke-width="4"/>
+  <!-- Cushion dividers vertical -->
+  <line x1="1550" y1="950" x2="2150" y2="950" stroke="black" stroke-width="4"/>
+  <line x1="1550" y1="1500" x2="2150" y2="1500" stroke="black" stroke-width="4"/>
+</svg>

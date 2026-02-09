@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800">
+  <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="800" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Legs -->
+  <rect x="40" y="40" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="1100" y="40" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="40" y="700" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="1100" y="700" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+</svg>

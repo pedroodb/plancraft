@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2000">
+  <!-- Frame -->
+  <rect x="0" y="0" width="1400" height="2000" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Headboard -->
+  <rect x="0" y="0" width="1400" height="120" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Left pillow -->
+  <rect x="80" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Right pillow -->
+  <rect x="780" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Blanket fold line -->
+  <line x1="80" y1="900" x2="1320" y2="900" stroke="black" stroke-width="4" stroke-dasharray="20,10"/>
+</svg>

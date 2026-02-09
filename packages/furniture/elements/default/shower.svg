@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 900">
+  <!-- Shower tray -->
+  <rect x="0" y="0" width="900" height="900" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Drain -->
+  <circle cx="450" cy="450" r="40" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <!-- Drain grate pattern -->
+  <line x1="420" y1="450" x2="480" y2="450" stroke="black" stroke-width="3"/>
+  <line x1="450" y1="420" x2="450" y2="480" stroke="black" stroke-width="3"/>
+  <!-- Shower head position -->
+  <circle cx="150" cy="150" r="60" fill="none" stroke="black" stroke-width="4" stroke-dasharray="12,8"/>
+  <!-- Glass door arc -->
+  <path d="M 0 900 A 900 900 0 0 1 900 0" fill="none" stroke="black" stroke-width="4" stroke-dasharray="15,10"/>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 2200">
+  <!-- Horizontal section back -->
+  <rect x="0" y="0" width="3000" height="220" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Horizontal section seat -->
+  <rect x="0" y="220" width="3000" height="800" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Right arm -->
+  <rect x="2800" y="220" width="200" height="800" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Chaise back (left) -->
+  <rect x="0" y="220" width="220" height="2000" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Chaise seat -->
+  <rect x="220" y="1020" width="1000" height="1180" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Cushion dividers (horizontal section) -->
+  <line x1="1220" y1="270" x2="1220" y2="970" stroke="black" stroke-width="4"/>
+  <line x1="2000" y1="270" x2="2000" y2="970" stroke="black" stroke-width="4"/>
+  <!-- Chaise cushion divider -->
+  <line x1="270" y1="1600" x2="1170" y2="1600" stroke="black" stroke-width="4"/>
+</svg>

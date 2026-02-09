@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 550">
+  <!-- Seat -->
+  <circle cx="275" cy="295" r="220" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="75" y="0" width="400" height="140" rx="40" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+  <!-- Armrests -->
+  <rect x="30" y="120" width="60" height="250" rx="15" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <rect x="460" y="120" width="60" height="250" rx="15" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <!-- Casters (5-star base) -->
+  <circle cx="275" cy="295" r="30" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+</svg>

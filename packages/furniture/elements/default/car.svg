@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 4200">
+  <!-- Body -->
+  <rect x="0" y="0" width="1800" height="4200" rx="300" fill="#e8e8e8" stroke="black" stroke-width="10"/>
+  <!-- Windshield -->
+  <rect x="150" y="600" width="1500" height="500" rx="40" fill="#d8d8d8" stroke="black" stroke-width="6"/>
+  <!-- Rear window -->
+  <rect x="200" y="3100" width="1400" height="400" rx="40" fill="#d8d8d8" stroke="black" stroke-width="6"/>
+  <!-- Front left wheel -->
+  <rect x="-30" y="400" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Front right wheel -->
+  <rect x="1710" y="400" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Rear left wheel -->
+  <rect x="-30" y="3200" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Rear right wheel -->
+  <rect x="1710" y="3200" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Hood line -->
+  <line x1="200" y1="350" x2="1600" y2="350" stroke="black" stroke-width="4"/>
+  <!-- Trunk line -->
+  <line x1="200" y1="3700" x2="1600" y2="3700" stroke="black" stroke-width="4"/>
+</svg>

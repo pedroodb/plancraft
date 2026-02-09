@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 700">
+  <!-- Body -->
+  <rect x="0" y="0" width="700" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Door divider (freezer/fridge) -->
+  <line x1="0" y1="220" x2="700" y2="220" stroke="black" stroke-width="5"/>
+  <!-- Top handle (freezer) -->
+  <line x1="620" y1="80" x2="620" y2="180" stroke="black" stroke-width="5"/>
+  <!-- Bottom handle (fridge) -->
+  <line x1="620" y1="280" x2="620" y2="420" stroke="black" stroke-width="5"/>
+</svg>

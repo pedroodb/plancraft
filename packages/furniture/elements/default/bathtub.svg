@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 1700">
+  <!-- Outer shell -->
+  <rect x="0" y="0" width="700" height="1700" rx="60" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Inner basin -->
+  <rect x="50" y="50" width="600" height="1600" rx="50" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="350" cy="1500" r="30" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet area -->
+  <circle cx="350" cy="120" r="35" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <circle cx="280" cy="120" r="18" fill="#b0b0b0" stroke="black" stroke-width="2"/>
+  <circle cx="420" cy="120" r="18" fill="#b0b0b0" stroke="black" stroke-width="2"/>
+</svg>

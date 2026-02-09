@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- Base -->
+  <circle cx="150" cy="150" r="130" fill="#e8e8e8" stroke="black" stroke-width="5"/>
+  <!-- Shade outline -->
+  <circle cx="150" cy="150" r="90" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Pole -->
+  <circle cx="150" cy="150" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+</svg>

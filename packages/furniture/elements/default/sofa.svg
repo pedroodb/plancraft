@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 900">
+  <!-- Back -->
+  <rect x="0" y="0" width="2000" height="200" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Seat -->
+  <rect x="0" y="200" width="2000" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Left arm -->
+  <rect x="0" y="200" width="150" height="700" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Right arm -->
+  <rect x="1850" y="200" width="150" height="700" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Cushion dividers -->
+  <line x1="667" y1="250" x2="667" y2="850" stroke="black" stroke-width="4"/>
+  <line x1="1333" y1="250" x2="1333" y2="850" stroke="black" stroke-width="4"/>
+</svg>

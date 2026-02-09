@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 450">
+  <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+</svg>

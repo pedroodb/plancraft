@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
+  <!-- Body -->
+  <rect x="0" y="0" width="600" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Top-left burner -->
+  <circle cx="180" cy="180" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="180" cy="180" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Top-right burner -->
+  <circle cx="420" cy="180" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="420" cy="180" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Bottom-left burner -->
+  <circle cx="180" cy="420" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="180" cy="420" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Bottom-right burner -->
+  <circle cx="420" cy="420" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="420" cy="420" r="40" fill="none" stroke="black" stroke-width="3"/>
+</svg>

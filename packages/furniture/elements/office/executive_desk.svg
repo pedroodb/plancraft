@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 900">
+  <!-- Desktop -->
+  <rect x="0" y="0" width="1800" height="900" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Left drawer unit -->
+  <rect x="60" y="60" width="450" height="780" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <line x1="80" y1="320" x2="490" y2="320" stroke="black" stroke-width="3"/>
+  <line x1="80" y1="580" x2="490" y2="580" stroke="black" stroke-width="3"/>
+  <!-- Right drawer unit -->
+  <rect x="1290" y="60" width="450" height="780" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <line x1="1310" y1="320" x2="1720" y2="320" stroke="black" stroke-width="3"/>
+  <line x1="1310" y1="580" x2="1720" y2="580" stroke="black" stroke-width="3"/>
+  <!-- Drawer handles -->
+  <line x1="265" y1="190" x2="305" y2="190" stroke="black" stroke-width="4"/>
+  <line x1="265" y1="450" x2="305" y2="450" stroke="black" stroke-width="4"/>
+  <line x1="265" y1="710" x2="305" y2="710" stroke="black" stroke-width="4"/>
+  <line x1="1495" y1="190" x2="1535" y2="190" stroke="black" stroke-width="4"/>
+  <line x1="1495" y1="450" x2="1535" y2="450" stroke="black" stroke-width="4"/>
+  <line x1="1495" y1="710" x2="1535" y2="710" stroke="black" stroke-width="4"/>
+</svg>

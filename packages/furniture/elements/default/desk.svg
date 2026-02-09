@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+  <!-- Desktop -->
+  <rect x="0" y="0" width="1200" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Drawer unit (right) -->
+  <rect x="800" y="60" width="340" height="480" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Drawer lines -->
+  <line x1="820" y1="220" x2="1120" y2="220" stroke="black" stroke-width="3"/>
+  <line x1="820" y1="380" x2="1120" y2="380" stroke="black" stroke-width="3"/>
+  <!-- Drawer handles -->
+  <line x1="950" y1="140" x2="990" y2="140" stroke="black" stroke-width="4"/>
+  <line x1="950" y1="300" x2="990" y2="300" stroke="black" stroke-width="4"/>
+  <line x1="950" y1="460" x2="990" y2="460" stroke="black" stroke-width="4"/>
+</svg>

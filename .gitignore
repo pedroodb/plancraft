@@ -8,6 +8,7 @@ out/
 .test-output/
 *.svg
 !examples/*.svg
+!packages/furniture/elements/**/*.svg
 .env
 .env.local
 .env*.local

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2400 1200">
+  <!-- Table top -->
+  <rect x="0" y="0" width="2400" height="1200" rx="80" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Legs -->
+  <rect x="100" y="100" width="80" height="80" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="2220" y="100" width="80" height="80" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="100" y="1020" width="80" height="80" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="2220" y="1020" width="80" height="80" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <!-- Center support -->
+  <rect x="1100" y="400" width="200" height="400" rx="20" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+</svg>

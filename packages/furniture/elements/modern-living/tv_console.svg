@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 450">
+  <!-- Console body -->
+  <rect x="0" y="0" width="1800" height="450" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Left cabinet -->
+  <rect x="20" y="20" width="500" height="410" fill="#d8d8d8" stroke="black" stroke-width="4"/>
+  <!-- Center open shelf -->
+  <rect x="560" y="20" width="680" height="410" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Shelf divider -->
+  <line x1="560" y1="225" x2="1240" y2="225" stroke="black" stroke-width="3"/>
+  <!-- Right cabinet -->
+  <rect x="1280" y="20" width="500" height="410" fill="#d8d8d8" stroke="black" stroke-width="4"/>
+</svg>

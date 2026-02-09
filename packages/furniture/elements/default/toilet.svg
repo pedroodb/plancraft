@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700">
+  <!-- Tank -->
+  <rect x="50" y="0" width="300" height="180" rx="20" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Bowl -->
+  <ellipse cx="200" cy="450" rx="180" ry="230" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Seat opening -->
+  <ellipse cx="200" cy="480" rx="120" ry="160" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+</svg>

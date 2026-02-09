@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500">
+  <!-- Body -->
+  <rect x="0" y="0" width="1000" height="500" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Door divider -->
+  <line x1="500" y1="0" x2="500" y2="500" stroke="black" stroke-width="6"/>
+  <!-- Left door handle -->
+  <line x1="460" y1="220" x2="460" y2="280" stroke="black" stroke-width="5"/>
+  <!-- Right door handle -->
+  <line x1="540" y1="220" x2="540" y2="280" stroke="black" stroke-width="5"/>
+</svg>

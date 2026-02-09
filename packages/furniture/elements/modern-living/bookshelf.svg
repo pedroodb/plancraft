@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 350">
+  <!-- Body -->
+  <rect x="0" y="0" width="800" height="350" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Shelf dividers (horizontal) -->
+  <line x1="0" y1="88" x2="800" y2="88" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="175" x2="800" y2="175" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="263" x2="800" y2="263" stroke="black" stroke-width="4"/>
+  <!-- Vertical divider -->
+  <line x1="400" y1="0" x2="400" y2="350" stroke="black" stroke-width="4"/>
+</svg>
