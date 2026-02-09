@@ -123,7 +123,7 @@ describe("Renderer", () => {
     // Create a mock furniture package with a simple element
     const mockElement: FurnitureElement = {
       id: "bed",
-      meta: { name: "Double Bed", category: "bedroom", defaultWidth: 1400, defaultDepth: 2000 },
+      meta: { name: "Double Bed", tags: ["bedroom", "sleeping"], defaultWidth: 1400, defaultDepth: 2000 },
       svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2000"><rect x="0" y="0" width="1400" height="2000" fill="#e8e8e8" stroke="black"/></svg>',
       innerSvg: '<rect x="0" y="0" width="1400" height="2000" fill="#e8e8e8" stroke="black"/>',
       viewBoxWidth: 1400,

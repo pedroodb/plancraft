@@ -64,20 +64,32 @@ export function getElementSvg(
 }
 
 /**
- * Resolve an element reference "packageName/elementId" across multiple packages.
+ * Resolve an element reference across multiple packages.
+ * Accepts both "packageName/elementId" and plain "elementId" formats.
+ * For plain IDs, searches all packages and returns the first match.
  */
 export function resolveElement(
   packages: FurniturePackage[],
   elementRef: string,
 ): FurnitureElement | null {
   const slashIdx = elementRef.indexOf("/");
-  if (slashIdx < 0) return null;
 
-  const pkgName = elementRef.slice(0, slashIdx);
-  const elemId = elementRef.slice(slashIdx + 1);
+  // "package/element" format — look in the specific package
+  if (slashIdx >= 0) {
+    const pkgName = elementRef.slice(0, slashIdx);
+    const elemId = elementRef.slice(slashIdx + 1);
+    const pkg = packages.find((p) => p.name === pkgName);
+    if (pkg) {
+      const el = pkg.elements.get(elemId);
+      if (el) return el;
+    }
+  }
 
-  const pkg = packages.find((p) => p.name === pkgName);
-  if (!pkg) return null;
+  // Plain ID — search across all packages
+  for (const pkg of packages) {
+    const el = pkg.elements.get(elementRef);
+    if (el) return el;
+  }
 
-  return pkg.elements.get(elemId) ?? null;
+  return null;
 }

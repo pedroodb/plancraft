@@ -11,6 +11,7 @@
 export {
   loadPackage,
   loadBuiltinPackage,
+  loadBuiltinPackages,
   loadAllPackages,
   createElement,
   initPackage,

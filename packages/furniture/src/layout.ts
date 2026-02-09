@@ -6,7 +6,7 @@
  */
 
 import type {
-  CustomFurnitureElement,
+  FurnitureElementDef,
   FurnitureLayout,
   FurniturePlacement,
   Point,
@@ -142,27 +142,38 @@ function requirePoint(obj: unknown, context: string): Point {
   };
 }
 
-// ── Custom element parser ────────────────────────────────────────────
+// ── Element definition parser ────────────────────────────────────────
 
-function transformCustomElement(
+function transformElementDef(
   raw: unknown,
   id: string,
-): CustomFurnitureElement {
+): FurnitureElementDef {
   if (typeof raw !== "object" || raw === null) {
     throw new LayoutParseError(
-      `Custom element "${id}" must be an object`,
+      `Element "${id}" must be an object`,
     );
   }
   const obj = raw as Record<string, unknown>;
-  const ctx = `CustomElement["${id}"]`;
+  const ctx = `Element["${id}"]`;
 
-  return {
+  // Parse tags (required, must be a string array)
+  const rawTags = obj["tags"];
+  if (!Array.isArray(rawTags) || rawTags.some((t) => typeof t !== "string")) {
+    throw new LayoutParseError(`${ctx}: "tags" must be an array of strings`);
+  }
+
+  const def: FurnitureElementDef = {
     name: requireString(obj, "name", ctx),
-    category: requireString(obj, "category", ctx),
+    tags: rawTags as string[],
     defaultWidth: requireNumber(obj, "defaultWidth", ctx),
     defaultDepth: requireNumber(obj, "defaultDepth", ctx),
     svg: requireString(obj, "svg", ctx),
   };
+
+  const source = optionalString(obj, "source");
+  if (source !== undefined) def.source = source;
+
+  return def;
 }
 
 // ── Placement parser ─────────────────────────────────────────────────
@@ -180,11 +191,6 @@ function transformPlacement(
   const ctx = `Placement[${index}]`;
 
   const element = requireString(obj, "element", ctx);
-  if (!element.includes("/")) {
-    throw new LayoutParseError(
-      `${ctx}: "element" must be in "package/elementId" format`,
-    );
-  }
 
   const position = requirePoint(obj["position"], `${ctx} "position"`);
 
@@ -256,20 +262,20 @@ export function parseLayout(source: string): FurnitureLayout {
     );
   }
 
-  // Parse custom elements if present
-  let customElements: Record<string, CustomFurnitureElement> | undefined;
-  const rawCustom = obj["customElements"];
-  if (rawCustom !== undefined && rawCustom !== null) {
-    if (typeof rawCustom !== "object" || Array.isArray(rawCustom)) {
+  // Parse element definitions
+  let elements: Record<string, FurnitureElementDef> | undefined;
+  const rawElements = obj["elements"];
+  if (rawElements !== undefined && rawElements !== null) {
+    if (typeof rawElements !== "object" || Array.isArray(rawElements)) {
       throw new LayoutParseError(
-        '"customElements" must be an object in the .pcf file',
+        '"elements" must be an object in the .pcf file',
       );
     }
-    customElements = {};
+    elements = {};
     for (const [id, value] of Object.entries(
-      rawCustom as Record<string, unknown>,
+      rawElements as Record<string, unknown>,
     )) {
-      customElements[id] = transformCustomElement(value, id);
+      elements[id] = transformElementDef(value, id);
     }
   }
 
@@ -277,8 +283,8 @@ export function parseLayout(source: string): FurnitureLayout {
     placements: placements.map((p, i) => transformPlacement(p, i)),
   };
 
-  if (customElements && Object.keys(customElements).length > 0) {
-    layout.customElements = customElements;
+  if (elements && Object.keys(elements).length > 0) {
+    layout.elements = elements;
   }
 
   return layout;
@@ -306,9 +312,8 @@ export function serializeLayout(layout: FurnitureLayout): string {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const root: any = {};
 
-  // Include custom elements if present
-  if (layout.customElements && Object.keys(layout.customElements).length > 0) {
-    root.customElements = layout.customElements;
+  if (layout.elements && Object.keys(layout.elements).length > 0) {
+    root.elements = layout.elements;
   }
 
   root.placements = placements;

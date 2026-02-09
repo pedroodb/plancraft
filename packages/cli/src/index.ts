@@ -5,6 +5,7 @@ import {
   furniturePackages,
   furnitureInit,
   furnitureCreate,
+  furnitureImport,
   furnitureAdd,
   furnitureRemove,
 } from "./commands/furniture.js";
@@ -37,7 +38,7 @@ program
   )
   .option(
     "--furniture-packages <dir>",
-    "Directory containing additional furniture packages",
+    "Directory containing additional furniture packages (for element resolution fallback)",
   )
   .action(
     (
@@ -64,9 +65,10 @@ furnitureCmd
   .command("list")
   .description("List available furniture elements")
   .option("-p, --package <name>", "Filter by package name")
+  .option("-t, --tag <tag>", "Filter by tag (e.g. bedroom, kitchen)")
   .option("--packages-dir <dir>", "Directory containing additional packages")
   .action(
-    (opts: { package?: string; packagesDir?: string }) => {
+    (opts: { package?: string; tag?: string; packagesDir?: string }) => {
       furnitureList(opts);
     },
   );
@@ -95,28 +97,44 @@ furnitureCmd
   .argument("<element-name>", "Element ID (e.g. bookshelf)")
   .option("-w, --width <mm>", "Default width in mm", "600")
   .option("-d, --depth <mm>", "Default depth in mm", "600")
-  .option("-c, --category <cat>", "Category (e.g. living, kitchen)", "custom")
+  .option("-t, --tags <list>", "Comma-separated tags (e.g. living,seating)", "custom")
   .option("-n, --name <name>", "Display name")
   .action(
     (
       packageDir: string,
       elementName: string,
-      opts: { width?: string; depth?: string; category?: string; name?: string },
+      opts: { width?: string; depth?: string; tags?: string; name?: string },
     ) => {
       furnitureCreate(packageDir, elementName, opts);
     },
   );
 
 furnitureCmd
+  .command("import")
+  .description("Import element definitions from packages into a .pcf file")
+  .argument("<elements...>", 'Element references (e.g. "bed" or "default/bed")')
+  .requiredOption("--to <file>", "Target .pcf file (created if missing)")
+  .option("--packages-dir <dir>", "Directory containing additional packages")
+  .action(
+    (
+      elements: string[],
+      opts: { to: string; packagesDir?: string },
+    ) => {
+      furnitureImport(elements, opts);
+    },
+  );
+
+furnitureCmd
   .command("add")
-  .description("Add a furniture placement to a .pcf file")
-  .argument("<element>", 'Element reference (e.g. "default/bed")')
+  .description("Add a furniture placement to a .pcf file (auto-imports element)")
+  .argument("<element>", 'Element ID (e.g. "bed") or "package/element"')
   .requiredOption("--to <file>", "Target .pcf file (created if missing)")
   .requiredOption("--pos <x,y>", "Position as x,y coordinates in mm")
-  .option("-w, --width <mm>", "Width override in mm")
-  .option("-d, --depth <mm>", "Depth override in mm")
+  .option("-w, --width <mm>", "Width scale percentage (default 100)")
+  .option("-d, --depth <mm>", "Depth scale percentage (default 100)")
   .option("-r, --rotation <deg>", "Rotation in degrees")
   .option("--room <name>", "Optional room tag")
+  .option("--packages-dir <dir>", "Directory containing additional packages")
   .action(
     (
       element: string,
@@ -127,6 +145,7 @@ furnitureCmd
         depth?: string;
         rotation?: string;
         room?: string;
+        packagesDir?: string;
       },
     ) => {
       furnitureAdd(element, opts);

@@ -63,6 +63,15 @@ export function loadPackage(dir: string): FurniturePackage {
 }
 
 /**
+ * Load all built-in packages that ship with @plancraft/furniture.
+ * Scans the `elements/` directory for subdirectories with manifest.json files.
+ */
+export function loadBuiltinPackages(): FurniturePackage[] {
+  const elementsDir = path.resolve(__dirname, "../elements");
+  return loadAllPackages(elementsDir);
+}
+
+/**
  * Load the built-in default package that ships with @plancraft/furniture.
  */
 export function loadBuiltinPackage(): FurniturePackage {

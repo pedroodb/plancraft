@@ -4,45 +4,77 @@
 
 Furniture is managed separately from the structural plan. While the `.pc` file defines the building structure (walls, doors, windows), furniture placements are stored in a separate `.pcf` file.
 
-## Furniture Elements
+The `.pcf` file is **self-contained**: all element definitions (SVG, dimensions, metadata) are embedded in its `"elements"` section alongside the placements. This means the file has everything needed to render, with no external dependencies.
 
-Furniture elements are SVG files organized into **packages**. Each package contains:
-- A `manifest.json` with element metadata (name, category, default size)
-- Individual `.svg` files for each element's plan-view symbol
+## Furniture Packages
+
+Packages group elements by **visual style** (e.g. "default" = neutral schematic, a future "modern" package might use a different drawing style). Each element has **tags** that describe its use case, so you can filter elements by room type or function.
 
 ### Available Packages
 
-- **default** — Standard architectural furniture (bed, sofa, table, toilet, sink, etc.)
-- **modern-living** — Contemporary living room pieces (sectional sofa, coffee table, TV console)
-- **office** — Workspace furniture (executive desk, office chair, filing cabinet, conference table)
-- **custom** — AI-created elements embedded in the layout (created via `create_furniture_element`)
+- **default** — Standard architectural plan-view furniture symbols in a neutral schematic style. Contains all built-in elements (bedroom, living, kitchen, bathroom, office, structural).
+
+Users can also upload custom packages with their own visual style and elements.
+
+### Tags
+
+Tags are the primary way to find and organize elements. Each element has one or more tags describing its use:
+
+| Tag | Description |
+|-----|-------------|
+| `bedroom` | Bedroom furniture |
+| `sleeping` | Beds and sleeping elements |
+| `living` | Living room furniture |
+| `seating` | Sofas, chairs, etc. |
+| `dining` | Dining tables, chairs |
+| `table` | Tables of any kind |
+| `media` | TV, entertainment |
+| `lighting` | Lamps, light fixtures |
+| `storage` | Wardrobes, shelves, cabinets |
+| `office` | Office/workspace furniture |
+| `workspace` | Desks, work surfaces |
+| `kitchen` | Kitchen elements |
+| `surface` | Counters, work surfaces |
+| `appliance` | Kitchen/household appliances |
+| `bathroom` | Bathroom elements |
+| `fixture` | Plumbing fixtures |
+| `garage` | Garage elements |
+| `vehicle` | Cars, vehicles |
+| `structural` | Stairs, structural elements |
+| `circulation` | Staircases, movement elements |
+| `custom` | User-created elements |
 
 ### Element Reference Format
 
-Elements are referenced as `"package/element"`, for example:
-- `"default/bed"` — Double bed from the default package
-- `"default/sofa"` — 3-seat sofa
-- `"office/executive_desk"` — Executive desk from the office package
-- `"custom/standing_lamp"` — Custom element created by the AI
+Elements are referenced by **plain IDs** (e.g. `"bed"`, `"sofa"`, `"standing_lamp"`). No package prefix is needed. The element's definition lives in the layout's `"elements"` section.
 
 ## .pcf Placement File Format
 
-The `.pcf` file is JSONC (JSON with comments) containing placements and optionally custom element definitions:
+The `.pcf` file is JSONC (JSON with comments) containing element definitions and placements:
 
 ```jsonc
 {
-  "customElements": {
+  "elements": {
+    "bed": {
+      "name": "Double Bed",
+      "tags": ["bedroom", "sleeping"],
+      "defaultWidth": 1400,
+      "defaultDepth": 2000,
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1400 2000\">...</svg>",
+      "source": "default"
+    },
     "standing_lamp": {
       "name": "Standing Lamp",
-      "category": "living",
+      "tags": ["living", "lighting"],
       "defaultWidth": 300,
       "defaultDepth": 300,
-      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 300 300\"><circle cx=\"150\" cy=\"150\" r=\"130\" fill=\"#e8e8e8\" stroke=\"black\" stroke-width=\"5\"/><circle cx=\"150\" cy=\"150\" r=\"20\" fill=\"#a0a0a0\" stroke=\"black\" stroke-width=\"3\"/></svg>"
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 300 300\"><circle cx=\"150\" cy=\"150\" r=\"130\" fill=\"#e8e8e8\" stroke=\"black\" stroke-width=\"5\"/><circle cx=\"150\" cy=\"150\" r=\"20\" fill=\"#a0a0a0\" stroke=\"black\" stroke-width=\"3\"/></svg>",
+      "source": "generated"
     }
   },
   "placements": [
     {
-      "element": "default/bed",
+      "element": "bed",
       "position": {"x": 2000, "y": 1750},
       "scaleWidth": 100,
       "scaleDepth": 100,
@@ -51,7 +83,7 @@ The `.pcf` file is JSONC (JSON with comments) containing placements and optional
       "room": "Bedroom"
     },
     {
-      "element": "custom/standing_lamp",
+      "element": "standing_lamp",
       "position": {"x": 500, "y": 3000},
       "scaleWidth": 80,
       "scaleDepth": 80,
@@ -63,9 +95,20 @@ The `.pcf` file is JSONC (JSON with comments) containing placements and optional
 }
 ```
 
+## Element Definitions
+
+The `"elements"` key contains all element definitions used by this layout. Each key is the element ID:
+
+- **`name`** — Human-readable display name
+- **`tags`** — Array of tags for grouping and filtering (e.g. `["bedroom", "sleeping"]`)
+- **`defaultWidth`** — Default width in mm
+- **`defaultDepth`** — Default depth in mm
+- **`svg`** — Full SVG content including the `<svg>` root element
+- **`source`** — Optional: which package this was imported from (e.g. "default", "generated")
+
 ## Placement Fields
 
-- **`element`** — Element reference in `"package/element"` format (required)
+- **`element`** — Element ID (key into the `"elements"` map) (required)
 - **`position`** — `{"x": N, "y": N}` center point in drawing units (required)
 - **`scaleWidth`** — Width as percentage of original size, default `100` (optional)
 - **`scaleDepth`** — Depth as percentage of original size, default `100` (optional)
@@ -80,21 +123,9 @@ The `.pcf` file is JSONC (JSON with comments) containing placements and optional
 - `scaleWidth: 75, scaleDepth: 75` — 25% smaller
 - `scaleWidth: 120, scaleDepth: 80, lockProportions: false` — Wider but shallower
 
-## Custom Elements Section
-
-The `"customElements"` key is an optional object at the root of the `.pcf` file. Each key is the element ID, and the value contains:
-
-- **`name`** — Human-readable display name
-- **`category`** — Category for UI grouping (bedroom, living, kitchen, bathroom, office, custom)
-- **`defaultWidth`** — Default width in mm
-- **`defaultDepth`** — Default depth in mm
-- **`svg`** — Full SVG content including the `<svg>` root element
-
-Custom elements are referenced with the `"custom/"` prefix: `"custom/my_element"`.
-
 ### SVG Creation Guidelines
 
-When creating custom element SVGs:
+When creating element SVGs:
 - Use `viewBox="0 0 {defaultWidth} {defaultDepth}"` matching the dimensions
 - Use black strokes (`stroke="black"`) and light gray fills (`fill="#e8e8e8"`)
 - Keep it simple — plan-view (top-down) architectural symbols
@@ -104,47 +135,37 @@ When creating custom element SVGs:
 
 ## Default Package Elements
 
-| Element ID | Name | Category | Default Size (W x D) |
-|-----------|------|----------|----------------------|
-| `default/bed` | Double Bed | bedroom | 1400 x 2000 |
-| `default/sofa` | 3-Seat Sofa | living | 2000 x 900 |
-| `default/l_sofa` | L-Shaped Sofa | living | 2400 x 2000 |
-| `default/table` | Dining Table | living | 1200 x 800 |
-| `default/round_table` | Round Table | living | 1000 x 1000 |
-| `default/desk` | Desk | office | 1200 x 600 |
-| `default/chair` | Chair | living | 450 x 450 |
-| `default/counter` | Kitchen Counter | kitchen | 3000 x 600 |
-| `default/toilet` | Toilet | bathroom | 400 x 700 |
-| `default/sink` | Sink | bathroom | 500 x 400 |
-| `default/shower` | Shower | bathroom | 900 x 900 |
-| `default/bathtub` | Bathtub | bathroom | 700 x 1700 |
-| `default/wardrobe` | Wardrobe | bedroom | 1000 x 500 |
-| `default/fridge` | Fridge | kitchen | 700 x 700 |
-| `default/stove` | Stove | kitchen | 600 x 600 |
-| `default/oven` | Oven | kitchen | 600 x 600 |
-| `default/car` | Car | garage | 1800 x 4200 |
-| `default/staircase` | Straight Staircase | structural | 900 x 2500 |
-| `default/spiral_staircase` | Spiral Staircase | structural | 1500 x 1500 |
-
-## Modern Living Package Elements
-
-| Element ID | Name | Category | Default Size (W x D) |
-|-----------|------|----------|----------------------|
-| `modern-living/sectional_sofa` | Sectional Sofa | living | 3000 x 2200 |
-| `modern-living/coffee_table` | Coffee Table | living | 1200 x 600 |
-| `modern-living/tv_console` | TV Console | living | 1800 x 450 |
-| `modern-living/bookshelf` | Bookshelf | living | 800 x 350 |
-| `modern-living/floor_lamp` | Floor Lamp | living | 300 x 300 |
-
-## Office Package Elements
-
-| Element ID | Name | Category | Default Size (W x D) |
-|-----------|------|----------|----------------------|
-| `office/executive_desk` | Executive Desk | office | 1800 x 900 |
-| `office/office_chair` | Office Chair | office | 550 x 550 |
-| `office/filing_cabinet` | Filing Cabinet | office | 400 x 600 |
-| `office/conference_table` | Conference Table | office | 2400 x 1200 |
-| `office/whiteboard` | Whiteboard | office | 1800 x 100 |
+| Element ID | Name | Tags | Default Size (W x D) |
+|-----------|------|------|----------------------|
+| `bed` | Double Bed | bedroom, sleeping | 1400 x 2000 |
+| `wardrobe` | Wardrobe | bedroom, storage | 1000 x 500 |
+| `sofa` | 3-Seat Sofa | living, seating | 2000 x 900 |
+| `l_sofa` | L-Shaped Sofa | living, seating | 2400 x 2000 |
+| `sectional_sofa` | Sectional Sofa | living, seating | 3000 x 2200 |
+| `chair` | Chair | seating, dining, living | 450 x 450 |
+| `table` | Dining Table | dining, living | 1200 x 800 |
+| `round_table` | Round Table | dining, living | 1000 x 1000 |
+| `coffee_table` | Coffee Table | living, table | 1200 x 600 |
+| `tv_console` | TV Console | living, media | 1800 x 450 |
+| `bookshelf` | Bookshelf | living, storage | 800 x 350 |
+| `floor_lamp` | Floor Lamp | living, lighting | 300 x 300 |
+| `desk` | Desk | office, workspace | 1200 x 600 |
+| `executive_desk` | Executive Desk | office, workspace | 1800 x 900 |
+| `office_chair` | Office Chair | office, seating | 550 x 550 |
+| `filing_cabinet` | Filing Cabinet | office, storage | 400 x 600 |
+| `conference_table` | Conference Table | office, table | 2400 x 1200 |
+| `whiteboard` | Whiteboard | office | 1800 x 100 |
+| `counter` | Kitchen Counter | kitchen, surface | 3000 x 600 |
+| `fridge` | Fridge | kitchen, appliance | 700 x 700 |
+| `stove` | Stove | kitchen, appliance | 600 x 600 |
+| `oven` | Oven | kitchen, appliance | 600 x 600 |
+| `toilet` | Toilet | bathroom, fixture | 400 x 700 |
+| `sink` | Sink | bathroom, fixture | 500 x 400 |
+| `shower` | Shower | bathroom, fixture | 900 x 900 |
+| `bathtub` | Bathtub | bathroom, fixture | 700 x 1700 |
+| `car` | Car | garage, vehicle | 1800 x 4200 |
+| `staircase` | Straight Staircase | structural, circulation | 900 x 2500 |
+| `spiral_staircase` | Spiral Staircase | structural, circulation | 1500 x 1500 |
 
 ## Placement Tips
 
@@ -154,4 +175,5 @@ When creating custom element SVGs:
 - Align furniture against walls: place the center at `wall_position + depth/2`
 - Group fixtures by function (kitchen appliances together, bathroom fixtures together)
 - Use `scaleWidth`/`scaleDepth` to resize (percentage-based) rather than fixed dimensions
-- If an element doesn't exist in the built-in packages, create it with `create_furniture_element`
+- Use list_furniture_packages and browse_package (with tag filter) to discover available elements
+- Elements are auto-imported when placed — the layout file stays self-contained

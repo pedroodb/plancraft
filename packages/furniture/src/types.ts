@@ -14,8 +14,8 @@ export interface Point {
 export interface FurnitureElementMeta {
   /** Human-readable display name (e.g. "Double Bed") */
   name: string;
-  /** Category for grouping in the UI (e.g. "bedroom", "kitchen") */
-  category: string;
+  /** Tags for grouping and filtering (e.g. ["bedroom", "sleeping"]) */
+  tags: string[];
   /** Default width in mm */
   defaultWidth: number;
   /** Default depth in mm */
@@ -65,29 +65,33 @@ export interface FurniturePackage {
   elements: Map<string, FurnitureElement>;
 }
 
-// ── Custom furniture element (embedded in .pcf) ─────────────────────
+// ── Furniture element definition (embedded in .pcf) ──────────────────
 
 /**
- * A custom furniture element defined inline in the .pcf file.
- * Created by the AI agent or user and embedded directly in the layout.
+ * A self-contained furniture element definition embedded in the .pcf file.
+ * Elements are imported from packages or generated on the fly by the AI.
+ * The .pcf file is fully self-contained: it carries all element definitions
+ * it needs, so no package loading is required at render time.
  */
-export interface CustomFurnitureElement {
+export interface FurnitureElementDef {
   /** Human-readable display name */
   name: string;
-  /** Category for grouping in the UI */
-  category: string;
+  /** Tags for grouping and filtering (e.g. ["bedroom", "sleeping"]) */
+  tags: string[];
   /** Default width in mm */
   defaultWidth: number;
   /** Default depth in mm */
   defaultDepth: number;
   /** Full SVG content (including <svg> root element) */
   svg: string;
+  /** Optional: which package this element was imported from */
+  source?: string;
 }
 
 // ── Furniture placement (.pcf file) ──────────────────────────────────
 
 export interface FurniturePlacement {
-  /** Element reference: "packageName/elementId" */
+  /** Element ID (key into the layout's elements map, e.g. "bed", "sofa") */
   element: string;
   /** Center position in plan coordinates (mm) */
   position: Point;
@@ -106,8 +110,13 @@ export interface FurniturePlacement {
 // ── Furniture layout (.pcf root) ─────────────────────────────────────
 
 export interface FurnitureLayout {
-  /** Custom furniture elements embedded in this layout, keyed by ID */
-  customElements?: Record<string, CustomFurnitureElement>;
+  /**
+   * Self-contained element definitions used by this layout, keyed by ID.
+   * Elements are imported from packages or generated on the fly.
+   * Placements reference these by their key.
+   */
+  elements?: Record<string, FurnitureElementDef>;
+
   /** Furniture placements */
   placements: FurniturePlacement[];
 }

@@ -56,45 +56,51 @@ export function buildSceneWithFurniture(
 }
 
 /**
- * Resolve an element for a placement, checking packages first, then custom elements.
+ * Resolve an element for a placement.
+ *
+ * Resolution order:
+ * 1. Layout's self-contained elements map (by element ID)
+ * 2. Loaded packages (fallback for rendering without embedded elements,
+ *    e.g. CLI compile with --furniture-packages)
  */
 function resolveElementForPlacement(
   packages: FurniturePackage[],
   layout: FurnitureLayout,
   elementRef: string,
 ): FurnitureElement | null {
-  // Try resolving from loaded packages first
+  // 1. Try layout's own elements (self-contained .pcf)
+  if (layout.elements) {
+    const def = layout.elements[elementRef];
+    if (def) {
+      const { viewBoxWidth, viewBoxHeight, innerSvg } = parseSvg(def.svg);
+      return {
+        id: elementRef,
+        meta: {
+          name: def.name,
+          tags: def.tags,
+          defaultWidth: def.defaultWidth,
+          defaultDepth: def.defaultDepth,
+        },
+        svg: def.svg,
+        innerSvg,
+        viewBoxWidth,
+        viewBoxHeight,
+      };
+    }
+  }
+
+  // 2. Fall back to loaded packages (useful for CLI rendering with external packages)
+  //    Try as "package/element" first, then as plain ID across all packages
   const fromPackage = resolveElement(packages, elementRef);
   if (fromPackage) return fromPackage;
 
-  // Check custom elements embedded in the layout
-  const slashIdx = elementRef.indexOf("/");
-  if (slashIdx < 0) return null;
+  // Try plain ID across all packages
+  for (const pkg of packages) {
+    const el = pkg.elements.get(elementRef);
+    if (el) return el;
+  }
 
-  const pkgName = elementRef.slice(0, slashIdx);
-  const elemId = elementRef.slice(slashIdx + 1);
-
-  if (pkgName !== "custom" || !layout.customElements) return null;
-
-  const customDef = layout.customElements[elemId];
-  if (!customDef) return null;
-
-  // Parse the SVG to extract inner content and viewBox
-  const { viewBoxWidth, viewBoxHeight, innerSvg } = parseSvg(customDef.svg);
-
-  return {
-    id: elemId,
-    meta: {
-      name: customDef.name,
-      category: customDef.category,
-      defaultWidth: customDef.defaultWidth,
-      defaultDepth: customDef.defaultDepth,
-    },
-    svg: customDef.svg,
-    innerSvg,
-    viewBoxWidth,
-    viewBoxHeight,
-  };
+  return null;
 }
 
 /**

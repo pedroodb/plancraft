@@ -6,7 +6,7 @@ export type {
   FurniturePackage,
   FurniturePlacement,
   FurnitureLayout,
-  CustomFurnitureElement,
+  FurnitureElementDef,
 } from "./types.js";
 
 export {
