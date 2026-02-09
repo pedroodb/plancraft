@@ -140,7 +140,7 @@ describe("Renderer", () => {
 
     const layout: FurnitureLayout = {
       placements: [
-        { element: "default/bed", position: { x: 2000, y: 2000 } },
+        { element: "default/bed", position: { x: 2000, y: 2000 }, scaleWidth: 100, scaleDepth: 100, lockProportions: true, rotation: 0 },
       ],
     };
 

@@ -1,10 +1,16 @@
 /**
  * Furniture layout (.pcf) parser and serializer.
  *
- * The .pcf format is JSONC (JSON with comments) listing furniture placements.
+ * The .pcf format is JSONC (JSON with comments) listing furniture placements
+ * and optionally custom element definitions.
  */
 
-import type { FurnitureLayout, FurniturePlacement, Point } from "./types.js";
+import type {
+  CustomFurnitureElement,
+  FurnitureLayout,
+  FurniturePlacement,
+  Point,
+} from "./types.js";
 
 // ── Error type ────────────────────────────────────────────────────────
 
@@ -111,6 +117,18 @@ function optionalString(
   return val;
 }
 
+function optionalBoolean(
+  obj: Record<string, unknown>,
+  field: string,
+): boolean | undefined {
+  const val = obj[field];
+  if (val === undefined || val === null) return undefined;
+  if (typeof val !== "boolean") {
+    throw new LayoutParseError(`"${field}" must be a boolean when provided`);
+  }
+  return val;
+}
+
 function requirePoint(obj: unknown, context: string): Point {
   if (typeof obj !== "object" || obj === null || Array.isArray(obj)) {
     throw new LayoutParseError(
@@ -124,7 +142,30 @@ function requirePoint(obj: unknown, context: string): Point {
   };
 }
 
-// ── Parser ──────────────────────────────────────────────────────────
+// ── Custom element parser ────────────────────────────────────────────
+
+function transformCustomElement(
+  raw: unknown,
+  id: string,
+): CustomFurnitureElement {
+  if (typeof raw !== "object" || raw === null) {
+    throw new LayoutParseError(
+      `Custom element "${id}" must be an object`,
+    );
+  }
+  const obj = raw as Record<string, unknown>;
+  const ctx = `CustomElement["${id}"]`;
+
+  return {
+    name: requireString(obj, "name", ctx),
+    category: requireString(obj, "category", ctx),
+    defaultWidth: requireNumber(obj, "defaultWidth", ctx),
+    defaultDepth: requireNumber(obj, "defaultDepth", ctx),
+    svg: requireString(obj, "svg", ctx),
+  };
+}
+
+// ── Placement parser ─────────────────────────────────────────────────
 
 function transformPlacement(
   raw: unknown,
@@ -146,16 +187,43 @@ function transformPlacement(
   }
 
   const position = requirePoint(obj["position"], `${ctx} "position"`);
-  const width = optionalNumber(obj, "width");
-  const depth = optionalNumber(obj, "depth");
-  const rotation = optionalNumber(obj, "rotation");
+
+  // New scale-based fields with defaults
+  const scaleWidth = optionalNumber(obj, "scaleWidth") ?? 100;
+  const scaleDepth = optionalNumber(obj, "scaleDepth") ?? 100;
+  const lockProportions = optionalBoolean(obj, "lockProportions") ?? true;
+  const rotation = optionalNumber(obj, "rotation") ?? 0;
   const room = optionalString(obj, "room");
 
-  const placement: FurniturePlacement = { element, position };
-  if (width !== undefined) placement.width = width;
-  if (depth !== undefined) placement.depth = depth;
-  if (rotation !== undefined) placement.rotation = rotation;
+  // Backward compatibility: if old-style width/depth are present and
+  // no scale fields were explicitly set, keep the absolute values
+  // by storing them as-is (the renderer will handle the conversion
+  // when it has access to element metadata).
+  const legacyWidth = optionalNumber(obj, "width");
+  const legacyDepth = optionalNumber(obj, "depth");
+
+  const placement: FurniturePlacement = {
+    element,
+    position,
+    scaleWidth: legacyWidth !== undefined && obj["scaleWidth"] === undefined
+      ? legacyWidth  // store legacy width temporarily; renderer converts
+      : scaleWidth,
+    scaleDepth: legacyDepth !== undefined && obj["scaleDepth"] === undefined
+      ? legacyDepth  // store legacy depth temporarily; renderer converts
+      : scaleDepth,
+    lockProportions,
+    rotation,
+  };
+
   if (room !== undefined) placement.room = room;
+
+  // Mark legacy placements so the renderer can detect them
+  if (
+    (legacyWidth !== undefined && obj["scaleWidth"] === undefined) ||
+    (legacyDepth !== undefined && obj["scaleDepth"] === undefined)
+  ) {
+    (placement as unknown as Record<string, unknown>)["_legacyAbsolute"] = true;
+  }
 
   return placement;
 }
@@ -188,28 +256,62 @@ export function parseLayout(source: string): FurnitureLayout {
     );
   }
 
-  return {
+  // Parse custom elements if present
+  let customElements: Record<string, CustomFurnitureElement> | undefined;
+  const rawCustom = obj["customElements"];
+  if (rawCustom !== undefined && rawCustom !== null) {
+    if (typeof rawCustom !== "object" || Array.isArray(rawCustom)) {
+      throw new LayoutParseError(
+        '"customElements" must be an object in the .pcf file',
+      );
+    }
+    customElements = {};
+    for (const [id, value] of Object.entries(
+      rawCustom as Record<string, unknown>,
+    )) {
+      customElements[id] = transformCustomElement(value, id);
+    }
+  }
+
+  const layout: FurnitureLayout = {
     placements: placements.map((p, i) => transformPlacement(p, i)),
   };
+
+  if (customElements && Object.keys(customElements).length > 0) {
+    layout.customElements = customElements;
+  }
+
+  return layout;
 }
 
 /**
  * Serialize a FurnitureLayout to a JSONC string.
  */
 export function serializeLayout(layout: FurnitureLayout): string {
-  // Build clean placement objects (omit undefined optional fields)
+  // Build clean placement objects (omit default-valued optional fields)
   const placements = layout.placements.map((p) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const obj: any = {
       element: p.element,
       position: p.position,
     };
-    if (p.width !== undefined) obj.width = p.width;
-    if (p.depth !== undefined) obj.depth = p.depth;
-    if (p.rotation !== undefined && p.rotation !== 0) obj.rotation = p.rotation;
+    if (p.scaleWidth !== 100) obj.scaleWidth = p.scaleWidth;
+    if (p.scaleDepth !== 100) obj.scaleDepth = p.scaleDepth;
+    if (!p.lockProportions) obj.lockProportions = false;
+    if (p.rotation !== 0) obj.rotation = p.rotation;
     if (p.room !== undefined) obj.room = p.room;
     return obj;
   });
 
-  return JSON.stringify({ placements }, null, 2);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const root: any = {};
+
+  // Include custom elements if present
+  if (layout.customElements && Object.keys(layout.customElements).length > 0) {
+    root.customElements = layout.customElements;
+  }
+
+  root.placements = placements;
+
+  return JSON.stringify(root, null, 2);
 }

@@ -155,9 +155,20 @@ export function furnitureAdd(
   const placement: FurniturePlacement = {
     element: elementRef,
     position: { x: posParts[0], y: posParts[1] },
+    scaleWidth: 100,
+    scaleDepth: 100,
+    lockProportions: true,
+    rotation: 0,
   };
-  if (opts.width) placement.width = parseInt(opts.width, 10);
-  if (opts.depth) placement.depth = parseInt(opts.depth, 10);
+  if (opts.width) {
+    // Legacy: width in mm — store as absolute for backward compat
+    const w = parseInt(opts.width, 10);
+    if (!isNaN(w)) placement.scaleWidth = w;
+  }
+  if (opts.depth) {
+    const d = parseInt(opts.depth, 10);
+    if (!isNaN(d)) placement.scaleDepth = d;
+  }
   if (opts.rotation) placement.rotation = parseInt(opts.rotation, 10);
   if (opts.room) placement.room = opts.room;
 

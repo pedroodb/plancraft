@@ -10,6 +10,38 @@ import type {
 } from "./types.js";
 
 /**
+ * Parse the SVG root element to extract viewBox dimensions and inner content.
+ * This is browser-safe (no Node.js APIs).
+ */
+export function parseSvg(svg: string): {
+  viewBoxWidth: number;
+  viewBoxHeight: number;
+  innerSvg: string;
+} {
+  // Extract viewBox attribute
+  const vbMatch = svg.match(/viewBox\s*=\s*"([^"]+)"/);
+  let viewBoxWidth = 100;
+  let viewBoxHeight = 100;
+  if (vbMatch) {
+    const parts = vbMatch[1].trim().split(/\s+/).map(Number);
+    if (parts.length >= 4) {
+      viewBoxWidth = parts[2];
+      viewBoxHeight = parts[3];
+    }
+  }
+
+  // Extract inner SVG content (everything between <svg ...> and </svg>)
+  const openTagEnd = svg.indexOf(">");
+  const closeTagStart = svg.lastIndexOf("</svg>");
+  let innerSvg = "";
+  if (openTagEnd >= 0 && closeTagStart > openTagEnd) {
+    innerSvg = svg.slice(openTagEnd + 1, closeTagStart).trim();
+  }
+
+  return { viewBoxWidth, viewBoxHeight, innerSvg };
+}
+
+/**
  * List element info from a loaded package.
  */
 export function listElements(

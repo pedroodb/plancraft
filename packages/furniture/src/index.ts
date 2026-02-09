@@ -6,12 +6,14 @@ export type {
   FurniturePackage,
   FurniturePlacement,
   FurnitureLayout,
+  CustomFurnitureElement,
 } from "./types.js";
 
 export {
   listElements,
   getElementSvg,
   resolveElement,
+  parseSvg,
 } from "./utils.js";
 
 export {

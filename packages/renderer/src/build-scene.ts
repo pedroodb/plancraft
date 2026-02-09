@@ -18,8 +18,8 @@ import { windowToGeometry } from "./geometry/window-geometry.js";
 import { dimensionToGeometry, dimChainToGeometry } from "./dimensions.js";
 import type { SGGroup, SGNode, SGSvgEmbed, SGText } from "./scene-graph.js";
 
-import type { FurnitureLayout, FurniturePackage } from "@plancraft/furniture";
-import { resolveElement } from "@plancraft/furniture";
+import type { FurnitureLayout, FurniturePackage, FurnitureElement } from "@plancraft/furniture";
+import { resolveElement, parseSvg } from "@plancraft/furniture";
 
 export function buildScene(project: ResolvedProject): SGGroup {
   const children: SGNode[] = [];
@@ -56,6 +56,48 @@ export function buildSceneWithFurniture(
 }
 
 /**
+ * Resolve an element for a placement, checking packages first, then custom elements.
+ */
+function resolveElementForPlacement(
+  packages: FurniturePackage[],
+  layout: FurnitureLayout,
+  elementRef: string,
+): FurnitureElement | null {
+  // Try resolving from loaded packages first
+  const fromPackage = resolveElement(packages, elementRef);
+  if (fromPackage) return fromPackage;
+
+  // Check custom elements embedded in the layout
+  const slashIdx = elementRef.indexOf("/");
+  if (slashIdx < 0) return null;
+
+  const pkgName = elementRef.slice(0, slashIdx);
+  const elemId = elementRef.slice(slashIdx + 1);
+
+  if (pkgName !== "custom" || !layout.customElements) return null;
+
+  const customDef = layout.customElements[elemId];
+  if (!customDef) return null;
+
+  // Parse the SVG to extract inner content and viewBox
+  const { viewBoxWidth, viewBoxHeight, innerSvg } = parseSvg(customDef.svg);
+
+  return {
+    id: elemId,
+    meta: {
+      name: customDef.name,
+      category: customDef.category,
+      defaultWidth: customDef.defaultWidth,
+      defaultDepth: customDef.defaultDepth,
+    },
+    svg: customDef.svg,
+    innerSvg,
+    viewBoxWidth,
+    viewBoxHeight,
+  };
+}
+
+/**
  * Build a scene graph group containing all furniture placements.
  */
 export function buildFurnitureScene(
@@ -65,12 +107,24 @@ export function buildFurnitureScene(
   const children: SGNode[] = [];
 
   for (const placement of layout.placements) {
-    const element = resolveElement(packages, placement.element);
+    const element = resolveElementForPlacement(packages, layout, placement.element);
     if (!element) continue;
 
-    const width = placement.width ?? element.meta.defaultWidth;
-    const depth = placement.depth ?? element.meta.defaultDepth;
-    const rotation = placement.rotation ?? 0;
+    // Check if this is a legacy placement with absolute width/depth
+    const isLegacy = (placement as unknown as Record<string, unknown>)["_legacyAbsolute"] === true;
+
+    let width: number;
+    let height: number;
+
+    if (isLegacy) {
+      // Legacy: scaleWidth/scaleDepth actually contain absolute mm values
+      width = placement.scaleWidth || element.meta.defaultWidth;
+      height = placement.scaleDepth || element.meta.defaultDepth;
+    } else {
+      // New: compute actual dimensions from scale percentage
+      width = element.meta.defaultWidth * (placement.scaleWidth / 100);
+      height = element.meta.defaultDepth * (placement.scaleDepth / 100);
+    }
 
     const embed: SGSvgEmbed = {
       type: "svg_embed",
@@ -80,8 +134,8 @@ export function buildFurnitureScene(
       x: placement.position.x,
       y: placement.position.y,
       width,
-      height: depth,
-      rotation,
+      height,
+      rotation: placement.rotation,
       layer: "furniture",
     };
 

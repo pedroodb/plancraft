@@ -15,6 +15,7 @@ Add interior furnishings to each room using the furniture placement system:
 - Bedroom fixtures (bed, wardrobe)
 - Cars in garages
 - Staircases
+- Custom elements for anything not in the built-in packages
 
 ## How Furniture Works
 
@@ -24,25 +25,36 @@ Furniture is stored in a **separate `.pcf` file**, not inside the `.pc` structur
 
 When working in the web app, use the furniture tools:
 
-1. **`list_furniture_elements`** — See all available elements from packages
+1. **`list_furniture_elements`** — See all available elements from packages (including custom)
 2. **`get_furniture_layout`** — Read the current furniture placements
-3. **`add_furniture_placement`** — Add a furniture item to the layout
-4. **`remove_furniture_placement`** — Remove a placement by index
-5. **`replace_furniture_layout`** — Replace the entire furniture layout
+3. **`create_furniture_element`** — Create a custom SVG element on the fly
+4. **`add_furniture_placement`** — Add a furniture item to the layout
+5. **`remove_furniture_placement`** — Remove a placement by index
+6. **`replace_furniture_layout`** — Replace the entire furniture layout
 
-### CLI Workflow
+### Creating Custom Elements
 
-```bash
-# Compile structure only (no furniture)
-plancraft compile plan.pc --structure-only -o plan-structure.svg
+If the furniture you need doesn't exist in the built-in packages, create it:
 
-# Compile with furniture overlay
-plancraft compile plan.pc --furniture plan.pcf -o plan.svg
-
-# Add furniture via CLI
-plancraft furniture add default/bed --to plan.pcf --pos 2000,1750 --room Bedroom
-plancraft furniture add default/sofa --to plan.pcf --pos 3000,2000 --width 2200 --room "Living Room"
 ```
+create_furniture_element({
+  id: "plant_pot",
+  name: "Plant Pot",
+  category: "living",
+  defaultWidth: 400,
+  defaultDepth: 400,
+  svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><circle cx="200" cy="200" r="180" fill="#e8e8e8" stroke="black" stroke-width="5"/><circle cx="200" cy="200" r="120" fill="#d0d0d0" stroke="black" stroke-width="3"/></svg>'
+})
+```
+
+Then place it with: `add_furniture_placement({ element: "custom/plant_pot", position: {x: 1000, y: 2000} })`
+
+**SVG guidelines:**
+- `viewBox` must match `"0 0 {defaultWidth} {defaultDepth}"`
+- Use plan-view (top-down, bird's-eye) perspective
+- Use black strokes and `#e8e8e8` fills
+- Keep SVG simple and schematic (no gradients, shadows, or complex effects)
+- Use `stroke-width` proportional to element size (1-8)
 
 ## Step-by-Step Furniture Workflow
 
@@ -50,7 +62,7 @@ plancraft furniture add default/sofa --to plan.pcf --pos 3000,2000 --width 2200 
 
 For each room, list what furniture should be placed:
 - Reference the source image/plan for furniture types and approximate positions
-- Note any furniture that the format cannot represent
+- Note any furniture not in built-in packages — create custom elements for these
 
 ### 2. Place Furniture Room by Room
 
@@ -59,22 +71,35 @@ Use `add_furniture_placement` or `replace_furniture_layout` to add items:
 ```jsonc
 {
   "placements": [
-    { "element": "default/bed", "position": {"x": 2500, "y": 2000}, "width": 1400, "depth": 2000, "room": "Bedroom" },
-    { "element": "default/desk", "position": {"x": 4000, "y": 500}, "width": 1200, "depth": 600, "rotation": 90, "room": "Bedroom" }
+    {
+      "element": "default/bed",
+      "position": {"x": 2500, "y": 2000},
+      "room": "Bedroom"
+    },
+    {
+      "element": "default/desk",
+      "position": {"x": 4000, "y": 500},
+      "scaleWidth": 120,
+      "scaleDepth": 120,
+      "lockProportions": true,
+      "rotation": 90,
+      "room": "Bedroom"
+    }
   ]
 }
 ```
 
 - **position** `{"x": N, "y": N}` is the center point in absolute coordinates
-- **width** is along the primary axis, **depth** perpendicular
+- **scaleWidth** / **scaleDepth** are percentages of the original size (100 = default)
+- **lockProportions** — when `true`, width and depth scale together
 - **rotation** orients the piece (0 = default, 90 = clockwise)
 - **room** is optional but helps organize large layouts
 
 ### 3. Common Furniture Sizes (mm)
 
-| Element | Typical Size (W x D) |
+| Element | Default Size (W x D) |
 |---------|---------------------|
-| default/bed (single) | 900 x 2000 |
+| default/bed (single, use scaleWidth: 65) | ~900 x 2000 |
 | default/bed (double) | 1400 x 2000 |
 | default/sofa | 2000 x 900 |
 | default/l_sofa | 2400 x 2000 |
@@ -101,6 +126,8 @@ Use `add_furniture_placement` or `replace_furniture_layout` to add items:
 - **Group by function**: Kitchen appliances along the counter wall, bathroom fixtures along the plumbing wall
 - **Use rotation**: Orient beds with headboard against wall (rotation 0 = head at top)
 - **Scale check**: Ensure furniture fits within the room boundaries
+- **Use scale for sizing**: Use `scaleWidth`/`scaleDepth` percentages rather than guessing mm sizes
+- **Create custom elements**: If a piece doesn't exist in built-in packages, create it with `create_furniture_element`
 
 ### 5. Furniture Self-Review Checklist
 
@@ -109,6 +136,7 @@ Use `add_furniture_placement` or `replace_furniture_layout` to add items:
 - [ ] Clearance between furniture pieces is reasonable (>= 600mm for walkways)
 - [ ] Furniture positions match the reference image layout
 - [ ] Cars fit within garage with door clearance
+- [ ] Missing furniture types created as custom elements
 - [ ] Unsupported fixtures are documented with comments
 
 ## Related Rules
