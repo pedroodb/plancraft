@@ -10,7 +10,7 @@ Doors are objects in a room's `"doors"` array:
 
 - **`wall`** — References a wall direction defined in the same room
 - **`offset`** — Distance from the wall's `from` point to the door hinge
-- **`width`** — Door panel width (standard: `900` mm for single, `1200` mm for double)
+- **`width`** — Door panel width (standard: 0.9m / `900` for single, 1.2m / `1200` for double)
 - **`swing`** — `"left"`, `"right"`, or `"sliding"`
 
 ### Door Examples
@@ -55,7 +55,7 @@ Use `"swing": "sliding"` to render a sliding door (two parallel lines instead of
 ## Placement Tips
 
 - Ensure `offset + width` does not exceed the wall length
-- Leave at least 200mm from wall corners for structural integrity
-- Standard door width: 800-900mm (interior), 900-1000mm (exterior)
-- Standard window sill height: 900mm (rooms), 1200mm (bathrooms)
+- Leave at least 0.2m from wall corners for structural integrity
+- Standard door width: 0.8–0.9m (interior), 0.9–1m (exterior)
+- Standard window sill height: 0.9m (rooms), 1.2m (bathrooms)
 - Use openings for archways, pass-throughs, and open-plan transitions

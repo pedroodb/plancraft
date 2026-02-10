@@ -36,7 +36,7 @@ plancraft compile plan.pc --furniture plan.pcf -o plan.svg
 ## Key Concepts
 
 - **File format is JSONC** (JSON with `//` and `/* */` comments)
-- **All measurements are in millimeters** by default (configurable with `"unit"`)
+- **Communicate measurements in meters** to users; internal .pc format uses millimeters (multiply by 1000)
 - **Coordinates are absolute** `{"x": N, "y": N}` positions
 - **Walls are defined by start/end points** with explicit thickness
 - **Wall direction names** can be cardinal directions (`"north"`, `"east"`, `"south"`, `"west"`) or custom strings (`"east lower"`)

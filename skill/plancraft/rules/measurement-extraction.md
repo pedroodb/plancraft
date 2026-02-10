@@ -2,13 +2,15 @@
 
 When reproducing a floor plan from a reference image, accurate dimension extraction is critical. Follow this process **before writing any JSON code**. You MUST output the full inventory as text in your response before calling any tools.
 
-## CRITICAL: Always Use Millimeters
+## Units: Communicate in Meters, Internal Format Uses Millimeters
 
-All coordinates and measurements in the plan MUST be in **millimeters**. The `"unit"` field MUST be `"mm"`.
+**Always communicate measurements in meters** when discussing with the user (e.g. "the bedroom is 3.8m × 4m").
 
-- Convert meter annotations immediately: `3.8m → 3800mm`, `0.76m → 760mm`
-- Wall thickness in mm: exterior `200`, interior `100-150`
-- Never use meters, centimeters, or any other unit in coordinates
+The internal .pc file format uses millimeters. The `"unit"` field MUST be `"mm"`.
+
+- Convert meters to mm for .pc files: `3.8m → 3800`, `0.76m → 760`
+- Wall thickness: exterior 0.2m (`200`), interior 0.1–0.15m (`100`–`150`)
+- In your inventory and responses, use meters. In .pc code, use mm.
 
 ## Step 1: Identify ALL Rooms
 
@@ -97,7 +99,7 @@ Example:
 
 ## Step 5: Map Dimensions to a Coordinate Grid
 
-For each room, compute its **absolute coordinates** in mm:
+For each room, compute its **absolute coordinates** (present in meters, convert to mm for .pc files):
 - Start with room(s) at the origin (bottom-left corner of the building at `{"x": 0, "y": 0}`)
 - Work outward: rooms to the right share the X coordinate of the left room's right wall
 - Work upward: rooms above share the Y coordinate of the bottom room's top wall
@@ -151,8 +153,8 @@ If any check fails, go back and re-examine the image before proceeding.
 
 ## Tips
 
-- Convert all dimensions to **millimeters** immediately — NEVER use meters in coordinates
-- Multiply meter values by 1000: `3.8m → 3800mm`
+- Present all dimensions in **meters** when communicating with the user
+- Convert meters to mm for .pc files: multiply by 1000 (`3.8m → 3800`)
 - Account for wall thickness when computing room coordinates
 - When in doubt, favor the annotated dimension over your estimate
 - Double-check that no rooms overlap by verifying coordinate ranges

@@ -72,8 +72,8 @@ For each room:
 - Calculate `offset` from the wall's `from` point to the door/window start
 - Verify `offset + width` does not exceed wall length
 - Use `"swing": "left"` or `"right"` for hinged doors, `"swing": "sliding"` for sliding doors
-- Standard door widths: 600-700mm (interior), 800-900mm (exterior), 3000-4000mm (garage)
-- Standard window sill height: 900mm
+- Standard door widths: 0.6–0.7m (interior), 0.8–0.9m (exterior), 3–4m (garage)
+- Standard window sill height: 0.9m
 
 ### 5. Add Stairs (Structural Only)
 

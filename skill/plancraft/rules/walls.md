@@ -16,9 +16,9 @@ Walls are defined as objects in a room's `"walls"` array:
 
 ## Thickness Conventions
 
-- Exterior walls: `200`–`300` mm
-- Interior walls: `100`–`150` mm
-- Partition walls: `80`–`100` mm
+- Exterior walls: 0.2–0.3m (`200`–`300` in .pc file)
+- Interior walls: 0.1–0.15m (`100`–`150` in .pc file)
+- Partition walls: 0.08–0.1m (`80`–`100` in .pc file)
 
 ## Example
 

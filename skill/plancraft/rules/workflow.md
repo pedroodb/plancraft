@@ -7,9 +7,9 @@
 Before writing any JSON, you MUST analyze the reference thoroughly and **output the complete inventory as text**. Do NOT call any tools until this inventory is complete.
 
 1. **List ALL rooms** — every enclosed space (including hallways, stairwells, transition areas, small utility rooms). Use room names exactly as shown in the reference image, in the original language. Do NOT merge rooms. Do NOT translate names.
-2. **List total building dimensions** (W x H) from annotations, converted to mm
+2. **List total building dimensions** (W × H) from annotations, in meters
 3. **Read EVERY annotated dimension** from the reference image (see `measurement-extraction.md`)
-4. **Compute absolute coordinates** for each room's corners in millimeters
+4. **Compute absolute coordinates** for each room's corners (in meters for your inventory, convert to mm for .pc code)
 5. **Map the room adjacency graph** — which rooms share which walls
 6. **List all doors and windows** with their wall, offset, width, and swing direction
 7. **List furniture** visible in each room (using only supported types)
@@ -35,7 +35,7 @@ Do NOT start by defining individual rooms — start with the perimeter, then car
 Choose an origin point (usually bottom-left corner of the building footprint):
 - X increases to the right
 - Y increases upward (architectural convention)
-- All measurements in mm (default)
+- Communicate in meters to users; .pc coordinates use mm (multiply by 1000)
 
 ### 3. Define Rooms in Order
 

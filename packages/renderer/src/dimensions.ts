@@ -32,6 +32,13 @@ const TICK_SIZE = 80; // length of 45° tick mark in drawing units
 const FONT_SIZE = 120; // text size in drawing units
 const EXTENSION_OVERSHOOT = 100; // how far extension lines extend past dimension line
 
+/** Format a length in mm as meters for display (e.g. 5000 → "5", 1500 → "1.5", 1250 → "1.25") */
+function formatMeters(mm: number): string {
+  const m = mm / 1000;
+  // Up to 2 decimal places, strip trailing zeros
+  return parseFloat(m.toFixed(2)).toString();
+}
+
 export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
   const nodes: SGNode[] = [];
 
@@ -106,7 +113,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
     type: "text",
     x: mid.x + nx * textOffset,
     y: mid.y + ny * textOffset,
-    content: Math.round(dim.length).toString(),
+    content: formatMeters(dim.length),
     fontSize: FONT_SIZE,
     anchor: "middle",
     layer: "dimensions",
@@ -197,7 +204,7 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
       type: "text",
       x: mid.x + nx * textOffset,
       y: mid.y + ny * textOffset,
-      content: Math.round(seg.length).toString(),
+      content: formatMeters(seg.length),
       fontSize: FONT_SIZE,
       anchor: "middle",
       layer: "dimensions",

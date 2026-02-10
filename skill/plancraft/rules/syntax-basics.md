@@ -28,7 +28,7 @@ Every `.pc` file is a JSONC (JSON with Comments) document. The root is a project
 ## Structure
 
 - The root object has `"name"`, `"scale"`, `"unit"`, and `"floors"` fields
-- **`"unit"` MUST always be `"mm"`** — all coordinates and measurements are in millimeters
+- **`"unit"` MUST always be `"mm"`** — internal coordinates use millimeters (communicate in meters to users: 3.8m = 3800 in the file)
 - Each floor has `"name"` and `"rooms"`
 - Each room has `"name"`, `"walls"`, and optionally `"sharedWalls"`, `"doors"`, `"windows"`, and `"openings"`
 
