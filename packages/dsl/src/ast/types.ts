@@ -59,28 +59,6 @@ export interface WindowNode {
   sill: number;
 }
 
-export interface DimensionNode {
-  type: "dimension";
-  wallDirection: WallDirection;
-  roomName: string;
-  offset: number;
-}
-
-export interface DimChainNode {
-  type: "dimchain";
-  wallDirection: WallDirection;
-  roomName: string;
-  offset: number;
-  /** Waypoints along the wall (distances from wall.from) */
-  waypoints: number[];
-}
-
-export interface LabelNode {
-  type: "label";
-  text: string;
-  position: "center" | Point;
-}
-
 export interface OpeningNode {
   type: "opening";
   wallDirection: WallDirection;
@@ -96,7 +74,7 @@ export interface RoomNode {
   children: RoomChild[];
 }
 
-export type FloorChild = RoomNode | DimensionNode | DimChainNode | LabelNode;
+export type FloorChild = RoomNode;
 
 export interface FloorNode {
   type: "floor";
@@ -147,33 +125,6 @@ export interface ResolvedWindow {
   wall: ResolvedWall;
 }
 
-export interface ResolvedDimension {
-  from: Point;
-  to: Point;
-  offset: number;
-  direction: WallDirection;
-  length: number;
-}
-
-export interface ResolvedDimChainSegment {
-  from: Point;
-  to: Point;
-  length: number;
-}
-
-export interface ResolvedDimChain {
-  segments: ResolvedDimChainSegment[];
-  offset: number;
-  direction: WallDirection;
-  /** The wall's unit direction for offset calculation */
-  normal: Point;
-}
-
-export interface ResolvedLabel {
-  text: string;
-  position: Point;
-}
-
 export interface ResolvedOpening {
   wallDirection: WallDirection;
   position: Point;
@@ -194,9 +145,6 @@ export interface ResolvedRoom {
 export interface ResolvedFloor {
   name: string;
   rooms: ResolvedRoom[];
-  dimensions: ResolvedDimension[];
-  dimChains: ResolvedDimChain[];
-  labels: ResolvedLabel[];
 }
 
 export interface ResolvedProject {

@@ -4,15 +4,35 @@
  * Uses architectural convention: 45° tick marks instead of arrowheads.
  */
 
-import type { ResolvedDimChain, ResolvedDimension } from "@plancraft/dsl";
 import type { SGLine, SGNode, SGText } from "./scene-graph.js";
 import { LINE_WEIGHTS } from "./scene-graph.js";
+
+// ── Local types (formerly in @plancraft/dsl, now renderer-only) ─────
+
+export interface DimensionInput {
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  offset: number;
+  length: number;
+}
+
+export interface DimChainSegment {
+  from: { x: number; y: number };
+  to: { x: number; y: number };
+  length: number;
+}
+
+export interface DimChainInput {
+  segments: DimChainSegment[];
+  offset: number;
+  normal: { x: number; y: number };
+}
 
 const TICK_SIZE = 80; // length of 45° tick mark in drawing units
 const FONT_SIZE = 120; // text size in drawing units
 const EXTENSION_OVERSHOOT = 100; // how far extension lines extend past dimension line
 
-export function dimensionToGeometry(dim: ResolvedDimension): SGNode[] {
+export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
   const nodes: SGNode[] = [];
 
   // Determine offset direction (perpendicular to the wall)
@@ -101,7 +121,7 @@ export function dimensionToGeometry(dim: ResolvedDimension): SGNode[] {
  * Extension lines are drawn for each waypoint, tick marks at each point,
  * and measurement text centered on each segment.
  */
-export function dimChainToGeometry(chain: ResolvedDimChain): SGNode[] {
+export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
   const nodes: SGNode[] = [];
   const nx = chain.normal.x;
   const ny = chain.normal.y;

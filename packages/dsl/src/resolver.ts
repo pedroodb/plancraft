@@ -4,19 +4,13 @@
  */
 
 import {
-  DimChainNode,
-  DimensionNode,
   DoorNode,
   FloorNode,
-  LabelNode,
   OpeningNode,
   Point,
   ProjectNode,
-  ResolvedDimChain,
-  ResolvedDimension,
   ResolvedDoor,
   ResolvedFloor,
-  ResolvedLabel,
   ResolvedOpening,
   ResolvedProject,
   ResolvedRoom,
@@ -209,12 +203,6 @@ function wallPolygon(
   return { polygon: straightWallPolygon(from, to, thickness) };
 }
 
-function wallLength(from: Point, to: Point): number {
-  const dx = to.x - from.x;
-  const dy = to.y - from.y;
-  return Math.sqrt(dx * dx + dy * dy);
-}
-
 /**
  * Compute the position along a wall centerline at a given offset from `from`.
  */
@@ -265,27 +253,12 @@ export function resolve(project: ProjectNode): ResolvedProject {
 }
 
 function resolveFloor(floor: FloorNode): ResolvedFloor {
-  // First pass: resolve all rooms (needed for shared wall lookups)
   const roomMap = new Map<string, ResolvedRoom>();
   const rooms: RoomNode[] = [];
-  const dimensions: DimensionNode[] = [];
-  const dimChains: DimChainNode[] = [];
-  const labels: LabelNode[] = [];
 
   for (const child of floor.children) {
-    switch (child.type) {
-      case "room":
-        rooms.push(child);
-        break;
-      case "dimension":
-        dimensions.push(child);
-        break;
-      case "dimchain":
-        dimChains.push(child);
-        break;
-      case "label":
-        labels.push(child);
-        break;
+    if (child.type === "room") {
+      rooms.push(child);
     }
   }
 
@@ -295,25 +268,9 @@ function resolveFloor(floor: FloorNode): ResolvedFloor {
     roomMap.set(room.name, resolved);
   }
 
-  // Resolve dimensions
-  const resolvedDimensions = dimensions.map((d) =>
-    resolveDimension(d, roomMap),
-  );
-
-  // Resolve dim chains
-  const resolvedDimChains = dimChains.map((dc) =>
-    resolveDimChain(dc, roomMap),
-  );
-
-  // Resolve labels
-  const resolvedLabels = labels.map((l) => resolveLabel(l, roomMap));
-
   return {
     name: floor.name,
     rooms: Array.from(roomMap.values()),
-    dimensions: resolvedDimensions,
-    dimChains: resolvedDimChains,
-    labels: resolvedLabels,
   };
 }
 
@@ -469,98 +426,3 @@ function resolveOpening(
   };
 }
 
-function resolveDimension(
-  dim: DimensionNode,
-  roomMap: Map<string, ResolvedRoom>,
-): ResolvedDimension {
-  const room = roomMap.get(dim.roomName);
-  if (!room)
-    throw new ResolveError(
-      `Dimension references room "${dim.roomName}", which does not exist`,
-    );
-
-  const wall = room.walls.find((w) => w.direction === dim.wallDirection);
-  if (!wall)
-    throw new ResolveError(
-      `Dimension references wall.${dim.wallDirection} from room "${dim.roomName}", which does not exist`,
-    );
-
-  return {
-    from: wall.from,
-    to: wall.to,
-    offset: dim.offset,
-    direction: dim.wallDirection,
-    length: wallLength(wall.from, wall.to),
-  };
-}
-
-function resolveDimChain(
-  dc: DimChainNode,
-  roomMap: Map<string, ResolvedRoom>,
-): ResolvedDimChain {
-  const room = roomMap.get(dc.roomName);
-  if (!room)
-    throw new ResolveError(
-      `Dimchain references room "${dc.roomName}", which does not exist`,
-    );
-
-  const wall = room.walls.find((w) => w.direction === dc.wallDirection);
-  if (!wall)
-    throw new ResolveError(
-      `Dimchain references wall.${dc.wallDirection} from room "${dc.roomName}", which does not exist`,
-    );
-
-  if (dc.waypoints.length < 2)
-    throw new ResolveError(
-      `Dimchain needs at least 2 waypoints, got ${dc.waypoints.length}`,
-    );
-
-  // Compute wall unit direction and normal
-  const wdx = wall.to.x - wall.from.x;
-  const wdy = wall.to.y - wall.from.y;
-  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
-  const ux = wdx / wlen;
-  const uy = wdy / wlen;
-  const nx = -uy;
-  const ny = ux;
-
-  const segments = [];
-  for (let i = 0; i < dc.waypoints.length - 1; i++) {
-    const fromOffset = dc.waypoints[i];
-    const toOffset = dc.waypoints[i + 1];
-    segments.push({
-      from: {
-        x: wall.from.x + ux * fromOffset,
-        y: wall.from.y + uy * fromOffset,
-      },
-      to: {
-        x: wall.from.x + ux * toOffset,
-        y: wall.from.y + uy * toOffset,
-      },
-      length: Math.abs(toOffset - fromOffset),
-    });
-  }
-
-  return {
-    segments,
-    offset: dc.offset,
-    direction: dc.wallDirection,
-    normal: { x: nx, y: ny },
-  };
-}
-
-function resolveLabel(
-  label: LabelNode,
-  roomMap: Map<string, ResolvedRoom>,
-): ResolvedLabel {
-  if (label.position === "center") {
-    // Find the room by label text
-    const room = roomMap.get(label.text);
-    if (!room)
-      throw new ResolveError(
-        `Label "${label.text}" uses 'center area' but no room named "${label.text}" exists`,
-      );
-    return { text: label.text, position: room.center };
-  }
-  return { text: label.text, position: label.position };
-}

@@ -192,44 +192,6 @@
             { "wall": "north", "offset": 800, "width": 1200, "height": 1400, "sill": 900 }
           ]
         }
-      ],
-
-      // ── Dimensions ────────────────────────────────────────────────────
-      "dimchains": [
-        // South facade
-        { "wall": "south", "room": "Cochera", "offset": 800, "waypoints": [0, 500, 4300, 4780] },
-        { "wall": "south", "room": "Estar", "offset": 800, "waypoints": [0, 350, 1110, 1490, 2350, 2810] },
-        // North facade
-        { "wall": "north", "room": "Cocina", "offset": 500, "waypoints": [0, 760, 1520, 2280, 3040, 3800] },
-        { "wall": "north", "room": "Dormitorio", "offset": 500, "waypoints": [0, 800, 2000, 3790] }
-      ],
-      "dimensions": [
-        // West facade
-        { "wall": "west", "room": "Cochera", "offset": 800 },
-        { "wall": "west", "room": "Pasillo", "offset": 800 },
-        { "wall": "west", "room": "Comedor", "offset": 800 },
-        { "wall": "west", "room": "Cocina", "offset": 800 },
-        // East facade
-        { "wall": "east", "room": "Estar", "offset": 800 },
-        { "wall": "east", "room": "Toilette", "offset": 800 },
-        { "wall": "east", "room": "Baño", "offset": 800 },
-        { "wall": "east", "room": "Living", "offset": 800 },
-        { "wall": "east", "room": "Dormitorio", "offset": 800 }
-      ],
-
-      // ── Labels ────────────────────────────────────────────────────────
-      "labels": [
-        { "text": "Cochera", "position": {"x": 2390, "y": 2500} },
-        { "text": "Estar", "position": "center" },
-        { "text": "Toilette", "position": {"x": 6690, "y": 4110} },
-        { "text": "Pasillo", "position": "center" },
-        { "text": "Paso", "position": {"x": 4410, "y": 5350} },
-        { "text": "Escalera", "position": {"x": 4410, "y": 6650} },
-        { "text": "Baño", "position": {"x": 6305, "y": 6300} },
-        { "text": "Comedor", "position": "center" },
-        { "text": "Living", "position": {"x": 5695, "y": 9625} },
-        { "text": "Cocina", "position": "center" },
-        { "text": "Dormitorio", "position": "center" }
       ]
     }
   ]

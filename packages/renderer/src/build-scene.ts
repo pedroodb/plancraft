@@ -14,6 +14,7 @@ import type { WallOpening } from "./geometry/wall-geometry.js";
 import { doorToGeometry } from "./geometry/door-geometry.js";
 import { windowToGeometry } from "./geometry/window-geometry.js";
 import { dimensionToGeometry, dimChainToGeometry } from "./dimensions.js";
+import type { DimensionInput, DimChainInput } from "./dimensions.js";
 import type { SGGroup, SGNode, SGSvgEmbed, SGText } from "./scene-graph.js";
 
 import type { FurnitureLayout, FurniturePackage, FurnitureElement } from "@plancraft/furniture";
@@ -322,28 +323,51 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
     }
   }
 
-  // Dimensions
-  for (const dim of floor.dimensions) {
-    children.push(...dimensionToGeometry(dim));
-  }
-
-  // Dimension chains
-  for (const dc of floor.dimChains) {
-    children.push(...dimChainToGeometry(dc));
-  }
-
-  // Labels
-  for (const label of floor.labels) {
-    const text: SGText = {
+  // Auto-generate labels: one per room at its geometric center
+  for (const room of floor.rooms) {
+    const label: SGText = {
       type: "text",
-      x: label.position.x,
-      y: label.position.y,
-      content: label.text,
+      x: room.center.x,
+      y: room.center.y,
+      content: room.name,
       fontSize: 150,
       anchor: "middle",
       layer: "labels",
     };
-    children.push(text);
+    children.push(label);
+  }
+
+  // Auto-generate dimensions: one per unique wall
+  const dimensionedWalls = new Set<string>();
+  const DEFAULT_DIM_OFFSET = 500;
+
+  for (const room of floor.rooms) {
+    for (const wall of room.walls) {
+      const key = wallKey(wall.from.x, wall.from.y, wall.to.x, wall.to.y);
+      if (dimensionedWalls.has(key)) continue;
+      dimensionedWalls.add(key);
+
+      const wdx = wall.to.x - wall.from.x;
+      const wdy = wall.to.y - wall.from.y;
+      const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+      if (wlen === 0) continue;
+
+      // Collect openings (doors, windows, openings) on this wall
+      const openingRanges = collectWallOpeningRanges(wall, room, wlen);
+
+      if (openingRanges.length > 0) {
+        // Build a dimchain with waypoints at each opening boundary
+        const waypoints = buildWaypoints(openingRanges, wlen);
+        if (waypoints.length >= 2) {
+          const chain = buildDimChain(wall, waypoints, DEFAULT_DIM_OFFSET);
+          children.push(...dimChainToGeometry(chain));
+        }
+      } else {
+        // Simple full-wall dimension
+        const dim = buildDimension(wall, wlen, DEFAULT_DIM_OFFSET);
+        children.push(...dimensionToGeometry(dim));
+      }
+    }
   }
 
   return {
@@ -351,6 +375,122 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
     id: floor.name,
     children,
   };
+}
+
+// ── Auto-dimension helpers ────────────────────────────────────────────
+
+interface OpeningRange {
+  start: number;
+  end: number;
+}
+
+/**
+ * Collect the offset ranges of all openings (doors, windows, openings) on a wall.
+ */
+function collectWallOpeningRanges(
+  wall: ResolvedWall,
+  room: ResolvedRoom,
+  wallLen: number,
+): OpeningRange[] {
+  const ranges: OpeningRange[] = [];
+
+  for (const door of room.doors) {
+    if (door.wall === wall) {
+      // door.position is the start point; offset = projection along wall
+      const dx = door.position.x - wall.from.x;
+      const dy = door.position.y - wall.from.y;
+      const ux = (wall.to.x - wall.from.x) / wallLen;
+      const uy = (wall.to.y - wall.from.y) / wallLen;
+      const offset = dx * ux + dy * uy;
+      ranges.push({ start: offset, end: offset + door.width });
+    }
+  }
+
+  for (const win of room.windows) {
+    if (win.wall === wall) {
+      const dx = win.position.x - wall.from.x;
+      const dy = win.position.y - wall.from.y;
+      const ux = (wall.to.x - wall.from.x) / wallLen;
+      const uy = (wall.to.y - wall.from.y) / wallLen;
+      const offset = dx * ux + dy * uy;
+      ranges.push({ start: offset, end: offset + win.width });
+    }
+  }
+
+  for (const op of room.openings) {
+    if (op.wall === wall) {
+      const dx = op.position.x - wall.from.x;
+      const dy = op.position.y - wall.from.y;
+      const ux = (wall.to.x - wall.from.x) / wallLen;
+      const uy = (wall.to.y - wall.from.y) / wallLen;
+      const offset = dx * ux + dy * uy;
+      ranges.push({ start: offset, end: offset + op.width });
+    }
+  }
+
+  // Sort by start offset
+  ranges.sort((a, b) => a.start - b.start);
+  return ranges;
+}
+
+/**
+ * Build sorted unique waypoints from opening ranges plus wall start/end.
+ */
+function buildWaypoints(ranges: OpeningRange[], wallLen: number): number[] {
+  const set = new Set<number>();
+  set.add(0);
+  set.add(wallLen);
+  for (const r of ranges) {
+    set.add(r.start);
+    set.add(r.end);
+  }
+  return Array.from(set).sort((a, b) => a - b);
+}
+
+/**
+ * Build a DimensionInput for a full wall.
+ */
+function buildDimension(
+  wall: ResolvedWall,
+  wallLen: number,
+  offset: number,
+): DimensionInput {
+  return {
+    from: wall.from,
+    to: wall.to,
+    offset,
+    length: wallLen,
+  };
+}
+
+/**
+ * Build a DimChainInput from waypoints along a wall.
+ */
+function buildDimChain(
+  wall: ResolvedWall,
+  waypoints: number[],
+  offset: number,
+): DimChainInput {
+  const wdx = wall.to.x - wall.from.x;
+  const wdy = wall.to.y - wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  const ux = wdx / wlen;
+  const uy = wdy / wlen;
+  const nx = -uy;
+  const ny = ux;
+
+  const segments = [];
+  for (let i = 0; i < waypoints.length - 1; i++) {
+    const fromOff = waypoints[i];
+    const toOff = waypoints[i + 1];
+    segments.push({
+      from: { x: wall.from.x + ux * fromOff, y: wall.from.y + uy * fromOff },
+      to: { x: wall.from.x + ux * toOff, y: wall.from.y + uy * toOff },
+      length: Math.abs(toOff - fromOff),
+    });
+  }
+
+  return { segments, offset, normal: { x: nx, y: ny } };
 }
 
 function wallKey(x1: number, y1: number, x2: number, y2: number): string {

@@ -60,24 +60,7 @@ Create a `.pcf` file with furniture placements:
 - Optionally set width, depth overrides, and rotation
 - Use the `"room"` field for organizational grouping
 
-### 6. Add Dimensions
-
-In the floor object's `"dimensions"` and `"dimchains"` arrays:
-- Use dimensions for full wall measurements
-- Use dimchains for segmented measurements along a wall
-- Offset dimensions 400-500mm from wall for detail, 800-1000mm for overall
-- **Every exterior wall face** should have at least one dimension or dimchain annotation
-- Use dimchains to show segment breakdowns (wall-to-opening, opening-to-opening, etc.)
-
-### 7. Add Labels
-
-In the floor object's `"labels"` array:
-
-```jsonc
-{ "text": "Room Name", "position": "center" }
-```
-
-### 8. Self-Review Checklist
+### 6. Self-Review Checklist
 
 Before considering the plan complete, verify ALL of the following:
 
@@ -85,12 +68,11 @@ Before considering the plan complete, verify ALL of the following:
 2. **Height check**: Room heights along each column sum to total building height
 3. **Closed polygons**: Every room's last wall `to` matches its first wall `from`
 4. **Shared wall alignment**: Adjacent rooms share exact coordinates at their shared walls
-5. **Dimension coverage**: Every annotated dimension from the reference is represented in the output
-6. **No overlaps**: No two rooms occupy the same coordinate space
-7. **Opening bounds**: Every door/window `offset + width` fits within its wall's length
-8. **Unsupported elements**: All features the format can't represent are documented in comments
+5. **No overlaps**: No two rooms occupy the same coordinate space
+6. **Opening bounds**: Every door/window `offset + width` fits within its wall's length
+7. **Unsupported elements**: All features the format can't represent are documented in comments
 
-### 9. Compile and Review
+### 7. Compile and Review
 
 ```bash
 # Structure only
@@ -103,7 +85,6 @@ plancraft compile plan.pc --furniture plan.pcf -o plan.svg
 Open the SVG and verify:
 - All walls connect properly
 - Doors and windows are in correct positions
-- Dimensions are readable and accurate
 - Furniture is properly placed within room boundaries
 
 ## Common Patterns

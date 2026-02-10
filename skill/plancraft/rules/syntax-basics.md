@@ -19,9 +19,7 @@ Every `.pc` file is a JSONC (JSON with Comments) document. The root is a project
           "doors": [ /* ... */ ],
           "windows": [ /* ... */ ]
         }
-      ],
-      "dimensions": [ /* ... */ ],
-      "labels": [ /* ... */ ]
+      ]
     }
   ]
 }
@@ -31,7 +29,7 @@ Every `.pc` file is a JSONC (JSON with Comments) document. The root is a project
 
 - The root object has `"name"`, `"scale"`, `"unit"`, and `"floors"` fields
 - **`"unit"` MUST always be `"mm"`** — all coordinates and measurements are in millimeters
-- Each floor has `"name"`, `"rooms"`, and optionally `"dimensions"`, `"dimchains"`, and `"labels"`
+- Each floor has `"name"` and `"rooms"`
 - Each room has `"name"`, `"walls"`, and optionally `"sharedWalls"`, `"doors"`, `"windows"`, and `"openings"`
 
 ## Comments

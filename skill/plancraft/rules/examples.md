@@ -28,13 +28,6 @@
             { "wall": "east", "offset": 1000, "width": 1200, "height": 1400, "sill": 900 }
           ]
         }
-      ],
-      "dimensions": [
-        { "wall": "north", "room": "Studio", "offset": 500 },
-        { "wall": "east", "room": "Studio", "offset": 500 }
-      ],
-      "labels": [
-        { "text": "Studio", "position": "center" }
       ]
     }
   ]
@@ -97,17 +90,6 @@
             { "wall": "north", "offset": 1000, "width": 1200, "height": 1400, "sill": 900 }
           ]
         }
-      ],
-      "dimchains": [
-        { "wall": "north", "room": "Living Room", "offset": 500, "waypoints": [0, 1500, 2400, 6000] }
-      ],
-      "dimensions": [
-        { "wall": "north", "room": "Kitchen", "offset": 500 },
-        { "wall": "east", "room": "Living Room", "offset": 500 }
-      ],
-      "labels": [
-        { "text": "Living Room", "position": "center" },
-        { "text": "Kitchen", "position": "center" }
       ]
     }
   ]
@@ -135,6 +117,5 @@
 
 1. **Shared walls via coordinates**: Adjacent rooms share wall coordinates exactly (e.g., x=6000 is the boundary between Living Room and Kitchen)
 2. **Shared walls with `sharedWalls`**: Kitchen references Living Room's east wall as its west wall
-3. **Dimension chains on facades**: Shows segment breakdowns along walls with openings
-4. **Separate furniture file**: All furniture placements in a .pcf file with room tags for organization
-5. **Element references**: Using `"default/sofa"` format instead of inline furniture types
+3. **Separate furniture file**: All furniture placements in a .pcf file with room tags for organization
+4. **Element references**: Using `"default/sofa"` format instead of inline furniture types

@@ -6,13 +6,10 @@
  */
 
 import {
-  DimChainNode,
-  DimensionNode,
   DoorNode,
   FloorChild,
   FloorNode,
   OpeningNode,
-  LabelNode,
   Point,
   ProjectNode,
   RoomChild,
@@ -269,62 +266,6 @@ function transformRoom(raw: unknown, floorName: string): RoomNode {
   return { type: "room", name, children };
 }
 
-function transformDimension(raw: unknown, floorName: string): DimensionNode {
-  if (typeof raw !== "object" || raw === null) {
-    throw new ParseError(`Dimension in floor "${floorName}" must be an object`);
-  }
-  const obj = raw as Record<string, unknown>;
-  const ctx = `Dimension in floor "${floorName}"`;
-  return {
-    type: "dimension",
-    wallDirection: requireString(obj, "wall", ctx),
-    roomName: requireString(obj, "room", ctx),
-    offset: requireNumber(obj, "offset", ctx),
-  };
-}
-
-function transformDimChain(raw: unknown, floorName: string): DimChainNode {
-  if (typeof raw !== "object" || raw === null) {
-    throw new ParseError(`Dimchain in floor "${floorName}" must be an object`);
-  }
-  const obj = raw as Record<string, unknown>;
-  const ctx = `Dimchain in floor "${floorName}"`;
-  const waypoints = requireArray(obj, "waypoints", ctx);
-  for (let i = 0; i < waypoints.length; i++) {
-    if (typeof waypoints[i] !== "number") {
-      throw new ParseError(`${ctx}: waypoints[${i}] must be a number`);
-    }
-  }
-  return {
-    type: "dimchain",
-    wallDirection: requireString(obj, "wall", ctx),
-    roomName: requireString(obj, "room", ctx),
-    offset: requireNumber(obj, "offset", ctx),
-    waypoints: waypoints as number[],
-  };
-}
-
-function transformLabel(raw: unknown, floorName: string): LabelNode {
-  if (typeof raw !== "object" || raw === null) {
-    throw new ParseError(`Label in floor "${floorName}" must be an object`);
-  }
-  const obj = raw as Record<string, unknown>;
-  const ctx = `Label in floor "${floorName}"`;
-  const text = requireString(obj, "text", ctx);
-  const pos = obj["position"];
-
-  let position: "center" | Point;
-  if (pos === "center") {
-    position = "center";
-  } else if (typeof pos === "object" && pos !== null && !Array.isArray(pos)) {
-    position = requirePoint(pos, `${ctx} "position"`);
-  } else {
-    throw new ParseError(`${ctx}: "position" must be "center" or a point object {"x": number, "y": number}`);
-  }
-
-  return { type: "label", text, position };
-}
-
 function transformFloor(raw: unknown, projectName: string): FloorNode {
   if (typeof raw !== "object" || raw === null) {
     throw new ParseError(`Floor in project "${projectName}" must be an object`);
@@ -338,15 +279,6 @@ function transformFloor(raw: unknown, projectName: string): FloorNode {
 
   for (const r of optionalArray(obj, "rooms")) {
     children.push(transformRoom(r, name));
-  }
-  for (const d of optionalArray(obj, "dimensions")) {
-    children.push(transformDimension(d, name));
-  }
-  for (const dc of optionalArray(obj, "dimchains")) {
-    children.push(transformDimChain(dc, name));
-  }
-  for (const l of optionalArray(obj, "labels")) {
-    children.push(transformLabel(l, name));
   }
 
   return { type: "floor", name, children };

@@ -39,15 +39,6 @@
             { "wall": "north", "offset": 1000, "width": 1200, "height": 1400, "sill": 900 }
           ]
         }
-      ],
-      "dimensions": [
-        { "wall": "north", "room": "Living Room", "offset": 500 },
-        { "wall": "north", "room": "Kitchen", "offset": 500 },
-        { "wall": "east", "room": "Living Room", "offset": 500 }
-      ],
-      "labels": [
-        { "text": "Living Room", "position": "center" },
-        { "text": "Kitchen", "position": "center" }
       ]
     }
   ]

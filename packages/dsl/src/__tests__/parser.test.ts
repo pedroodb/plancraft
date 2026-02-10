@@ -128,67 +128,6 @@ describe("Parser", () => {
     assert.equal(win.sill, 900);
   });
 
-  it("parses dimensions", () => {
-    const source = JSON.stringify({
-      name: "Test",
-      scale: 100,
-      unit: "mm",
-      floors: [{
-        name: "F1",
-        rooms: [{
-          name: "R1",
-          walls: [
-            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200 },
-            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
-            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
-          ],
-        }],
-        dimensions: [
-          { wall: "north", room: "R1", offset: 500 },
-        ],
-      }],
-    });
-    const ast = parse(source);
-    const dims = ast.floors[0].children.filter((c) => c.type === "dimension");
-    assert.equal(dims.length, 1);
-    const dim = dims[0];
-    if (dim.type !== "dimension") return;
-    assert.equal(dim.wallDirection, "north");
-    assert.equal(dim.roomName, "R1");
-    assert.equal(dim.offset, 500);
-  });
-
-  it("parses labels with center position", () => {
-    const source = JSON.stringify({
-      name: "Test",
-      scale: 100,
-      unit: "mm",
-      floors: [{
-        name: "F1",
-        rooms: [{
-          name: "R1",
-          walls: [
-            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200 },
-            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
-            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
-          ],
-        }],
-        labels: [
-          { text: "R1", position: "center" },
-        ],
-      }],
-    });
-    const ast = parse(source);
-    const labels = ast.floors[0].children.filter((c) => c.type === "label");
-    assert.equal(labels.length, 1);
-    const label = labels[0];
-    if (label.type !== "label") return;
-    assert.equal(label.text, "R1");
-    assert.equal(label.position, "center");
-  });
-
   it("parses shared walls", () => {
     const source = JSON.stringify({
       name: "Test",

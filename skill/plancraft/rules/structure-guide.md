@@ -9,8 +9,6 @@ Produce a structurally accurate floor plan with:
 - Accurate door placements and swing directions
 - Correct window positions and sizes
 - Staircase positions (structural furniture only)
-- Room labels
-- Dimension annotations
 
 **Do NOT add furniture (other than stairs) in Phase 1.** Furniture comes in Phase 2 after structure is verified.
 
@@ -22,7 +20,7 @@ Use the `--structure-only` flag to render only structural elements (walls, openi
 plancraft compile plan.pc --structure-only -o plan-structure.svg
 ```
 
-This excludes furniture and dimensions so you can focus purely on wall geometry, door/window placements, and room layout.
+This excludes furniture so you can focus purely on wall geometry, door/window placements, and room layout.
 
 ## Step-by-Step Structure Workflow
 
@@ -88,13 +86,7 @@ Staircases and spiral staircases are considered structural:
 ]
 ```
 
-### 6. Add Labels and Dimensions
-
-- Add labels for each room in the floor's `"labels"` array
-- Add dimensions for all exterior wall faces in the floor's `"dimensions"` and `"dimchains"` arrays
-- Use dimchains for segmented measurements
-
-### 7. Structure Self-Review Checklist
+### 6. Structure Self-Review Checklist
 
 Before considering the structure complete:
 
@@ -109,7 +101,7 @@ Before considering the structure complete:
 - [ ] **Curved walls**: If the design has curved walls, `bulge` values are set correctly (positive = left/CCW, negative = right/CW, 1 = semicircle). Avoid placing doors/windows on curved walls when possible.
 - [ ] **Compile test**: `plancraft compile plan.pc --structure-only` succeeds
 
-### 8. Compile and Verify
+### 7. Compile and Verify
 
 ```bash
 plancraft compile plan.pc --structure-only -o plan-structure.svg
@@ -132,7 +124,6 @@ Open the SVG and verify:
 - All walls connect properly (no gaps)
 - Doors are in correct positions with correct swing direction
 - Windows are in correct positions
-- Room labels are readable and centered
 
 ## Related Rules
 
@@ -141,5 +132,3 @@ Open the SVG and verify:
 - `rooms.md` — Room objects and shared walls
 - `coordinates.md` — Coordinate system and units
 - `measurement-extraction.md` — Extracting dimensions from reference images
-- `dimensions.md` — Dimension annotations
-- `labels.md` — Room labels

@@ -124,62 +124,6 @@ describe("Resolver", () => {
     assert.equal(door.width, 900);
   });
 
-  it("resolves dimensions", () => {
-    const source = JSON.stringify({
-      name: "Test",
-      scale: 100,
-      unit: "mm",
-      floors: [{
-        name: "F1",
-        rooms: [{
-          name: "R1",
-          walls: [
-            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200 },
-            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
-            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
-          ],
-        }],
-        dimensions: [
-          { wall: "north", room: "R1", offset: 500 },
-        ],
-      }],
-    });
-    const resolved = resolve(parse(source));
-    const dim = resolved.floors[0].dimensions[0];
-    assert.equal(dim.length, 5000);
-    assert.deepEqual(dim.from, { x: 0, y: 0 });
-    assert.deepEqual(dim.to, { x: 5000, y: 0 });
-  });
-
-  it("resolves labels at center", () => {
-    const source = JSON.stringify({
-      name: "Test",
-      scale: 100,
-      unit: "mm",
-      floors: [{
-        name: "F1",
-        rooms: [{
-          name: "R1",
-          walls: [
-            { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200 },
-            { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
-            { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
-          ],
-        }],
-        labels: [
-          { text: "R1", position: "center" },
-        ],
-      }],
-    });
-    const resolved = resolve(parse(source));
-    const label = resolved.floors[0].labels[0];
-    assert.equal(label.text, "R1");
-    assert.equal(label.position.x, 2500);
-    assert.equal(label.position.y, 2000);
-  });
-
   it("throws on missing room reference in shared wall", () => {
     const source = JSON.stringify({
       name: "T",

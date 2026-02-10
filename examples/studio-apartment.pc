@@ -22,13 +22,6 @@
             { "wall": "east", "offset": 1000, "width": 1200, "height": 1400, "sill": 900 }
           ]
         }
-      ],
-      "dimensions": [
-        { "wall": "north", "room": "Studio", "offset": 500 },
-        { "wall": "east", "room": "Studio", "offset": 500 }
-      ],
-      "labels": [
-        { "text": "Studio", "position": "center" }
       ]
     }
   ]
