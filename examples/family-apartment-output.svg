@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1400 -600 15000 10200" width="15000" height="10200">
+  <rect x="-1400" y="-600" width="15000" height="10200" fill="white"/>
+  <defs>
+    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
+    </pattern>
+  </defs>
+  <g transform="scale(1,-1) translate(0,-9000)">
+    <g id="Family Apartment">
+      <g id="Main Floor">
+        <polygon points="0,100 1500,100 1500,-100 0,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3500,100 7000,100 7000,-100 3500,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6925,0 6925,1200 7075,1200 7075,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6925,3200 6925,4500 7075,4500 7075,3200" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7000,4425 4500,4425 4500,4575 7000,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3600,4425 0,4425 0,4575 3600,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4500 100,3000 -100,3000 -100,4500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,1500 100,0 -100,0 -100,1500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4500 5400 A 900 900 0 0 1 3600 4500" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="4500" x2="3600" y2="4500" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="4500" x2="4500" y2="5400" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="-50" x2="3500" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="50" x2="3500" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="100" x2="1500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="3500" y1="100" x2="3500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="-50" y1="3000" x2="-50" y2="1500" stroke="black" stroke-width="25"/>
+        <line x1="50" y1="3000" x2="50" y2="1500" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="3000" x2="-100" y2="3000" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="1500" x2="-100" y2="1500" stroke="black" stroke-width="25"/>
+        <polygon points="7000,100 9000,100 9000,-100 7000,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="10500,100 13000,100 13000,-100 10500,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="12900,0 12900,1500 13100,1500 13100,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="12900,2500 12900,4500 13100,4500 13100,2500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="13000,4425 10500,4425 10500,4575 13000,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9600,4425 7000,4425 7000,4575 9600,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 9600 4500 A 900 900 0 0 1 10500 3600" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="10500" y1="4500" x2="9600" y2="4500" stroke="black" stroke-width="25"/>
+        <line x1="10500" y1="4500" x2="10500" y2="3600" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="-50" x2="10500" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="50" x2="10500" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="100" x2="9000" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="10500" y1="100" x2="10500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="13050" y1="1500" x2="13050" y2="2500" stroke="black" stroke-width="25"/>
+        <line x1="12950" y1="1500" x2="12950" y2="2500" stroke="black" stroke-width="25"/>
+        <line x1="12900" y1="1500" x2="13100" y2="1500" stroke="black" stroke-width="25"/>
+        <line x1="12900" y1="2500" x2="13100" y2="2500" stroke="black" stroke-width="25"/>
+        <polygon points="12900,4500 12900,5700 13100,5700 13100,4500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="13000,5625 11800,5625 11800,5775 13000,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="11000,5625 9500,5625 9500,5775 11000,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9500,5625 8500,5625 8500,5775 9500,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7700,5625 6500,5625 6500,5775 7700,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6500,5625 4500,5625 4500,5775 6500,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4500,5625 3000,5625 3000,5775 4500,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="2200,5625 0,5625 0,5775 2200,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,5700 100,5550 -100,5550 -100,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4650 100,4500 -100,4500 -100,4650" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 5.510910596163089e-14 4650 A 900 900 0 0 1 900 5550" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="5550" x2="0" y2="4650" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="5550" x2="900" y2="5550" stroke="black" stroke-width="25"/>
+        <path d="M 3000 6500 A 800 800 0 0 1 2200 5700" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="5700" x2="2200" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="5700" x2="3000" y2="6500" stroke="black" stroke-width="25"/>
+        <path d="M 7700 5700 A 800 800 0 0 1 8500 4900" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="8500" y1="5700" x2="7700" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="8500" y1="5700" x2="8500" y2="4900" stroke="black" stroke-width="25"/>
+        <path d="M 11800 6500 A 800 800 0 0 1 11000 5700" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="11800" y1="5700" x2="11000" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="11800" y1="5700" x2="11800" y2="6500" stroke="black" stroke-width="25"/>
+        <polygon points="4425,5700 4425,6200 4575,6200 4575,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4425,6900 4425,9000 4575,9000 4575,6900" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4500,8900 3000,8900 3000,9100 4500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="1500,8900 0,8900 0,9100 1500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,9000 100,5700 -100,5700 -100,9000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4500 6900 A 700 700 0 0 1 3800 6200" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="6200" x2="4500" y2="6900" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="6200" x2="3800" y2="6200" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="9050" x2="1500" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="8950" x2="1500" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="8900" x2="3000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="8900" x2="1500" y2="9100" stroke="black" stroke-width="25"/>
+        <polygon points="6425,5700 6425,9000 6575,9000 6575,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6500,8900 6000,8900 6000,9100 6500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5200,8900 4500,8900 4500,9100 5200,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="6000" y1="9050" x2="5200" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="8950" x2="5200" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="8900" x2="6000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="5200" y1="8900" x2="5200" y2="9100" stroke="black" stroke-width="25"/>
+        <polygon points="9425,5700 9425,9000 9575,9000 9575,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9500,8900 9000,8900 9000,9100 9500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7800,8900 6500,8900 6500,9100 7800,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="9000" y1="9050" x2="7800" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="8950" x2="7800" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="8900" x2="9000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="7800" y1="8900" x2="7800" y2="9100" stroke="black" stroke-width="25"/>
+        <polygon points="12900,5700 12900,9000 13100,9000 13100,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="13000,8900 12000,8900 12000,9100 13000,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="11000,8900 9500,8900 9500,9100 11000,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="12000" y1="9050" x2="11000" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="12000" y1="8950" x2="11000" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="12000" y1="8900" x2="12000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="11000" y1="8900" x2="11000" y2="9100" stroke="black" stroke-width="25"/>
+        <g transform="translate(3500,2250) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Living Room</text>
+        </g>
+        <g transform="translate(10000,1125) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Kitchen</text>
+        </g>
+        <g transform="translate(8312.5,5250) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Hallway</text>
+        </g>
+        <g transform="translate(3375,7350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Master Bedroom</text>
+        </g>
+        <g transform="translate(6000,6525) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Ensuite</text>
+        </g>
+        <g transform="translate(8750,6525) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Kids Room</text>
+        </g>
+        <g transform="translate(12125,6525) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Family Bathroom</text>
+        </g>
+        <line x1="0" y1="50" x2="0" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="1500" y1="50" x2="1500" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="3500" y1="50" x2="3500" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="7000" y1="50" x2="7000" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="500" x2="1500" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="-40" y1="460" x2="40" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="1460" y1="460" x2="1540" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(750,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="1500" y1="500" x2="3500" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="1460" y1="460" x2="1540" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="3460" y1="460" x2="3540" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(2500,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2</text>
+        </g>
+        <line x1="3500" y1="500" x2="7000" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="3460" y1="460" x2="3540" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="6960" y1="460" x2="7040" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(5250,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3.5</text>
+        </g>
+        <line x1="6950" y1="0" x2="6400" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="6950" y1="1200" x2="6400" y2="1200" stroke="black" stroke-width="13"/>
+        <line x1="6950" y1="3200" x2="6400" y2="3200" stroke="black" stroke-width="13"/>
+        <line x1="6950" y1="4500" x2="6400" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="6500" y1="0" x2="6500" y2="1200" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="-40" x2="6460" y2="40" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="1160" x2="6460" y2="1240" stroke="black" stroke-width="13"/>
+        <g transform="translate(6440,600) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.2</text>
+        </g>
+        <line x1="6500" y1="1200" x2="6500" y2="3200" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="1160" x2="6460" y2="1240" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="3160" x2="6460" y2="3240" stroke="black" stroke-width="13"/>
+        <g transform="translate(6440,2200) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2</text>
+        </g>
+        <line x1="6500" y1="3200" x2="6500" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="3160" x2="6460" y2="3240" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="4460" x2="6460" y2="4540" stroke="black" stroke-width="13"/>
+        <g transform="translate(6440,3850) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.3</text>
+        </g>
+        <line x1="7000" y1="4450" x2="7000" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="4500" y1="4450" x2="4500" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="3600" y1="4450" x2="3600" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="4450" x2="0" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="7000" y1="4000" x2="4500" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="7040" y1="4040" x2="6960" y2="3960" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="4040" x2="4460" y2="3960" stroke="black" stroke-width="13"/>
+        <g transform="translate(5750,3940) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2.5</text>
+        </g>
+        <line x1="4500" y1="4000" x2="3600" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="4040" x2="4460" y2="3960" stroke="black" stroke-width="13"/>
+        <line x1="3640" y1="4040" x2="3560" y2="3960" stroke="black" stroke-width="13"/>
+        <g transform="translate(4050,3940) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.9</text>
+        </g>
+        <line x1="3600" y1="4000" x2="0" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="3640" y1="4040" x2="3560" y2="3960" stroke="black" stroke-width="13"/>
+        <line x1="40" y1="4040" x2="-40" y2="3960" stroke="black" stroke-width="13"/>
+        <g transform="translate(1800,3940) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3.6</text>
+        </g>
+        <line x1="50" y1="4500" x2="600" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="3000" x2="600" y2="3000" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="1500" x2="600" y2="1500" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="0" x2="600" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="500" y1="4500" x2="500" y2="3000" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="4540" x2="540" y2="4460" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="3040" x2="540" y2="2960" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,3750) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="500" y1="3000" x2="500" y2="1500" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="3040" x2="540" y2="2960" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="1540" x2="540" y2="1460" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,2250) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="500" y1="1500" x2="500" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="1540" x2="540" y2="1460" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="40" x2="540" y2="-40" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,750) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="7000" y1="50" x2="7000" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="9000" y1="50" x2="9000" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="10500" y1="50" x2="10500" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="13000" y1="50" x2="13000" y2="600" stroke="black" stroke-width="13"/>
+        <line x1="7000" y1="500" x2="9000" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="6960" y1="460" x2="7040" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="8960" y1="460" x2="9040" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(8000,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2</text>
+        </g>
+        <line x1="9000" y1="500" x2="10500" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="8960" y1="460" x2="9040" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="10460" y1="460" x2="10540" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(9750,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="10500" y1="500" x2="13000" y2="500" stroke="black" stroke-width="13"/>
+        <line x1="10460" y1="460" x2="10540" y2="540" stroke="black" stroke-width="13"/>
+        <line x1="12960" y1="460" x2="13040" y2="540" stroke="black" stroke-width="13"/>
+        <g transform="translate(11750,560) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2.5</text>
+        </g>
+        <line x1="12950" y1="0" x2="12400" y2="0" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="1500" x2="12400" y2="1500" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="2500" x2="12400" y2="2500" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="4500" x2="12400" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="12500" y1="0" x2="12500" y2="1500" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="-40" x2="12460" y2="40" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="1460" x2="12460" y2="1540" stroke="black" stroke-width="13"/>
+        <g transform="translate(12440,750) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="12500" y1="1500" x2="12500" y2="2500" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="1460" x2="12460" y2="1540" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="2460" x2="12460" y2="2540" stroke="black" stroke-width="13"/>
+        <g transform="translate(12440,2000) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1</text>
+        </g>
+        <line x1="12500" y1="2500" x2="12500" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="2460" x2="12460" y2="2540" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="4460" x2="12460" y2="4540" stroke="black" stroke-width="13"/>
+        <g transform="translate(12440,3500) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2</text>
+        </g>
+        <line x1="13000" y1="4450" x2="13000" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="10500" y1="4450" x2="10500" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="9600" y1="4450" x2="9600" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="7000" y1="4450" x2="7000" y2="3900" stroke="black" stroke-width="13"/>
+        <line x1="13000" y1="4000" x2="10500" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="13040" y1="4040" x2="12960" y2="3960" stroke="black" stroke-width="13"/>
+        <line x1="10540" y1="4040" x2="10460" y2="3960" stroke="black" stroke-width="13"/>
+        <g transform="translate(11750,3940) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2.5</text>
+        </g>
+        <line x1="10500" y1="4000" x2="9600" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="10540" y1="4040" x2="10460" y2="3960" stroke="black" stroke-width="13"/>
+        <line x1="9640" y1="4040" x2="9560" y2="3960" stroke="black" stroke-width="13"/>
+        <g transform="translate(10050,3940) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.9</text>
+        </g>
+        <line x1="9600" y1="4000" x2="7000" y2="4000" stroke="black" stroke-width="13"/>
+        <line x1="9640" y1="4040" x2="9560" y2="3960" stroke="black" stroke-width="13"/>
+        <line x1="7040" y1="4040" x2="6960" y2="3960" stroke="black" stroke-width="13"/>
+        <g transform="translate(8300,3940) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2.6</text>
+        </g>
+        <line x1="12500" y1="4500" x2="12500" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="4500" x2="12400" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="5700" x2="12400" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="4460" x2="12460" y2="4540" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="5660" x2="12460" y2="5740" stroke="black" stroke-width="13"/>
+        <g transform="translate(12440,5100) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.2</text>
+        </g>
+        <line x1="13000" y1="5650" x2="13000" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="11800" y1="5650" x2="11800" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="11000" y1="5650" x2="11000" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="9500" y1="5650" x2="9500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="13000" y1="5200" x2="11800" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="13040" y1="5240" x2="12960" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="11840" y1="5240" x2="11760" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(12400,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.2</text>
+        </g>
+        <line x1="11800" y1="5200" x2="11000" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="11840" y1="5240" x2="11760" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="11040" y1="5240" x2="10960" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(11400,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.8</text>
+        </g>
+        <line x1="11000" y1="5200" x2="9500" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="11040" y1="5240" x2="10960" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="9540" y1="5240" x2="9460" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(10250,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="9500" y1="5650" x2="9500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="8500" y1="5650" x2="8500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="7700" y1="5650" x2="7700" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="6500" y1="5650" x2="6500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="9500" y1="5200" x2="8500" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="9540" y1="5240" x2="9460" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="8540" y1="5240" x2="8460" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(9000,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1</text>
+        </g>
+        <line x1="8500" y1="5200" x2="7700" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="8540" y1="5240" x2="8460" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="7740" y1="5240" x2="7660" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(8100,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.8</text>
+        </g>
+        <line x1="7700" y1="5200" x2="6500" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="7740" y1="5240" x2="7660" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="5240" x2="6460" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(7100,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.2</text>
+        </g>
+        <line x1="6500" y1="5200" x2="4500" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="6500" y1="5650" x2="6500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="4500" y1="5650" x2="4500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="5240" x2="6460" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="5240" x2="4460" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(5500,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2</text>
+        </g>
+        <line x1="4500" y1="5650" x2="4500" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="3000" y1="5650" x2="3000" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="2200" y1="5650" x2="2200" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="5650" x2="0" y2="5100" stroke="black" stroke-width="13"/>
+        <line x1="4500" y1="5200" x2="3000" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="5240" x2="4460" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="3040" y1="5240" x2="2960" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(3750,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="3000" y1="5200" x2="2200" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="3040" y1="5240" x2="2960" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="2240" y1="5240" x2="2160" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(2600,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.8</text>
+        </g>
+        <line x1="2200" y1="5200" x2="0" y2="5200" stroke="black" stroke-width="13"/>
+        <line x1="2240" y1="5240" x2="2160" y2="5160" stroke="black" stroke-width="13"/>
+        <line x1="40" y1="5240" x2="-40" y2="5160" stroke="black" stroke-width="13"/>
+        <g transform="translate(1100,5140) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2.2</text>
+        </g>
+        <line x1="50" y1="5700" x2="600" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="5550" x2="600" y2="5550" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="4650" x2="600" y2="4650" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="4500" x2="600" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="500" y1="5700" x2="500" y2="5550" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="5740" x2="540" y2="5660" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="5590" x2="540" y2="5510" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,5625) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.15</text>
+        </g>
+        <line x1="500" y1="5550" x2="500" y2="4650" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="5590" x2="540" y2="5510" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="4690" x2="540" y2="4610" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,5100) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.9</text>
+        </g>
+        <line x1="500" y1="4650" x2="500" y2="4500" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="4690" x2="540" y2="4610" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="4540" x2="540" y2="4460" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,4575) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.15</text>
+        </g>
+        <line x1="4450" y1="5700" x2="3900" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="4450" y1="6200" x2="3900" y2="6200" stroke="black" stroke-width="13"/>
+        <line x1="4450" y1="6900" x2="3900" y2="6900" stroke="black" stroke-width="13"/>
+        <line x1="4450" y1="9000" x2="3900" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="4000" y1="5700" x2="4000" y2="6200" stroke="black" stroke-width="13"/>
+        <line x1="4040" y1="5660" x2="3960" y2="5740" stroke="black" stroke-width="13"/>
+        <line x1="4040" y1="6160" x2="3960" y2="6240" stroke="black" stroke-width="13"/>
+        <g transform="translate(3940,5950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.5</text>
+        </g>
+        <line x1="4000" y1="6200" x2="4000" y2="6900" stroke="black" stroke-width="13"/>
+        <line x1="4040" y1="6160" x2="3960" y2="6240" stroke="black" stroke-width="13"/>
+        <line x1="4040" y1="6860" x2="3960" y2="6940" stroke="black" stroke-width="13"/>
+        <g transform="translate(3940,6550) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.7</text>
+        </g>
+        <line x1="4000" y1="6900" x2="4000" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="4040" y1="6860" x2="3960" y2="6940" stroke="black" stroke-width="13"/>
+        <line x1="4040" y1="8960" x2="3960" y2="9040" stroke="black" stroke-width="13"/>
+        <g transform="translate(3940,7950) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">2.1</text>
+        </g>
+        <line x1="4500" y1="8950" x2="4500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="3000" y1="8950" x2="3000" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="1500" y1="8950" x2="1500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="0" y1="8950" x2="0" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="4500" y1="8500" x2="3000" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="8540" x2="4460" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="3040" y1="8540" x2="2960" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(3750,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="3000" y1="8500" x2="1500" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="3040" y1="8540" x2="2960" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="1540" y1="8540" x2="1460" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(2250,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="1500" y1="8500" x2="0" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="1540" y1="8540" x2="1460" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="40" y1="8540" x2="-40" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(750,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+        <line x1="500" y1="9000" x2="500" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="9000" x2="600" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="50" y1="5700" x2="600" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="9040" x2="540" y2="8960" stroke="black" stroke-width="13"/>
+        <line x1="460" y1="5740" x2="540" y2="5660" stroke="black" stroke-width="13"/>
+        <g transform="translate(560,7350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3.3</text>
+        </g>
+        <line x1="6000" y1="5700" x2="6000" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="6450" y1="5700" x2="5900" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="6450" y1="9000" x2="5900" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="6040" y1="5660" x2="5960" y2="5740" stroke="black" stroke-width="13"/>
+        <line x1="6040" y1="8960" x2="5960" y2="9040" stroke="black" stroke-width="13"/>
+        <g transform="translate(5940,7350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3.3</text>
+        </g>
+        <line x1="6500" y1="8950" x2="6500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="6000" y1="8950" x2="6000" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="5200" y1="8950" x2="5200" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="4500" y1="8950" x2="4500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="6500" y1="8500" x2="6000" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="8540" x2="6460" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="6040" y1="8540" x2="5960" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(6250,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.5</text>
+        </g>
+        <line x1="6000" y1="8500" x2="5200" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="6040" y1="8540" x2="5960" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="5240" y1="8540" x2="5160" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(5600,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.8</text>
+        </g>
+        <line x1="5200" y1="8500" x2="4500" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="5240" y1="8540" x2="5160" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="4540" y1="8540" x2="4460" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(4850,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.7</text>
+        </g>
+        <line x1="9000" y1="5700" x2="9000" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="9450" y1="5700" x2="8900" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="9450" y1="9000" x2="8900" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="9040" y1="5660" x2="8960" y2="5740" stroke="black" stroke-width="13"/>
+        <line x1="9040" y1="8960" x2="8960" y2="9040" stroke="black" stroke-width="13"/>
+        <g transform="translate(8940,7350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3.3</text>
+        </g>
+        <line x1="9500" y1="8950" x2="9500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="9000" y1="8950" x2="9000" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="7800" y1="8950" x2="7800" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="6500" y1="8950" x2="6500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="9500" y1="8500" x2="9000" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="9540" y1="8540" x2="9460" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="9040" y1="8540" x2="8960" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(9250,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">0.5</text>
+        </g>
+        <line x1="9000" y1="8500" x2="7800" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="9040" y1="8540" x2="8960" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="7840" y1="8540" x2="7760" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(8400,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.2</text>
+        </g>
+        <line x1="7800" y1="8500" x2="6500" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="7840" y1="8540" x2="7760" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="6540" y1="8540" x2="6460" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(7150,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.3</text>
+        </g>
+        <line x1="12500" y1="5700" x2="12500" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="5700" x2="12400" y2="5700" stroke="black" stroke-width="13"/>
+        <line x1="12950" y1="9000" x2="12400" y2="9000" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="5660" x2="12460" y2="5740" stroke="black" stroke-width="13"/>
+        <line x1="12540" y1="8960" x2="12460" y2="9040" stroke="black" stroke-width="13"/>
+        <g transform="translate(12440,7350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">3.3</text>
+        </g>
+        <line x1="13000" y1="8950" x2="13000" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="12000" y1="8950" x2="12000" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="11000" y1="8950" x2="11000" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="9500" y1="8950" x2="9500" y2="8400" stroke="black" stroke-width="13"/>
+        <line x1="13000" y1="8500" x2="12000" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="13040" y1="8540" x2="12960" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="12040" y1="8540" x2="11960" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(12500,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1</text>
+        </g>
+        <line x1="12000" y1="8500" x2="11000" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="12040" y1="8540" x2="11960" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="11040" y1="8540" x2="10960" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(11500,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1</text>
+        </g>
+        <line x1="11000" y1="8500" x2="9500" y2="8500" stroke="black" stroke-width="13"/>
+        <line x1="11040" y1="8540" x2="10960" y2="8460" stroke="black" stroke-width="13"/>
+        <line x1="9540" y1="8540" x2="9460" y2="8460" stroke="black" stroke-width="13"/>
+        <g transform="translate(10250,8440) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="120" text-anchor="middle" fill="black">1.5</text>
+        </g>
+      </g>
+      <g id="furniture">
+        <g transform="translate(400,1800) scale(1,1)">
+          <!-- Horizontal section back -->
+  <rect x="0" y="0" width="2400" height="200" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Horizontal section seat -->
+  <rect x="0" y="200" width="2400" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Vertical section back (right side) -->
+  <rect x="2200" y="200" width="200" height="1800" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Vertical section seat -->
+  <rect x="1500" y="900" width="700" height="1100" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Cushion dividers horizontal -->
+  <line x1="200" y1="250" x2="200" y2="850" stroke="black" stroke-width="4"/>
+  <line x1="850" y1="250" x2="850" y2="850" stroke="black" stroke-width="4"/>
+  <!-- Cushion dividers vertical -->
+  <line x1="1550" y1="950" x2="2150" y2="950" stroke="black" stroke-width="4"/>
+  <line x1="1550" y1="1500" x2="2150" y2="1500" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(2600,2500) scale(1,1)">
+          <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="600" rx="30" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Lower shelf -->
+  <rect x="80" y="80" width="1040" height="440" rx="20" fill="#d8d8d8" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(2600,175) scale(1,1)">
+          <!-- Console body -->
+  <rect x="0" y="0" width="1800" height="450" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Left cabinet -->
+  <rect x="20" y="20" width="500" height="410" fill="#d8d8d8" stroke="black" stroke-width="4"/>
+  <!-- Center open shelf -->
+  <rect x="560" y="20" width="680" height="410" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Shelf divider -->
+  <line x1="560" y1="225" x2="1240" y2="225" stroke="black" stroke-width="3"/>
+  <!-- Right cabinet -->
+  <rect x="1280" y="20" width="500" height="410" fill="#d8d8d8" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(5800,225) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="800" height="350" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Shelf dividers (horizontal) -->
+  <line x1="0" y1="88" x2="800" y2="88" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="175" x2="800" y2="175" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="263" x2="800" y2="263" stroke="black" stroke-width="4"/>
+  <!-- Vertical divider -->
+  <line x1="400" y1="0" x2="400" y2="350" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(450,450) scale(1,1)">
+          <!-- Base -->
+  <circle cx="150" cy="150" r="130" fill="#e8e8e8" stroke="black" stroke-width="5"/>
+  <!-- Shade outline -->
+  <circle cx="150" cy="150" r="90" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Pole -->
+  <circle cx="150" cy="150" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(1800,2100) scale(1,1)">
+          <rect x="20" y="20" width="1960" height="1360" rx="30" fill="#e8e8e8" stroke="black" stroke-width="4"/><rect x="100" y="100" width="1800" height="1200" rx="20" fill="#f0f0f0" stroke="black" stroke-width="2"/>
+        </g>
+        <g transform="translate(6400,3800) scale(1,1)">
+          <circle cx="200" cy="200" r="180" fill="#e8e8e8" stroke="black" stroke-width="5"/><circle cx="200" cy="200" r="100" fill="#d0d0d0" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(7300,0) scale(0.8,1)">
+          <!-- Counter body -->
+  <rect x="0" y="0" width="3000" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Sink basin -->
+  <rect x="1200" y="100" width="600" height="400" rx="30" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Faucet -->
+  <circle cx="1500" cy="150" r="25" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Cabinet dividers -->
+  <line x1="750" y1="20" x2="750" y2="580" stroke="black" stroke-width="3"/>
+  <line x1="2250" y1="20" x2="2250" y2="580" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(10300,0) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="600" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Top-left burner -->
+  <circle cx="180" cy="180" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="180" cy="180" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Top-right burner -->
+  <circle cx="420" cy="180" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="420" cy="180" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Bottom-left burner -->
+  <circle cx="180" cy="420" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="180" cy="420" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Bottom-right burner -->
+  <circle cx="420" cy="420" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="420" cy="420" r="40" fill="none" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(11100,0) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="600" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Oven door -->
+  <rect x="40" y="100" width="520" height="460" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Door window -->
+  <rect x="120" y="160" width="360" height="200" rx="10" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Handle -->
+  <line x1="160" y1="60" x2="440" y2="60" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(12250,50) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="700" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Door divider (freezer/fridge) -->
+  <line x1="0" y1="220" x2="700" y2="220" stroke="black" stroke-width="5"/>
+  <!-- Top handle (freezer) -->
+  <line x1="620" y1="80" x2="620" y2="180" stroke="black" stroke-width="5"/>
+  <!-- Bottom handle (fridge) -->
+  <line x1="620" y1="280" x2="620" y2="420" stroke="black" stroke-width="5"/>
+        </g>
+        <g transform="translate(9400,2600) scale(1,1)">
+          <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="800" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Legs -->
+  <rect x="40" y="40" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="1100" y="40" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="40" y="700" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="1100" y="700" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(9075,2775) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(10475,2775) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(9775,2175) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(9775,3375) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(1300,7000) scale(1,1)">
+          <!-- Frame -->
+  <rect x="0" y="0" width="1400" height="2000" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Headboard -->
+  <rect x="0" y="0" width="1400" height="120" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Left pillow -->
+  <rect x="80" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Right pillow -->
+  <rect x="780" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Blanket fold line -->
+  <line x1="80" y1="900" x2="1320" y2="900" stroke="black" stroke-width="4" stroke-dasharray="20,10"/>
+        </g>
+        <g transform="translate(3800,8700) rotate(90) translate(-500,-250) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="1000" height="500" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Door divider -->
+  <line x1="500" y1="0" x2="500" y2="500" stroke="black" stroke-width="6"/>
+  <!-- Left door handle -->
+  <line x1="460" y1="220" x2="460" y2="280" stroke="black" stroke-width="5"/>
+  <!-- Right door handle -->
+  <line x1="540" y1="220" x2="540" y2="280" stroke="black" stroke-width="5"/>
+        </g>
+        <g transform="translate(350,6050) scale(1,1)">
+          <!-- Base -->
+  <circle cx="150" cy="150" r="130" fill="#e8e8e8" stroke="black" stroke-width="5"/>
+  <!-- Shade outline -->
+  <circle cx="150" cy="150" r="90" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Pole -->
+  <circle cx="150" cy="150" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(4800,5850) scale(1,1)">
+          <!-- Tank -->
+  <rect x="50" y="0" width="300" height="180" rx="20" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Bowl -->
+  <ellipse cx="200" cy="450" rx="180" ry="230" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Seat opening -->
+  <ellipse cx="200" cy="480" rx="120" ry="160" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(5550,5800) scale(1,1)">
+          <!-- Counter/vanity -->
+  <rect x="0" y="0" width="500" height="400" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Basin -->
+  <ellipse cx="250" cy="220" rx="170" ry="130" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="250" cy="240" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet -->
+  <circle cx="250" cy="60" r="22" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <line x1="250" y1="82" x2="250" y2="120" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(5500,8100) scale(1,1)">
+          <!-- Shower tray -->
+  <rect x="0" y="0" width="900" height="900" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Drain -->
+  <circle cx="450" cy="450" r="40" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <!-- Drain grate pattern -->
+  <line x1="420" y1="450" x2="480" y2="450" stroke="black" stroke-width="3"/>
+  <line x1="450" y1="420" x2="450" y2="480" stroke="black" stroke-width="3"/>
+  <!-- Shower head position -->
+  <circle cx="150" cy="150" r="60" fill="none" stroke="black" stroke-width="4" stroke-dasharray="12,8"/>
+  <!-- Glass door arc -->
+  <path d="M 0 900 A 900 900 0 0 1 900 0" fill="none" stroke="black" stroke-width="4" stroke-dasharray="15,10"/>
+        </g>
+        <g transform="translate(7045,7000) scale(0.65,1)">
+          <!-- Frame -->
+  <rect x="0" y="0" width="1400" height="2000" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Headboard -->
+  <rect x="0" y="0" width="1400" height="120" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Left pillow -->
+  <rect x="80" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Right pillow -->
+  <rect x="780" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Blanket fold line -->
+  <line x1="80" y1="900" x2="1320" y2="900" stroke="black" stroke-width="4" stroke-dasharray="20,10"/>
+        </g>
+        <g transform="translate(7900,6100) scale(1,1)">
+          <!-- Desktop -->
+  <rect x="0" y="0" width="1200" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Drawer unit (right) -->
+  <rect x="800" y="60" width="340" height="480" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Drawer lines -->
+  <line x1="820" y1="220" x2="1120" y2="220" stroke="black" stroke-width="3"/>
+  <line x1="820" y1="380" x2="1120" y2="380" stroke="black" stroke-width="3"/>
+  <!-- Drawer handles -->
+  <line x1="950" y1="140" x2="990" y2="140" stroke="black" stroke-width="4"/>
+  <line x1="950" y1="300" x2="990" y2="300" stroke="black" stroke-width="4"/>
+  <line x1="950" y1="460" x2="990" y2="460" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(8225,6725) scale(1,1)">
+          <!-- Seat -->
+  <circle cx="275" cy="295" r="220" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="75" y="0" width="400" height="140" rx="40" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+  <!-- Armrests -->
+  <rect x="30" y="120" width="60" height="250" rx="15" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <rect x="460" y="120" width="60" height="250" rx="15" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <!-- Casters (5-star base) -->
+  <circle cx="275" cy="295" r="30" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(6500,7025) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="800" height="350" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Shelf dividers (horizontal) -->
+  <line x1="0" y1="88" x2="800" y2="88" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="175" x2="800" y2="175" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="263" x2="800" y2="263" stroke="black" stroke-width="4"/>
+  <!-- Vertical divider -->
+  <line x1="400" y1="0" x2="400" y2="350" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(10150,7300) scale(1,1)">
+          <!-- Outer shell -->
+  <rect x="0" y="0" width="700" height="1700" rx="60" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Inner basin -->
+  <rect x="50" y="50" width="600" height="1600" rx="50" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="350" cy="1500" r="30" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet area -->
+  <circle cx="350" cy="120" r="35" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <circle cx="280" cy="120" r="18" fill="#b0b0b0" stroke="black" stroke-width="2"/>
+  <circle cx="420" cy="120" r="18" fill="#b0b0b0" stroke="black" stroke-width="2"/>
+        </g>
+        <g transform="translate(9800,5850) scale(1,1)">
+          <!-- Tank -->
+  <rect x="50" y="0" width="300" height="180" rx="20" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Bowl -->
+  <ellipse cx="200" cy="450" rx="180" ry="230" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Seat opening -->
+  <ellipse cx="200" cy="480" rx="120" ry="160" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(10750,5800) scale(1,1)">
+          <!-- Counter/vanity -->
+  <rect x="0" y="0" width="500" height="400" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Basin -->
+  <ellipse cx="250" cy="220" rx="170" ry="130" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="250" cy="240" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet -->
+  <circle cx="250" cy="60" r="22" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <line x1="250" y1="82" x2="250" y2="120" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(12100,8100) scale(1,1)">
+          <!-- Shower tray -->
+  <rect x="0" y="0" width="900" height="900" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Drain -->
+  <circle cx="450" cy="450" r="40" fill="#d0d0d0" stroke="black" stroke-width="4"/>
+  <!-- Drain grate pattern -->
+  <line x1="420" y1="450" x2="480" y2="450" stroke="black" stroke-width="3"/>
+  <line x1="450" y1="420" x2="450" y2="480" stroke="black" stroke-width="3"/>
+  <!-- Shower head position -->
+  <circle cx="150" cy="150" r="60" fill="none" stroke="black" stroke-width="4" stroke-dasharray="12,8"/>
+  <!-- Glass door arc -->
+  <path d="M 0 900 A 900 900 0 0 1 900 0" fill="none" stroke="black" stroke-width="4" stroke-dasharray="15,10"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

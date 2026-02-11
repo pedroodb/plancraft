@@ -1,0 +1,161 @@
+{
+  "name": "Family Apartment",
+  "scale": 100,
+  "unit": "mm",
+
+  "floors": [
+    {
+      "name": "Main Floor",
+      "rooms": [
+        // ── Living Room (bottom-left, 7m × 4.5m) ────────────────────────
+        // Open-plan connection to Kitchen via archway on east wall
+        {
+          "name": "Living Room",
+          "walls": [
+            { "direction": "south", "from": {"x": 0, "y": 0}, "to": {"x": 7000, "y": 0}, "thickness": 200 },
+            { "direction": "east",  "from": {"x": 7000, "y": 0}, "to": {"x": 7000, "y": 4500}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 7000, "y": 4500}, "to": {"x": 0, "y": 4500}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 0, "y": 4500}, "to": {"x": 0, "y": 0}, "thickness": 200 }
+          ],
+          "doors": [
+            // Door to Hallway
+            { "wall": "north", "offset": 2500, "width": 900, "swing": "right" }
+          ],
+          "windows": [
+            // Large floor-to-ceiling window on south facade
+            { "wall": "south", "offset": 1500, "width": 2000, "height": 2200, "sill": 200 },
+            // Standard window on west facade
+            { "wall": "west", "offset": 1500, "width": 1500, "height": 1400, "sill": 900 }
+          ],
+          "openings": [
+            // Wide archway to Kitchen — open-plan living/dining concept
+            { "wall": "east", "offset": 1200, "width": 2000 }
+          ]
+        },
+
+        // ── Kitchen (bottom-right, 6m × 4.5m) ──────────────────────────
+        // Shared west wall with Living Room (includes the archway opening)
+        {
+          "name": "Kitchen",
+          "walls": [
+            { "direction": "south", "from": {"x": 7000, "y": 0}, "to": {"x": 13000, "y": 0}, "thickness": 200 },
+            { "direction": "east",  "from": {"x": 13000, "y": 0}, "to": {"x": 13000, "y": 4500}, "thickness": 200 },
+            { "direction": "north", "from": {"x": 13000, "y": 4500}, "to": {"x": 7000, "y": 4500}, "thickness": 150 }
+          ],
+          "sharedWalls": [
+            { "direction": "west", "sourceRoom": "Living Room", "sourceWall": "east" }
+          ],
+          "doors": [
+            // Door to Hallway
+            { "wall": "north", "offset": 2500, "width": 900, "swing": "left" }
+          ],
+          "windows": [
+            // Window above kitchen counter (higher sill)
+            { "wall": "south", "offset": 2000, "width": 1500, "height": 1400, "sill": 1200 },
+            // Side window
+            { "wall": "east", "offset": 1500, "width": 1000, "height": 1200, "sill": 1200 }
+          ]
+        },
+
+        // ── Hallway (middle strip, 13m × 1.2m) ─────────────────────────
+        // Central corridor connecting all rooms. North wall split into
+        // segments matching each upper room for shared wall references.
+        {
+          "name": "Hallway",
+          "sharedWalls": [
+            { "direction": "south left",  "sourceRoom": "Living Room", "sourceWall": "north" },
+            { "direction": "south right", "sourceRoom": "Kitchen", "sourceWall": "north" }
+          ],
+          "walls": [
+            { "direction": "east",           "from": {"x": 13000, "y": 4500}, "to": {"x": 13000, "y": 5700}, "thickness": 200 },
+            { "direction": "north right",    "from": {"x": 13000, "y": 5700}, "to": {"x": 9500, "y": 5700},  "thickness": 150 },
+            { "direction": "north mid",      "from": {"x": 9500, "y": 5700},  "to": {"x": 6500, "y": 5700},  "thickness": 150 },
+            { "direction": "north mid-left", "from": {"x": 6500, "y": 5700},  "to": {"x": 4500, "y": 5700},  "thickness": 150 },
+            { "direction": "north left",     "from": {"x": 4500, "y": 5700},  "to": {"x": 0, "y": 5700},     "thickness": 150 },
+            { "direction": "west",           "from": {"x": 0, "y": 5700},     "to": {"x": 0, "y": 4500},     "thickness": 200 }
+          ],
+          "doors": [
+            // Front entrance (exterior door on west wall)
+            { "wall": "west", "offset": 150, "width": 900, "swing": "left" },
+            // Door to Master Bedroom
+            { "wall": "north left", "offset": 1500, "width": 800, "swing": "right" },
+            // Door to Kids Room
+            { "wall": "north mid", "offset": 1000, "width": 800, "swing": "left" },
+            // Door to Family Bathroom
+            { "wall": "north right", "offset": 1200, "width": 800, "swing": "right" }
+          ]
+        },
+
+        // ── Master Bedroom (top-left, 4.5m × 3.3m) ─────────────────────
+        {
+          "name": "Master Bedroom",
+          "sharedWalls": [
+            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north left" }
+          ],
+          "walls": [
+            { "direction": "east",  "from": {"x": 4500, "y": 5700}, "to": {"x": 4500, "y": 9000}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 4500, "y": 9000}, "to": {"x": 0, "y": 9000},    "thickness": 200 },
+            { "direction": "west",  "from": {"x": 0, "y": 9000},    "to": {"x": 0, "y": 5700},    "thickness": 200 }
+          ],
+          "doors": [
+            // Door to Ensuite bathroom
+            { "wall": "east", "offset": 500, "width": 700, "swing": "left" }
+          ],
+          "windows": [
+            { "wall": "north", "offset": 1500, "width": 1500, "height": 1400, "sill": 900 }
+          ]
+        },
+
+        // ── Ensuite (top, 2m × 3.3m) ────────────────────────────────────
+        // Accessed only from Master Bedroom (no hallway door)
+        {
+          "name": "Ensuite",
+          "sharedWalls": [
+            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north mid-left" },
+            { "direction": "west",  "sourceRoom": "Master Bedroom", "sourceWall": "east" }
+          ],
+          "walls": [
+            { "direction": "east",  "from": {"x": 6500, "y": 5700}, "to": {"x": 6500, "y": 9000}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 6500, "y": 9000}, "to": {"x": 4500, "y": 9000}, "thickness": 200 }
+          ],
+          "windows": [
+            // Small frosted window (higher sill for privacy)
+            { "wall": "north", "offset": 500, "width": 800, "height": 1000, "sill": 1200 }
+          ]
+        },
+
+        // ── Kids Room (top, 3m × 3.3m) ──────────────────────────────────
+        {
+          "name": "Kids Room",
+          "sharedWalls": [
+            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north mid" },
+            { "direction": "west",  "sourceRoom": "Ensuite", "sourceWall": "east" }
+          ],
+          "walls": [
+            { "direction": "east",  "from": {"x": 9500, "y": 5700}, "to": {"x": 9500, "y": 9000}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 9500, "y": 9000}, "to": {"x": 6500, "y": 9000}, "thickness": 200 }
+          ],
+          "windows": [
+            { "wall": "north", "offset": 500, "width": 1200, "height": 1400, "sill": 900 }
+          ]
+        },
+
+        // ── Family Bathroom (top-right, 3.5m × 3.3m) ───────────────────
+        {
+          "name": "Family Bathroom",
+          "sharedWalls": [
+            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north right" },
+            { "direction": "west",  "sourceRoom": "Kids Room", "sourceWall": "east" }
+          ],
+          "walls": [
+            { "direction": "east",  "from": {"x": 13000, "y": 5700}, "to": {"x": 13000, "y": 9000}, "thickness": 200 },
+            { "direction": "north", "from": {"x": 13000, "y": 9000}, "to": {"x": 9500, "y": 9000},  "thickness": 200 }
+          ],
+          "windows": [
+            { "wall": "north", "offset": 1000, "width": 1000, "height": 1000, "sill": 1200 }
+          ]
+        }
+      ]
+    }
+  ]
+}

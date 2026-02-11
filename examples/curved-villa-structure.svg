@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1400 -1100 12554.289556025544 9700" width="12554.289556025544" height="9700">
+  <rect x="-1400" y="-1100" width="12554.289556025544" height="9700" fill="white"/>
+  <defs>
+    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
+    </pattern>
+  </defs>
+  <g transform="scale(1,-1) translate(0,-7500)">
+    <g id="Curved Villa">
+      <g id="Ground Floor">
+        <polygon points="-19.801980198020715,-98.01980198019803 290.15066518750996,-158.62941318463004 600.834346290354,-215.37285023441072 912.2008405769515,-268.24130573970393 1224.2018195313813,-317.22657376299935 1536.788856156688,-362.32105109281986 1849.9134324913985,-403.51773842382266 2163.5269471402185,-440.8102414432159 2477.5807228176777,-474.1927718232257 2792.026013903501,-503.66014811954284 3106.8140140086653,-529.2077965755492 3421.895863550802,-550.8317518322284 3737.222657337948,-568.5286575436554 4052.7454521592854,-582.2957668979357 4368.415274381844,-592.13094304356 4684.183127551922,-598.0326594210666 5000.000000000002,-600 5315.8168724480765,-598.0326594210666 5631.584725618154,-592.13094304356 5947.254547840712,-582.2957668979357 6262.777342662049,-568.5286575436554 6578.104136449189,-550.8317518322284 6893.185985991333,-529.2077965755492 7207.9739860964955,-503.66014811954284 7522.419277182319,-474.1927718232257 7836.473052859779,-440.8102414432159 8150.086567508605,-403.51773842382266 8463.21114384331,-362.32105109281986 8775.798180468611,-317.22657376299935 9087.799159423046,-268.24130573970393 9399.165653709644,-215.37285023441072 9709.849334812487,-158.62941318463004 10019.801980198019,-98.01980198019803 9980.198019801981,98.01980198019803 9672.690760178859,37.888373112684576 9364.4582323786,-18.40738396037196 9055.548278480854,-70.85873133544595 8746.008845711463,-119.45752781615124 8435.887979000363,-164.19623017690023 8125.233813524316,-205.0678943336939 7814.094567235639,-242.0661764219677 7502.51853337812,-275.1853337812279 7190.554072991198,-304.42022584641035 6878.24960740363,-329.7663149457618 6565.653610717835,-351.21966700514974 6252.814602286017,-368.77695215869556 5939.7811391792475,-382.4354452656048 5626.601808650753,-392.19302633315726 5313.325220594443,-398.0481808457524 5000.000000000002,-400 4686.6747794055555,-398.0481808457524 4373.398191349245,-392.19302633315726 4060.2188608207507,-382.4354452656048 3747.1853977139804,-368.77695215869556 3434.346389282157,-351.21966700514974 3121.7503925963683,-329.7663149457618 2809.445927008798,-304.42022584641035 2497.4814666218776,-275.1853337812279 2185.9054327643585,-242.0661764219677 1874.7661864756874,-205.0678943336939 1564.1120209996332,-164.19623017690023 1253.9911542885302,-119.45752781615124 944.451721519145,-70.85873133544595 635.5417676213965,-18.40738396037196 327.30923982113904,37.888373112684576 19.801980198018896,98.01980198019803" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9900,0 9900,4000 10100,4000 10100,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="10000,3925 6000,3925 6000,4075 10000,4075" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5100,3925 0,3925 0,4075 5100,4075" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4000 100,3000 -100,3000 -100,4000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,1800 100,0 -100,0 -100,1800" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 6000 4900 A 900 900 0 0 1 5100 4000" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="4000" x2="5100" y2="4000" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="4000" x2="6000" y2="4900" stroke="black" stroke-width="25"/>
+        <line x1="3500" y1="30" x2="5500" y2="30" stroke="black" stroke-width="25"/>
+        <line x1="3500" y1="-30" x2="5500" y2="-30" stroke="black" stroke-width="25"/>
+        <line x1="4340" y1="0" x2="4660" y2="0" stroke="black" stroke-width="25"/>
+        <line x1="1000" y1="-50" x2="2500" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="1000" y1="50" x2="2500" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="1000" y1="100" x2="1000" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="2500" y1="100" x2="2500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="7000" y1="-50" x2="8500" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="7000" y1="50" x2="8500" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="7000" y1="100" x2="7000" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="8500" y1="100" x2="8500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="-50" y1="3000" x2="-50" y2="1800" stroke="black" stroke-width="25"/>
+        <line x1="50" y1="3000" x2="50" y2="1800" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="3000" x2="-100" y2="3000" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="1800" x2="-100" y2="1800" stroke="black" stroke-width="25"/>
+        <polygon points="9900,4000 9900,5200 10100,5200 10100,4000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="10000,5125 9200,5125 9200,5275 10000,5275" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7700,5125 6500,5125 6500,5275 7700,5275" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6500,5125 5800,5125 5800,5275 6500,5275" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5100,5125 4000,5125 4000,5275 5100,5275" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4000,5125 2800,5125 2800,5275 4000,5275" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="2000,5125 0,5125 0,5275 2000,5275" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,5200 100,5000 -100,5000 -100,5200" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4100 100,4000 -100,4000 -100,4100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 5.510910596163089e-14 4100 A 900 900 0 0 1 900 5000" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="5000" x2="0" y2="4100" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="5000" x2="900" y2="5000" stroke="black" stroke-width="25"/>
+        <path d="M 2800 6000 A 800 800 0 0 1 2000 5200" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="2800" y1="5200" x2="2000" y2="5200" stroke="black" stroke-width="25"/>
+        <line x1="2800" y1="5200" x2="2800" y2="6000" stroke="black" stroke-width="25"/>
+        <path d="M 5100 5200 A 700 700 0 0 1 5800 4500" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="5800" y1="5200" x2="5100" y2="5200" stroke="black" stroke-width="25"/>
+        <line x1="5800" y1="5200" x2="5800" y2="4500" stroke="black" stroke-width="25"/>
+        <polygon points="3925,5200 3925,8000 4075,8000 4075,5200" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4000,7900 3000,7900 3000,8100 4000,8100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="1500,7900 0,7900 0,8100 1500,8100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,8000 100,5200 -100,5200 -100,8000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="3000" y1="8050" x2="1500" y2="8050" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="7950" x2="1500" y2="7950" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="7900" x2="3000" y2="8100" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="7900" x2="1500" y2="8100" stroke="black" stroke-width="25"/>
+        <polygon points="6425,5200 6425,8000 6575,8000 6575,5200" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6500,7900 6000,7900 6000,8100 6500,8100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5200,7900 4000,7900 4000,8100 5200,8100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="6000" y1="8050" x2="5200" y2="8050" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="7950" x2="5200" y2="7950" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="7900" x2="6000" y2="8100" stroke="black" stroke-width="25"/>
+        <line x1="5200" y1="7900" x2="5200" y2="8100" stroke="black" stroke-width="25"/>
+        <polygon points="10083.48623853211,5144.954128440367 10135.020496780195,5226.300946668935 10183.557578356375,5309.470871047639 10229.033067221546,5394.353522523459 10271.38661053261,5480.836248995799 10310.561998739815,5568.80427482284 10346.507240185301,5658.140853146155 10379.174630103904,5748.727420831424 10408.520813934576,5840.443755819628 10434.506844858439,5933.168136679873 10457.098235487092,6026.777504152127 10476.265003632594,6121.147624465438 10491.981712098346,6216.153254214913 10504.227502438103,6311.6683065786465 10512.986122638273,6407.566018653968 10518.245948686805,6503.719119690965 10520,6600 10518.245948686805,6696.280880309035 10512.986122638273,6792.433981346032 10504.227502438103,6888.3316934213535 10491.981712098346,6983.846745785087 10476.265003632594,7078.852375534562 10457.098235487092,7173.222495847873 10434.506844858439,7266.831863320127 10408.520813934576,7359.556244180372 10379.174630103904,7451.272579168576 10346.507240185301,7541.859146853845 10310.561998739815,7631.19572517716 10271.38661053261,7719.163751004201 10229.033067221546,7805.646477476542 10183.557578356375,7890.529128952361 10135.020496780195,7973.699053331065 10083.48623853211,8055.045871559633 9916.51376146789,7944.954128440367 9964.148832458868,7869.762176660366 10009.013499287796,7792.885058665928 10051.048219764682,7714.424802005428 10090.197207465832,7634.485535291399 10126.408505770849,7553.173350006127 10159.63405681693,7470.596159702231 10189.829765278892,7386.863556785077 10216.955556890347,7302.086667067104 10240.975431628292,7216.378002287078 10261.857511490593,7129.851310790025 10279.57408280289,7042.6214265659955 10294.101632998849,6954.804116848006 10305.420881824879,6866.51592847144 10313.516806927937,6777.874033198792 10318.37866379247,6688.9960722150345 10320,6600 10318.37866379247,6511.0039277849655 10313.516806927937,6422.125966801208 10305.420881824879,6333.48407152856 10294.101632998849,6245.195883151994 10279.57408280289,6157.3785734340045 10261.857511490593,6070.148689209975 10240.975431628292,5983.621997712922 10216.955556890347,5897.913332932896 10189.829765278892,5813.136443214923 10159.63405681693,5729.403840297769 10126.408505770849,5646.826649993873 10090.197207465832,5565.514464708601 10051.048219764682,5485.575197994573 10009.013499287796,5407.114941334072 9964.148832458868,5330.237823339634 9916.51376146789,5255.045871559633" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="10000,7900 9500,7900 9500,8100 10000,8100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="8300,7900 6500,7900 6500,8100 8300,8100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="10050" y1="5700" x2="10050" y2="7200" stroke="black" stroke-width="25"/>
+        <line x1="9950" y1="5700" x2="9950" y2="7200" stroke="black" stroke-width="25"/>
+        <line x1="9900" y1="5700" x2="10100" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="9900" y1="7200" x2="10100" y2="7200" stroke="black" stroke-width="25"/>
+        <line x1="9500" y1="8050" x2="8300" y2="8050" stroke="black" stroke-width="25"/>
+        <line x1="9500" y1="7950" x2="8300" y2="7950" stroke="black" stroke-width="25"/>
+        <line x1="9500" y1="7900" x2="9500" y2="8100" stroke="black" stroke-width="25"/>
+        <line x1="8300" y1="7900" x2="8300" y2="8100" stroke="black" stroke-width="25"/>
+        <g transform="translate(4999.999999999999,-75.69172532148492) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Living Room</text>
+        </g>
+        <g transform="translate(6750,4800) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Hallway</text>
+        </g>
+        <g transform="translate(3000,6600) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Bedroom</text>
+        </g>
+        <g transform="translate(5875,5900) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Bathroom</text>
+        </g>
+        <g transform="translate(10154.289556025544,6520.000000000001) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Sunroom</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

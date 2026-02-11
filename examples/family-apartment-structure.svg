@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1400 -600 15000 10200" width="15000" height="10200">
+  <rect x="-1400" y="-600" width="15000" height="10200" fill="white"/>
+  <defs>
+    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
+    </pattern>
+  </defs>
+  <g transform="scale(1,-1) translate(0,-9000)">
+    <g id="Family Apartment">
+      <g id="Main Floor">
+        <polygon points="0,100 1500,100 1500,-100 0,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3500,100 7000,100 7000,-100 3500,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6925,0 6925,1200 7075,1200 7075,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6925,3200 6925,4500 7075,4500 7075,3200" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7000,4425 4500,4425 4500,4575 7000,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="3600,4425 0,4425 0,4575 3600,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4500 100,3000 -100,3000 -100,4500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,1500 100,0 -100,0 -100,1500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4500 5400 A 900 900 0 0 1 3600 4500" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="4500" x2="3600" y2="4500" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="4500" x2="4500" y2="5400" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="-50" x2="3500" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="50" x2="3500" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="100" x2="1500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="3500" y1="100" x2="3500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="-50" y1="3000" x2="-50" y2="1500" stroke="black" stroke-width="25"/>
+        <line x1="50" y1="3000" x2="50" y2="1500" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="3000" x2="-100" y2="3000" stroke="black" stroke-width="25"/>
+        <line x1="100" y1="1500" x2="-100" y2="1500" stroke="black" stroke-width="25"/>
+        <polygon points="7000,100 9000,100 9000,-100 7000,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="10500,100 13000,100 13000,-100 10500,-100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="12900,0 12900,1500 13100,1500 13100,0" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="12900,2500 12900,4500 13100,4500 13100,2500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="13000,4425 10500,4425 10500,4575 13000,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9600,4425 7000,4425 7000,4575 9600,4575" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 9600 4500 A 900 900 0 0 1 10500 3600" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="10500" y1="4500" x2="9600" y2="4500" stroke="black" stroke-width="25"/>
+        <line x1="10500" y1="4500" x2="10500" y2="3600" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="-50" x2="10500" y2="-50" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="50" x2="10500" y2="50" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="100" x2="9000" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="10500" y1="100" x2="10500" y2="-100" stroke="black" stroke-width="25"/>
+        <line x1="13050" y1="1500" x2="13050" y2="2500" stroke="black" stroke-width="25"/>
+        <line x1="12950" y1="1500" x2="12950" y2="2500" stroke="black" stroke-width="25"/>
+        <line x1="12900" y1="1500" x2="13100" y2="1500" stroke="black" stroke-width="25"/>
+        <line x1="12900" y1="2500" x2="13100" y2="2500" stroke="black" stroke-width="25"/>
+        <polygon points="12900,4500 12900,5700 13100,5700 13100,4500" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="13000,5625 11800,5625 11800,5775 13000,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="11000,5625 9500,5625 9500,5775 11000,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9500,5625 8500,5625 8500,5775 9500,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7700,5625 6500,5625 6500,5775 7700,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6500,5625 4500,5625 4500,5775 6500,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4500,5625 3000,5625 3000,5775 4500,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="2200,5625 0,5625 0,5775 2200,5775" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,5700 100,5550 -100,5550 -100,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,4650 100,4500 -100,4500 -100,4650" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 5.510910596163089e-14 4650 A 900 900 0 0 1 900 5550" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="5550" x2="0" y2="4650" stroke="black" stroke-width="25"/>
+        <line x1="0" y1="5550" x2="900" y2="5550" stroke="black" stroke-width="25"/>
+        <path d="M 3000 6500 A 800 800 0 0 1 2200 5700" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="5700" x2="2200" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="5700" x2="3000" y2="6500" stroke="black" stroke-width="25"/>
+        <path d="M 7700 5700 A 800 800 0 0 1 8500 4900" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="8500" y1="5700" x2="7700" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="8500" y1="5700" x2="8500" y2="4900" stroke="black" stroke-width="25"/>
+        <path d="M 11800 6500 A 800 800 0 0 1 11000 5700" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="11800" y1="5700" x2="11000" y2="5700" stroke="black" stroke-width="25"/>
+        <line x1="11800" y1="5700" x2="11800" y2="6500" stroke="black" stroke-width="25"/>
+        <polygon points="4425,5700 4425,6200 4575,6200 4575,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4425,6900 4425,9000 4575,9000 4575,6900" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="4500,8900 3000,8900 3000,9100 4500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="1500,8900 0,8900 0,9100 1500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="100,9000 100,5700 -100,5700 -100,9000" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <path d="M 4500 6900 A 700 700 0 0 1 3800 6200" fill="none" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="6200" x2="4500" y2="6900" stroke="black" stroke-width="25"/>
+        <line x1="4500" y1="6200" x2="3800" y2="6200" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="9050" x2="1500" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="8950" x2="1500" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="3000" y1="8900" x2="3000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="1500" y1="8900" x2="1500" y2="9100" stroke="black" stroke-width="25"/>
+        <polygon points="6425,5700 6425,9000 6575,9000 6575,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="6500,8900 6000,8900 6000,9100 6500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="5200,8900 4500,8900 4500,9100 5200,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="6000" y1="9050" x2="5200" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="8950" x2="5200" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="6000" y1="8900" x2="6000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="5200" y1="8900" x2="5200" y2="9100" stroke="black" stroke-width="25"/>
+        <polygon points="9425,5700 9425,9000 9575,9000 9575,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="9500,8900 9000,8900 9000,9100 9500,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="7800,8900 6500,8900 6500,9100 7800,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="9000" y1="9050" x2="7800" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="8950" x2="7800" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="9000" y1="8900" x2="9000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="7800" y1="8900" x2="7800" y2="9100" stroke="black" stroke-width="25"/>
+        <polygon points="12900,5700 12900,9000 13100,9000 13100,5700" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="13000,8900 12000,8900 12000,9100 13000,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <polygon points="11000,8900 9500,8900 9500,9100 11000,9100" fill="url(#wall-hatch)" stroke="black" stroke-width="50" stroke-linejoin="miter"/>
+        <line x1="12000" y1="9050" x2="11000" y2="9050" stroke="black" stroke-width="25"/>
+        <line x1="12000" y1="8950" x2="11000" y2="8950" stroke="black" stroke-width="25"/>
+        <line x1="12000" y1="8900" x2="12000" y2="9100" stroke="black" stroke-width="25"/>
+        <line x1="11000" y1="8900" x2="11000" y2="9100" stroke="black" stroke-width="25"/>
+        <g transform="translate(3500,2250) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Living Room</text>
+        </g>
+        <g transform="translate(10000,1125) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Kitchen</text>
+        </g>
+        <g transform="translate(8312.5,5250) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Hallway</text>
+        </g>
+        <g transform="translate(3375,7350) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Master Bedroom</text>
+        </g>
+        <g transform="translate(6000,6525) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Ensuite</text>
+        </g>
+        <g transform="translate(8750,6525) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Kids Room</text>
+        </g>
+        <g transform="translate(12125,6525) scale(1,-1)">
+          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Family Bathroom</text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
