@@ -280,21 +280,90 @@ Use the `bulge` property to create architectural curves. Negative bulge curves o
 }
 ```
 
-## Diagonal (Oblique) Walls
+## Artist Studio — Diagonal Walls, Semicircular Bay, Opening on Curved Wall
 
-Diagonal walls are created by setting non-axis-aligned `from`/`to` coordinates. Use custom direction names for diagonal wall segments:
+This example combines three advanced features in a single plan: oblique walls, a full semicircle (bulge: -1.0), and an archway on a curved wall.
+
+### Structure (artist-studio.pc excerpt — key rooms)
 
 ```jsonc
-// Pentagonal study with a 45° diagonal cutting the top-right corner
+// Pentagonal Studio — the SW corner is cut at 45° by an oblique wall.
+// A window is placed on the diagonal wall.
 {
-  "name": "Angled Study",
+  "name": "Studio",
   "walls": [
-    { "direction": "south",    "from": {"x": 0, "y": 0},    "to": {"x": 4000, "y": 0},    "thickness": 200 },
-    { "direction": "east",     "from": {"x": 4000, "y": 0},  "to": {"x": 4000, "y": 2500}, "thickness": 200 },
-    // 45° diagonal — from and to are not aligned on any axis
-    { "direction": "diagonal", "from": {"x": 4000, "y": 2500}, "to": {"x": 2500, "y": 4000}, "thickness": 150 },
-    { "direction": "north",    "from": {"x": 2500, "y": 4000}, "to": {"x": 0, "y": 4000},   "thickness": 200 },
-    { "direction": "west",     "from": {"x": 0, "y": 4000},    "to": {"x": 0, "y": 0},      "thickness": 200 }
+    { "direction": "south",       "from": {"x": 2000, "y": 0},    "to": {"x": 8000, "y": 0},    "thickness": 200 },
+    { "direction": "east",        "from": {"x": 8000, "y": 0},    "to": {"x": 8000, "y": 5000}, "thickness": 200 },
+    { "direction": "north right", "from": {"x": 8000, "y": 5000}, "to": {"x": 2500, "y": 5000}, "thickness": 150 },
+    { "direction": "north left",  "from": {"x": 2500, "y": 5000}, "to": {"x": 0, "y": 5000},    "thickness": 150 },
+    { "direction": "west",        "from": {"x": 0, "y": 5000},    "to": {"x": 0, "y": 2000},    "thickness": 200 },
+    // Oblique wall — from and to are NOT axis-aligned (45° diagonal)
+    { "direction": "diagonal",    "from": {"x": 0, "y": 2000},    "to": {"x": 2000, "y": 0},    "thickness": 200 }
+  ],
+  "doors": [
+    { "wall": "south", "offset": 1500, "width": 900, "swing": "left" },
+    { "wall": "north right", "offset": 2000, "width": 900, "swing": "right" },
+    { "wall": "north left", "offset": 800, "width": 700, "swing": "left" }
+  ],
+  "windows": [
+    { "wall": "east", "offset": 1500, "width": 2000, "height": 2200, "sill": 200 },
+    // Window on the oblique wall — elements work on diagonal walls
+    { "wall": "diagonal", "offset": 500, "width": 1200, "height": 1400, "sill": 900 }
+  ]
+}
+```
+
+```jsonc
+// Gallery with a perfect semicircular east bay (bulge: -1.0).
+// Both a window AND an opening are placed on the curved wall.
+{
+  "name": "Gallery",
+  "sharedWalls": [
+    { "direction": "south", "sourceRoom": "Studio", "sourceWall": "north right" }
+  ],
+  "walls": [
+    // bulge: -1.0 = perfect semicircle (curve protrudes by half the chord length)
+    { "direction": "east",  "from": {"x": 8000, "y": 5000}, "to": {"x": 8000, "y": 8000}, "thickness": 200, "bulge": -1.0 },
+    { "direction": "north", "from": {"x": 8000, "y": 8000}, "to": {"x": 2500, "y": 8000}, "thickness": 200 },
+    { "direction": "west",  "from": {"x": 2500, "y": 8000}, "to": {"x": 2500, "y": 5000}, "thickness": 150 }
+  ],
+  "windows": [
+    // Window on the semicircular wall
+    { "wall": "east", "offset": 200, "width": 1000, "height": 2200, "sill": 200 },
+    { "wall": "north", "offset": 1500, "width": 1500, "height": 1400, "sill": 900 }
+  ],
+  "openings": [
+    // Archway on the curved wall — terrace access through the semicircle
+    { "wall": "east", "offset": 1800, "width": 1000 }
+  ]
+}
+```
+
+### Furniture (artist-studio.pcf excerpt)
+
+Uses previously-unseen default elements (`executive_desk`, `filing_cabinet`, `whiteboard`, `round_table`) plus a custom `easel`:
+
+```jsonc
+{
+  "elements": {
+    "easel": {
+      "name": "Artist Easel",
+      "tags": ["studio", "furniture", "custom"],
+      "defaultWidth": 600,
+      "defaultDepth": 500,
+      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 600 500\">...</svg>",
+      "source": "generated"
+    }
+  },
+  "placements": [
+    // Studio — work area
+    { "element": "default/executive_desk", "position": {"x": 6500, "y": 1500}, "room": "Studio" },
+    { "element": "default/office_chair",   "position": {"x": 5800, "y": 1500}, "room": "Studio" },
+    { "element": "default/filing_cabinet", "position": {"x": 7500, "y": 1500}, "room": "Studio" },
+    { "element": "default/whiteboard",     "position": {"x": 5000, "y": 4700}, "room": "Studio" },
+    // Gallery — display area in the semicircular bay
+    { "element": "default/round_table",    "position": {"x": 7000, "y": 6500}, "room": "Gallery" },
+    { "element": "easel",                  "position": {"x": 4000, "y": 6200}, "room": "Gallery" }
   ]
 }
 ```
@@ -369,9 +438,10 @@ A fully furnished apartment showing all furniture types, custom elements, scalin
 3. **Split wall segments**: Hallway's north wall is split into labeled segments ("north left", "north mid", etc.) so each upper room can reference its segment via sharedWalls
 4. **Openings (archways)**: Use `"openings"` array for wall gaps without door panels — ideal for open-plan layouts
 5. **Curved walls**: Add `"bulge"` to any wall — negative values curve outward, positive inward. `0.1` ≈ subtle, `0.3` ≈ noticeable, `1.0` = semicircle
-6. **Openings on curved walls**: Doors, windows, and openings work on curved walls (renderer approximates with polygons)
-7. **Diagonal walls**: Use non-axis-aligned `from`/`to` coordinates with a custom direction name like `"diagonal"`
+6. **Elements on curved walls**: Doors, windows, and openings all work on curved walls (see Artist Studio gallery archway and Curved Villa sliding door)
+7. **Diagonal walls**: Use non-axis-aligned `from`/`to` coordinates with a custom direction name like `"diagonal"`. Windows/doors work on diagonal walls too (see Artist Studio pentagonal room)
 8. **Ensuite pattern**: Room accessible only from another room (no hallway door), using sharedWalls for both south and west walls
+9. **Semicircular bay**: `bulge: -1.0` creates a perfect semicircle — the curve protrudes by half the chord length (see Artist Studio gallery)
 
 ### Furniture Patterns
 
