@@ -231,14 +231,147 @@ function polygonArea(points: Point[]): number {
   return Math.abs(area) / 2;
 }
 
+/**
+ * Compute the centroid of a polygon using the shoelace-based formula.
+ * Unlike a simple vertex average, this correctly handles polygons with
+ * unevenly distributed vertices (e.g. curved walls with many sample points)
+ * and non-convex shapes.
+ *
+ * Formula: Cx = 1/(6A) * Σ(xi+xi+1)(xi·yi+1 − xi+1·yi)
+ *          Cy = 1/(6A) * Σ(yi+yi+1)(xi·yi+1 − xi+1·yi)
+ * where A is the signed area from the shoelace formula.
+ */
 function polygonCenter(points: Point[]): Point {
+  const n = points.length;
+  if (n === 0) return { x: 0, y: 0 };
+  if (n === 1) return { x: points[0].x, y: points[0].y };
+  if (n === 2)
+    return {
+      x: (points[0].x + points[1].x) / 2,
+      y: (points[0].y + points[1].y) / 2,
+    };
+
+  let signedArea = 0;
   let cx = 0;
   let cy = 0;
-  for (const p of points) {
-    cx += p.x;
-    cy += p.y;
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    const cross = points[i].x * points[j].y - points[j].x * points[i].y;
+    signedArea += cross;
+    cx += (points[i].x + points[j].x) * cross;
+    cy += (points[i].y + points[j].y) * cross;
   }
-  return { x: cx / points.length, y: cy / points.length };
+  signedArea /= 2;
+
+  // Guard against degenerate (zero-area) polygons – fall back to vertex average
+  if (Math.abs(signedArea) < 1e-6) {
+    let fx = 0;
+    let fy = 0;
+    for (const p of points) {
+      fx += p.x;
+      fy += p.y;
+    }
+    return { x: fx / n, y: fy / n };
+  }
+
+  const factor = 1 / (6 * signedArea);
+  return { x: cx * factor, y: cy * factor };
+}
+
+// ── Wall chain normalization ─────────────────────────────────────────
+
+/**
+ * Check if two points are equal (exact coordinate match).
+ */
+function pointsEqual(a: Point, b: Point): boolean {
+  return a.x === b.x && a.y === b.y;
+}
+
+/**
+ * Return a copy of the wall with from/to swapped, curvePoints reversed,
+ * and bulge negated.  The physical polygon stays the same (it describes
+ * the wall shape regardless of traversal direction).
+ */
+function reverseWall(wall: ResolvedWall): ResolvedWall {
+  const reversed: ResolvedWall = {
+    ...wall,
+    from: wall.to,
+    to: wall.from,
+  };
+  if (wall.bulge !== undefined) {
+    reversed.bulge = -wall.bulge;
+  }
+  if (wall.curvePoints && wall.curvePoints.length > 0) {
+    reversed.curvePoints = [...wall.curvePoints].reverse();
+  }
+  return reversed;
+}
+
+/**
+ * Reorder and orient walls so they form a proper closed chain where
+ * wall[i].to === wall[i+1].from for every consecutive pair, and the
+ * last wall's `to` equals the first wall's `from`.
+ *
+ * This is necessary because:
+ * 1. The parser emits explicit walls before shared walls, which may
+ *    break perimeter order.
+ * 2. Shared walls keep the source room's from/to, which may be the
+ *    reverse of the consuming room's traversal direction.
+ *
+ * The algorithm greedily builds a chain by matching endpoints.  If the
+ * first wall's initial orientation doesn't produce a valid chain it
+ * retries with the first wall reversed.  On failure it returns the
+ * original array unchanged (best-effort).
+ */
+function normalizeWallChain(walls: ResolvedWall[]): ResolvedWall[] {
+  if (walls.length <= 1) return walls;
+
+  for (const startReversed of [false, true]) {
+    const result: ResolvedWall[] = [];
+    const used = new Set<number>();
+
+    result.push(startReversed ? reverseWall(walls[0]) : walls[0]);
+    used.add(0);
+
+    let success = true;
+    for (let step = 1; step < walls.length; step++) {
+      const prevEnd = result[result.length - 1].to;
+
+      let found = false;
+      for (let j = 0; j < walls.length; j++) {
+        if (used.has(j)) continue;
+
+        if (pointsEqual(walls[j].from, prevEnd)) {
+          result.push(walls[j]);
+          used.add(j);
+          found = true;
+          break;
+        }
+        if (pointsEqual(walls[j].to, prevEnd)) {
+          result.push(reverseWall(walls[j]));
+          used.add(j);
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        success = false;
+        break;
+      }
+    }
+
+    // Verify the chain closes
+    if (
+      success &&
+      pointsEqual(result[result.length - 1].to, result[0].from)
+    ) {
+      return result;
+    }
+  }
+
+  // Fallback: return walls in their original order
+  return walls;
 }
 
 // ── Resolver ─────────────────────────────────────────────────────────
@@ -291,6 +424,13 @@ function resolveRoom(
       walls.push(resolveSharedWall(child, room.name, roomMap));
     }
   }
+
+  // Normalize wall chain so walls form a proper closed perimeter.
+  // This fixes rooms where shared walls break the traversal order or direction.
+  const chainedWalls = normalizeWallChain(walls);
+  // Replace the walls array contents with the normalized chain
+  walls.length = 0;
+  walls.push(...chainedWalls);
 
   // Build a wall lookup for openings
   const wallByDir = new Map<string, ResolvedWall>();

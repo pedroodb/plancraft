@@ -92,8 +92,10 @@ describe("Resolver", () => {
     const roomB = resolved.floors[0].rooms[1];
     assert.equal(roomB.walls.length, 4);
     const sharedWall = roomB.walls[3];
-    assert.deepEqual(sharedWall.from, { x: 5000, y: 0 });
-    assert.deepEqual(sharedWall.to, { x: 5000, y: 4000 });
+    // Shared wall is reversed by normalizeWallChain so the perimeter chains:
+    // south.to = (5000,4000) → sharedWall.from = (5000,4000) → sharedWall.to = (5000,0) → north.from
+    assert.deepEqual(sharedWall.from, { x: 5000, y: 4000 });
+    assert.deepEqual(sharedWall.to, { x: 5000, y: 0 });
   });
 
   it("resolves doors with positions", () => {

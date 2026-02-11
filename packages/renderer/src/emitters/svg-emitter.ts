@@ -233,7 +233,7 @@ function emitText(
     `${indent}<g transform="translate(${text.x},${text.y}) scale(1,-1)">`,
   );
   lines.push(
-    `${indent}  <text x="0" y="0" font-family="Arial, sans-serif" font-size="${fontSize}" text-anchor="${text.anchor}" fill="black">${escapeXml(text.content)}</text>`,
+    `${indent}  <text x="0" y="0" font-family="Arial, sans-serif" font-size="${fontSize}" text-anchor="${text.anchor}" dominant-baseline="central" fill="black">${escapeXml(text.content)}</text>`,
   );
   lines.push(`${indent}</g>`);
 }
