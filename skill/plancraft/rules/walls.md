@@ -10,7 +10,7 @@ Walls are defined as objects in a room's `"walls"` array:
 
 ## Fields
 
-- **`direction`** — A name for the wall. Can be a cardinal direction (`"north"`, `"east"`, `"south"`, `"west"`) or any custom string (`"east lower"`, `"step north"`).
+- **`direction`** — A positional label for which side of the room the wall is on. **Always use English cardinal directions**: `"north"`, `"east"`, `"south"`, `"west"`. For rooms with more than 4 walls, use compound names: `"north_left"`, `"north_right"`, `"step_east"`, `"step_south"`, `"diagonal"`. **Never use room names, destination names, or translated words** as direction values (e.g., `"pasillo"`, `"cocina"`, `"sala_south"` are all wrong).
 - **`from`** / **`to`** — Absolute `{"x": N, "y": N}` coordinates of the wall's start and end points.
 - **`thickness`** — Wall thickness in the project's unit (default mm).
 

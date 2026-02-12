@@ -20,7 +20,7 @@ Only `"name"` and `"walls"` are required. All other arrays can be omitted if emp
 
 ## Wall Direction Names
 
-Walls can use cardinal directions or custom strings:
+Walls **must** use English cardinal directions (`"north"`, `"south"`, `"east"`, `"west"`) or positional compound names for rooms with more than 4 walls:
 
 ```jsonc
 {

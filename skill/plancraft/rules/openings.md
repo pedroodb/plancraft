@@ -8,7 +8,7 @@ Doors are objects in a room's `"doors"` array:
 { "wall": "north", "offset": 1500, "width": 900, "swing": "left" }
 ```
 
-- **`wall`** — References a wall direction defined in the same room
+- **`wall`** — Must EXACTLY match a wall `"direction"` string defined in the same room (e.g., `"north"`, `"east"`). Never use room names or translations.
 - **`offset`** — Distance from the wall's `from` point to the door hinge
 - **`width`** — Door panel width (standard: 0.9m / `900` for single, 1.2m / `1200` for double)
 - **`swing`** — `"left"`, `"right"`, or `"sliding"`
