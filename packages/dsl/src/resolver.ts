@@ -314,6 +314,65 @@ function reverseWall(wall: ResolvedWall): ResolvedWall {
 }
 
 /**
+ * Check if point `p` lies on the straight-line segment from `a` to `b`.
+ * Uses a tolerance proportional to the segment length for the cross-product
+ * (perpendicular distance) check, and the dot-product (along-segment) check.
+ */
+function pointOnSegment(p: Point, a: Point, b: Point): boolean {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq < 1) return false; // degenerate segment
+
+  // Cross product: perpendicular distance × length
+  const cross = Math.abs(dx * (p.y - a.y) - dy * (p.x - a.x));
+  const len = Math.sqrt(lenSq);
+  if (cross / len > POINT_EQ_TOLERANCE) return false;
+
+  // Dot product: projection along segment (0 = at `a`, lenSq = at `b`)
+  const dot = (p.x - a.x) * dx + (p.y - a.y) * dy;
+  // Allow the point to be slightly past the endpoints
+  return dot >= -POINT_EQ_TOLERANCE * len && dot <= lenSq + POINT_EQ_TOLERANCE * len;
+}
+
+/**
+ * Clip a wall segment so it starts at `newFrom` instead of the original `from`.
+ * Preserves direction, roomName, thickness, polygon etc.
+ * For curved walls, removes arc sample points before the clip point.
+ */
+function clipWallFrom(wall: ResolvedWall, newFrom: Point): ResolvedWall {
+  const clipped: ResolvedWall = { ...wall, from: newFrom };
+  // Recompute polygon for the clipped segment
+  if (!wall.bulge) {
+    clipped.polygon = wallPolygon(newFrom, wall.to, wall.thickness).polygon;
+  }
+  return clipped;
+}
+
+/**
+ * Clip a wall segment so it ends at `newTo` instead of the original `to`.
+ */
+function clipWallTo(wall: ResolvedWall, newTo: Point): ResolvedWall {
+  const clipped: ResolvedWall = { ...wall, to: newTo };
+  if (!wall.bulge) {
+    clipped.polygon = wallPolygon(wall.from, newTo, wall.thickness).polygon;
+  }
+  return clipped;
+}
+
+/**
+ * Clip a wall segment at both ends — from `newFrom` to `newTo`.
+ * Used when a shared wall needs to be trimmed to the consuming room's segment.
+ */
+function clipWallBoth(wall: ResolvedWall, newFrom: Point, newTo: Point): ResolvedWall {
+  const clipped: ResolvedWall = { ...wall, from: newFrom, to: newTo };
+  if (!wall.bulge) {
+    clipped.polygon = wallPolygon(newFrom, newTo, wall.thickness).polygon;
+  }
+  return clipped;
+}
+
+/**
  * Reorder and orient walls so they form a proper closed chain where
  * wall[i].to === wall[i+1].from for every consecutive pair, and the
  * last wall's `to` equals the first wall's `from`.
@@ -323,10 +382,17 @@ function reverseWall(wall: ResolvedWall): ResolvedWall {
  *    break perimeter order.
  * 2. Shared walls keep the source room's from/to, which may be the
  *    reverse of the consuming room's traversal direction.
+ * 3. Shared walls copy the ENTIRE source wall geometry, but the
+ *    consuming room may only use a segment.  The chain algorithm
+ *    clips shared walls to the segment actually needed.
  *
- * The algorithm greedily builds a chain by matching endpoints.  If the
- * first wall's initial orientation doesn't produce a valid chain it
- * retries with the first wall reversed.  On failure it returns the
+ * The algorithm greedily builds a chain by matching endpoints.  When an
+ * exact endpoint match fails, it checks if the chain endpoint lies ON a
+ * wall segment and clips that wall accordingly (handling shared walls
+ * that are longer than the consuming room's boundary).
+ *
+ * If the first wall's initial orientation doesn't produce a valid chain
+ * it retries with the first wall reversed.  On failure it returns the
  * original array unchanged (best-effort).
  */
 function normalizeWallChain(walls: ResolvedWall[]): ResolvedWall[] {
@@ -342,8 +408,12 @@ function normalizeWallChain(walls: ResolvedWall[]): ResolvedWall[] {
     let success = true;
     for (let step = 1; step < walls.length; step++) {
       const prevEnd = result[result.length - 1].to;
+      const firstStart = result[0].from;
+      const isLastStep = step === walls.length - 1;
 
       let found = false;
+
+      // 1. Try exact endpoint match
       for (let j = 0; j < walls.length; j++) {
         if (used.has(j)) continue;
 
@@ -361,17 +431,62 @@ function normalizeWallChain(walls: ResolvedWall[]): ResolvedWall[] {
         }
       }
 
+      // 2. Fallback: check if prevEnd lies ON a wall segment (shared wall clipping).
+      //    For the LAST step, also check that firstStart lies on the same wall
+      //    so we can clip both ends and guarantee chain closure.
+      if (!found) {
+        for (let j = 0; j < walls.length; j++) {
+          if (used.has(j)) continue;
+
+          const wFrom = walls[j].from;
+          const wTo = walls[j].to;
+
+          if (isLastStep) {
+            // Last step: need both prevEnd and firstStart on the same wall
+            // so we can clip from prevEnd to firstStart and close the chain.
+            if (pointOnSegment(prevEnd, wFrom, wTo) && pointOnSegment(firstStart, wFrom, wTo)) {
+              result.push(clipWallBoth(walls[j], { ...prevEnd }, { ...firstStart }));
+              used.add(j);
+              found = true;
+              break;
+            }
+            if (pointOnSegment(prevEnd, wTo, wFrom) && pointOnSegment(firstStart, wTo, wFrom)) {
+              result.push(clipWallBoth(reverseWall(walls[j]), { ...prevEnd }, { ...firstStart }));
+              used.add(j);
+              found = true;
+              break;
+            }
+          } else {
+            // Intermediate step: clip start only
+            if (pointOnSegment(prevEnd, wFrom, wTo)) {
+              result.push(clipWallFrom(walls[j], { ...prevEnd }));
+              used.add(j);
+              found = true;
+              break;
+            }
+            if (pointOnSegment(prevEnd, wTo, wFrom)) {
+              result.push(clipWallFrom(reverseWall(walls[j]), { ...prevEnd }));
+              used.add(j);
+              found = true;
+              break;
+            }
+          }
+        }
+      }
+
       if (!found) {
         success = false;
         break;
       }
     }
 
+    if (!success) continue;
+
     // Verify the chain closes
-    if (
-      success &&
-      pointsEqual(result[result.length - 1].to, result[0].from)
-    ) {
+    const lastEnd = result[result.length - 1].to;
+    const firstStart = result[0].from;
+
+    if (pointsEqual(lastEnd, firstStart)) {
       return result;
     }
   }
