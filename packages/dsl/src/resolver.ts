@@ -477,18 +477,41 @@ function resolveRoom(
   }
 
   // Compute area and center from wall centerline points.
-  // For straight walls, use the wall start point (from).
-  // For curved walls, use the sampled arc centerline points
-  // (excluding the last point which duplicates the next wall's from).
+  // For each wall, determine the correct traversal start point by checking
+  // endpoint connectivity with the previous wall. This handles shared walls
+  // whose from/to may not match the room's perimeter winding direction
+  // (they retain the source room's orientation when chain normalization
+  // falls back to the original order).
   const areaPoints: Point[] = [];
-  for (const w of walls) {
-    if (w.curvePoints && w.curvePoints.length > 0) {
-      // Add all arc samples except the last (which is w.to = next wall's from)
-      for (let i = 0; i < w.curvePoints.length - 1; i++) {
-        areaPoints.push(w.curvePoints[i]);
+  for (let i = 0; i < walls.length; i++) {
+    const prev = walls[(i - 1 + walls.length) % walls.length];
+    const curr = walls[i];
+
+    // Determine the correct start point for this wall segment
+    let start: Point;
+    if (pointsEqual(prev.to, curr.from)) {
+      start = curr.from;
+    } else if (pointsEqual(prev.to, curr.to)) {
+      start = curr.to;
+    } else if (pointsEqual(prev.from, curr.from)) {
+      start = curr.from;
+    } else if (pointsEqual(prev.from, curr.to)) {
+      start = curr.to;
+    } else {
+      start = curr.from; // fallback
+    }
+
+    const isReversed = start.x === curr.to.x && start.y === curr.to.y;
+
+    if (curr.curvePoints && curr.curvePoints.length > 0) {
+      // Curved wall: add sampled arc points in the correct traversal order
+      const pts = isReversed ? [...curr.curvePoints].reverse() : curr.curvePoints;
+      // Exclude the last point (which is the next wall's start)
+      for (let j = 0; j < pts.length - 1; j++) {
+        areaPoints.push(pts[j]);
       }
     } else {
-      areaPoints.push(w.from);
+      areaPoints.push(start);
     }
   }
   const area = polygonArea(areaPoints);
