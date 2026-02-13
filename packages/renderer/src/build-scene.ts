@@ -18,7 +18,8 @@ import type { DimensionInput, DimChainInput } from "./dimensions.js";
 import type { SGGroup, SGNode, SGSvgEmbed, SGText } from "./scene-graph.js";
 
 import type { FurnitureLayout, FurniturePackage, FurnitureElement } from "@plancraft/furniture";
-import { resolveElement, parseSvg } from "@plancraft/furniture";
+import { resolveElement, parseSvg, resolveAnchors } from "@plancraft/furniture";
+import { computeRoomGeometries } from "./geometry/spatial.js";
 
 export function buildScene(project: ResolvedProject): SGGroup {
   const children: SGNode[] = [];
@@ -36,6 +37,7 @@ export function buildScene(project: ResolvedProject): SGGroup {
 
 /**
  * Build a scene graph that includes both the structural plan and furniture overlay.
+ * Anchored/relative furniture placements are resolved to absolute coordinates first.
  */
 export function buildSceneWithFurniture(
   project: ResolvedProject,
@@ -48,7 +50,11 @@ export function buildSceneWithFurniture(
     return structureScene;
   }
 
-  const furnitureScene = buildFurnitureScene(layout, packages);
+  // Resolve anchored/relative placements to absolute coordinates
+  const roomGeometries = computeRoomGeometries(project);
+  const resolvedLayout = resolveAnchors(layout, roomGeometries);
+
+  const furnitureScene = buildFurnitureScene(resolvedLayout, packages);
   structureScene.children.push(furnitureScene);
 
   return structureScene;

@@ -10,6 +10,8 @@ import type {
   FurnitureLayout,
   FurniturePlacement,
   Point,
+  WallAnchor,
+  RelativePosition,
 } from "./types.js";
 
 // ── Error type ────────────────────────────────────────────────────────
@@ -192,7 +194,46 @@ function transformPlacement(
 
   const element = requireString(obj, "element", ctx);
 
-  const position = requirePoint(obj["position"], `${ctx} "position"`);
+  // Parse anchor (wall-anchored positioning)
+  let anchor: WallAnchor | undefined;
+  if (obj["anchor"] !== undefined && obj["anchor"] !== null) {
+    if (typeof obj["anchor"] !== "object" || Array.isArray(obj["anchor"])) {
+      throw new LayoutParseError(`${ctx}: "anchor" must be an object`);
+    }
+    const anchorObj = obj["anchor"] as Record<string, unknown>;
+    anchor = {
+      wall: requireString(anchorObj, "wall", `${ctx} anchor`),
+      along: requireNumber(anchorObj, "along", `${ctx} anchor`),
+      offset: optionalNumber(anchorObj, "offset") ?? 0,
+    };
+  }
+
+  // Parse relativePosition (room-relative percentage)
+  let relativePosition: RelativePosition | undefined;
+  if (obj["relativePosition"] !== undefined && obj["relativePosition"] !== null) {
+    if (typeof obj["relativePosition"] !== "object" || Array.isArray(obj["relativePosition"])) {
+      throw new LayoutParseError(`${ctx}: "relativePosition" must be an object`);
+    }
+    const relObj = obj["relativePosition"] as Record<string, unknown>;
+    relativePosition = {
+      x: requireNumber(relObj, "x", `${ctx} relativePosition`),
+      y: requireNumber(relObj, "y", `${ctx} relativePosition`),
+    };
+  }
+
+  // Position is required for absolute placements, but anchored/relative placements
+  // can use a dummy position that gets resolved later
+  let position: Point;
+  if (obj["position"] !== undefined && obj["position"] !== null) {
+    position = requirePoint(obj["position"], `${ctx} "position"`);
+  } else if (anchor || relativePosition) {
+    // Anchor or relative placements can omit position (it gets resolved)
+    position = { x: 0, y: 0 };
+  } else {
+    throw new LayoutParseError(
+      `${ctx}: "position" is required (or use "anchor" or "relativePosition" with a "room")`
+    );
+  }
 
   // New scale-based fields with defaults
   const scaleWidth = optionalNumber(obj, "scaleWidth") ?? 100;
@@ -222,6 +263,8 @@ function transformPlacement(
   };
 
   if (room !== undefined) placement.room = room;
+  if (anchor !== undefined) placement.anchor = anchor;
+  if (relativePosition !== undefined) placement.relativePosition = relativePosition;
 
   // Mark legacy placements so the renderer can detect them
   if (
@@ -299,13 +342,23 @@ export function serializeLayout(layout: FurnitureLayout): string {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const obj: any = {
       element: p.element,
-      position: p.position,
     };
+    // Include position for absolute placements; anchored/relative may omit it
+    if (p.anchor || p.relativePosition) {
+      // For anchored/relative placements, only include position if it was explicitly set (not 0,0 dummy)
+      if (p.position.x !== 0 || p.position.y !== 0) {
+        obj.position = p.position;
+      }
+    } else {
+      obj.position = p.position;
+    }
     if (p.scaleWidth !== 100) obj.scaleWidth = p.scaleWidth;
     if (p.scaleDepth !== 100) obj.scaleDepth = p.scaleDepth;
     if (!p.lockProportions) obj.lockProportions = false;
     if (p.rotation !== 0) obj.rotation = p.rotation;
     if (p.room !== undefined) obj.room = p.room;
+    if (p.anchor !== undefined) obj.anchor = p.anchor;
+    if (p.relativePosition !== undefined) obj.relativePosition = p.relativePosition;
     return obj;
   });
 

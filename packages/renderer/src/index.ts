@@ -14,3 +14,25 @@ export type {
 } from "./scene-graph.js";
 export type { Layer } from "./scene-graph.js";
 export { LINE_WEIGHTS } from "./scene-graph.js";
+
+// Spatial validation utilities
+export {
+  validateFurniturePlacement,
+  computeRoomGeometries,
+  computeFurnitureAABBs,
+  computeSpatialMetrics,
+  aabbOverlap,
+  pointInPolygon,
+  rotatedRectAABB,
+  roomBoundingBox,
+  roomCenterlinePolygon,
+  polygonAABB,
+} from "./geometry/spatial.js";
+export type {
+  AABB,
+  RoomGeometry,
+  WallInfo,
+  FurnitureAABB,
+  SpatialWarning,
+  SpatialMetrics,
+} from "./geometry/spatial.js";

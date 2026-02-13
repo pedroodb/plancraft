@@ -109,12 +109,17 @@ The `"elements"` key contains all element definitions used by this layout. Each 
 ## Placement Fields
 
 - **`element`** — Element ID (key into the `"elements"` map) (required)
-- **`position`** — `{"x": N, "y": N}` center point in drawing units (required)
+- **`position`** — `{"x": N, "y": N}` center point in mm. Required unless using `anchor` or `relativePosition`.
+- **`anchor`** — Wall-anchored positioning (optional, use instead of `position`):
+  - `wall`: compass side ("north", "south", "east", "west") or wall direction name
+  - `along`: 0-1 position along the wall (0 = start, 0.5 = center, 1 = end)
+  - `offset`: mm from wall inner face (0 = flush, default 0). System auto-adds wall_thickness/2 + furniture_depth/2.
+- **`relativePosition`** — `{"x": N, "y": N}` where 0-1 is percentage within room inner bounding box (optional, use instead of `position`)
 - **`scaleWidth`** — Width as percentage of original size, default `100` (optional)
 - **`scaleDepth`** — Depth as percentage of original size, default `100` (optional)
 - **`lockProportions`** — When `true`, width and depth scale together, default `true` (optional)
 - **`rotation`** — Rotation in degrees, default `0` (optional)
-- **`room`** — Optional room name for organization (not validated against the .pc file)
+- **`room`** — Room name. **Required for `anchor` and `relativePosition`.** Enables spatial validation.
 
 ### Scale Examples
 
@@ -167,12 +172,28 @@ When creating element SVGs:
 | `staircase` | Straight Staircase | structural, circulation | 900 x 2500 |
 | `spiral_staircase` | Spiral Staircase | structural, circulation | 1500 x 1500 |
 
+## Positioning Methods
+
+Three ways to position furniture:
+
+1. **Absolute position**: `"position": {"x": 2100, "y": 1100}` — direct mm coordinates
+2. **Wall anchor**: `"anchor": {"wall": "south", "along": 0.5, "offset": 0}` — auto-aligned to wall (recommended for wall-adjacent items)
+3. **Room-relative**: `"relativePosition": {"x": 0.5, "y": 0.5}` — percentage within room (recommended for center-of-room items)
+
+Anchor and relativePosition require the `"room"` field. The system auto-resolves them to absolute coordinates.
+
 ## Placement Tips
 
-- Position furniture using absolute coordinates (center of the piece)
-- Use rotation to orient pieces (0 = default, 90 = rotated clockwise)
+- **ALWAYS call `get_room_geometry` first** to get exact room bounds and wall positions
+- **Prefer anchor** for wall-aligned items (beds, wardrobes, counters, toilets) — it auto-handles wall thickness offset
+- **Prefer relativePosition** for center-of-room items (coffee tables, dining tables)
+- Position furniture using absolute coordinates (center of the piece), computed from room geometry
+- Use rotation to orient pieces (0 = default, 90 = rotated clockwise). **Rotation swaps effective width/depth.**
 - Keep at least 600mm clearance between furniture and walls for walkways
-- Align furniture against walls: place the center at `wall_position + depth/2`
+- For wall-aligned furniture: `center = wall_inner_edge + furniture_depth / 2`
+- Use `innerBoundingBox` from room geometry to ensure furniture stays inside the room
+- **Check the warnings** returned by add_furniture_placement and replace_furniture_layout — fix overlaps immediately
+- Always set the `room` field on placements to enable spatial validation
 - Group fixtures by function (kitchen appliances together, bathroom fixtures together)
 - Use `scaleWidth`/`scaleDepth` to resize (percentage-based) rather than fixed dimensions
 - Use list_furniture_packages and browse_package (with tag filter) to discover available elements

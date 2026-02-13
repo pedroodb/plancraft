@@ -54,11 +54,12 @@ For each room, add doors, windows, and openings to their respective arrays:
 
 ### 5. Place Furniture (in a separate .pcf file)
 
-Create a `.pcf` file with furniture placements:
+**Call `get_room_geometry` first** to get room bounds and wall positions. Then create a `.pcf` file with furniture placements:
 - Each placement references an element as `"package/element"` (e.g. `"default/bed"`)
-- Position at center point `{"x": N, "y": N}` in absolute coordinates
-- Optionally set width, depth overrides, and rotation
-- Use the `"room"` field for organizational grouping
+- Position using: **`position`** (absolute mm), **`anchor`** (wall-aligned — use for beds, wardrobes, toilets), or **`relativePosition`** (percentage within room — use for tables)
+- Optionally set scaleWidth, scaleDepth, and rotation
+- **Always set the `room` field** — required for anchor/relativePosition and enables spatial validation
+- Check warnings from add_furniture_placement and replace_furniture_layout for overlaps
 
 ### 6. Self-Review Checklist
 

@@ -36,11 +36,24 @@
 
 ### Furniture (studio.pcf)
 
+Using absolute positions:
 ```jsonc
 {
   "placements": [
     { "element": "default/bed", "position": {"x": 1000, "y": 1000}, "width": 1400, "depth": 2000, "room": "Studio" },
     { "element": "default/desk", "position": {"x": 4000, "y": 3200}, "room": "Studio" }
+  ]
+}
+```
+
+Same layout using anchor and relativePosition (preferred — more robust):
+```jsonc
+{
+  "placements": [
+    // Bed anchored to west wall, centered along wall, flush against it
+    { "element": "default/bed", "anchor": {"wall": "west", "along": 0.3, "offset": 0}, "width": 1400, "depth": 2000, "room": "Studio" },
+    // Desk at 80% along X, 80% along Y within room bounding box
+    { "element": "default/desk", "relativePosition": {"x": 0.8, "y": 0.8}, "room": "Studio" }
   ]
 }
 ```

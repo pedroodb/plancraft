@@ -58,7 +58,12 @@ Furniture elements are individual SVG files organized into packages:
 - **modern-living** — Contemporary living room pieces
 - **office** — Workspace furniture
 
-Elements are referenced as `"package/element"` (e.g. `"default/bed"`). Placements specify position, optional size overrides, and rotation.
+Elements are referenced as `"package/element"` (e.g. `"default/bed"`). Placements support three positioning methods:
+- **`position`** — Absolute mm coordinates (traditional)
+- **`anchor`** — Wall-aligned positioning: `{wall, along, offset}`. The system auto-computes the exact position including wall thickness. **Recommended for wall-adjacent items** (beds, wardrobes, toilets).
+- **`relativePosition`** — Percentage within room bounding box: `{x, y}` where 0-1. **Recommended for center-of-room items** (tables, rugs).
+
+**Always call `get_room_geometry` first** to get room bounds and wall positions before placing furniture. Check spatial validation warnings from tool responses.
 
 See `rules/furniture.md` for the complete element reference and `.pcf` format.
 
