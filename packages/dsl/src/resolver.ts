@@ -281,10 +281,16 @@ function polygonCenter(points: Point[]): Point {
 // ── Wall chain normalization ─────────────────────────────────────────
 
 /**
- * Check if two points are equal (exact coordinate match).
+ * Check if two points are approximately equal.
+ * Uses a 1mm tolerance to account for minor coordinate rounding
+ * in AI-generated plans while preserving architectural precision.
  */
+const POINT_EQ_TOLERANCE = 1; // 1mm
 function pointsEqual(a: Point, b: Point): boolean {
-  return a.x === b.x && a.y === b.y;
+  return (
+    Math.abs(a.x - b.x) <= POINT_EQ_TOLERANCE &&
+    Math.abs(a.y - b.y) <= POINT_EQ_TOLERANCE
+  );
 }
 
 /**
@@ -370,8 +376,12 @@ function normalizeWallChain(walls: ResolvedWall[]): ResolvedWall[] {
     }
   }
 
-  // Fallback: return walls in their original order
-  return walls;
+  // Fallback: return a COPY of walls in their original order.
+  // IMPORTANT: must return a new array, NOT the input reference,
+  // because the caller does `walls.length = 0; walls.push(...result)`.
+  // Returning the same reference would alias `walls` and `result`,
+  // causing `walls.length = 0` to empty both — losing all walls.
+  return [...walls];
 }
 
 // ── Resolver ─────────────────────────────────────────────────────────
@@ -440,17 +450,21 @@ function resolveRoom(
   for (const child of room.children) {
     if (child.type === "door") {
       const wall = wallByDir.get(child.wallDirection);
-      if (!wall)
+      if (!wall) {
+        const availDirs = [...wallByDir.keys()].join(', ');
         throw new ResolveError(
-          `Door references wall.${child.wallDirection} in room "${room.name}", but no such wall exists`,
+          `Door references wall.${child.wallDirection} in room "${room.name}", but no such wall exists. Valid walls: [${availDirs}]`,
         );
+      }
       doors.push(resolveDoor(child, wall));
     } else if (child.type === "window") {
       const wall = wallByDir.get(child.wallDirection);
-      if (!wall)
+      if (!wall) {
+        const availDirs = [...wallByDir.keys()].join(', ');
         throw new ResolveError(
-          `Window references wall.${child.wallDirection} in room "${room.name}", but no such wall exists`,
+          `Window references wall.${child.wallDirection} in room "${room.name}", but no such wall exists. Valid walls: [${availDirs}]`,
         );
+      }
       windows.push(resolveWindow(child, wall));
     } else if (child.type === "opening") {
       const wall = wallByDir.get(child.wallDirection);

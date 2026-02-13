@@ -18,7 +18,7 @@ Doors are objects in a room's `"doors"` array:
 ```jsonc
 "doors": [
   { "wall": "north", "offset": 1500, "width": 900, "swing": "left" },
-  { "wall": "hallway side", "offset": 500, "width": 1200, "swing": "sliding" }
+  { "wall": "south", "offset": 500, "width": 1200, "swing": "sliding" }
 ]
 ```
 
@@ -30,7 +30,7 @@ Windows are objects in a room's `"windows"` array:
 { "wall": "east", "offset": 800, "width": 1200, "height": 1400, "sill": 900 }
 ```
 
-- **`wall`** — References a wall direction
+- **`wall`** — Must EXACTLY match a wall `"direction"` string defined in the same room. Never use room names or translations.
 - **`offset`** — Distance from wall's `from` point to window start
 - **`width`** — Window width
 - **`height`** — Window height (for elevation reference)
