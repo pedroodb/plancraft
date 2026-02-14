@@ -9,6 +9,7 @@ import type {
   ResolvedRoom,
   ResolvedWall,
 } from "@plancraft/dsl";
+import { arcFromBulge, getArcLength } from "@plancraft/dsl";
 import { wallToPolygons } from "./geometry/wall-geometry.js";
 import type { WallOpening } from "./geometry/wall-geometry.js";
 import { doorToGeometry } from "./geometry/door-geometry.js";
@@ -168,10 +169,22 @@ export function buildFurnitureScene(
  *
  * `start` is the hinge/origin end of the opening.
  * `end` is the opposite end (hinge + width along the wall direction).
+ *
+ * For curved walls, `arcOffset` and `arcWidth` store the arc-length-based
+ * offset and width so the curved wall renderer can split arcs properly.
  */
 interface CollectedOpening {
   start: Point;
   end: Point;
+  /** Arc-length offset from wall start (only set for curved walls). */
+  arcOffset?: number;
+  /** Width measured along the arc (only set for curved walls). */
+  arcWidth?: number;
+  /** Reference to the wall's bulge (for matching curved walls). */
+  wallBulge?: number;
+  /** Wall from/to for matching (curved walls can't use collinearity). */
+  wallFrom?: Point;
+  wallTo?: Point;
 }
 
 /**
@@ -181,12 +194,15 @@ interface CollectedOpening {
  * The opening extent is computed along the wall's own from→to direction so
  * that the absolute range is always correct, regardless of which wall object
  * eventually gets drawn.
+ *
+ * For curved walls, also stores the arc-length-based offset and width.
  */
 function collectOpeningsAbsolute(
   wall: ResolvedWall,
   room: ResolvedRoom,
 ): CollectedOpening[] {
   const openings: CollectedOpening[] = [];
+  const isCurved = wall.bulge !== undefined && wall.bulge !== 0;
 
   // Wall unit direction — used to compute the end position of each opening
   const wdx = wall.to.x - wall.from.x;
@@ -199,30 +215,66 @@ function collectOpeningsAbsolute(
   for (const door of room.doors) {
     if (door.wall === wall) {
       const s = door.position;
-      openings.push({
-        start: s,
-        end: { x: s.x + ux * door.width, y: s.y + uy * door.width },
-      });
+      if (isCurved && door.tangent && door.arcOffset !== undefined) {
+        openings.push({
+          start: s,
+          end: { x: s.x + door.tangent.dx * door.width, y: s.y + door.tangent.dy * door.width },
+          arcOffset: door.arcOffset,
+          arcWidth: door.width,
+          wallBulge: wall.bulge,
+          wallFrom: wall.from,
+          wallTo: wall.to,
+        });
+      } else {
+        openings.push({
+          start: s,
+          end: { x: s.x + ux * door.width, y: s.y + uy * door.width },
+        });
+      }
     }
   }
 
   for (const win of room.windows) {
     if (win.wall === wall) {
       const s = win.position;
-      openings.push({
-        start: s,
-        end: { x: s.x + ux * win.width, y: s.y + uy * win.width },
-      });
+      if (isCurved && win.tangent && win.arcOffset !== undefined) {
+        openings.push({
+          start: s,
+          end: { x: s.x + win.tangent.dx * win.width, y: s.y + win.tangent.dy * win.width },
+          arcOffset: win.arcOffset,
+          arcWidth: win.width,
+          wallBulge: wall.bulge,
+          wallFrom: wall.from,
+          wallTo: wall.to,
+        });
+      } else {
+        openings.push({
+          start: s,
+          end: { x: s.x + ux * win.width, y: s.y + uy * win.width },
+        });
+      }
     }
   }
 
   for (const op of room.openings) {
     if (op.wall === wall) {
       const s = op.position;
-      openings.push({
-        start: s,
-        end: { x: s.x + ux * op.width, y: s.y + uy * op.width },
-      });
+      if (isCurved && op.tangent && op.arcOffset !== undefined) {
+        openings.push({
+          start: s,
+          end: { x: s.x + op.tangent.dx * op.width, y: s.y + op.tangent.dy * op.width },
+          arcOffset: op.arcOffset,
+          arcWidth: op.width,
+          wallBulge: wall.bulge,
+          wallFrom: wall.from,
+          wallTo: wall.to,
+        });
+      } else {
+        openings.push({
+          start: s,
+          end: { x: s.x + ux * op.width, y: s.y + uy * op.width },
+        });
+      }
     }
   }
 
@@ -230,7 +282,62 @@ function collectOpeningsAbsolute(
 }
 
 /**
- * Find all openings that are collinear with a wall and overlap its extent.
+ * Find all openings that overlap a curved wall, returning arc-length-based
+ * offsets suitable for the curved wall renderer.
+ *
+ * Matches openings by checking if they belong to the same arc (same endpoints
+ * and bulge, possibly reversed). Arc-length offsets are adjusted for reversed walls.
+ */
+function findOverlappingOpeningsOnArc(
+  allOpenings: CollectedOpening[],
+  wall: ResolvedWall,
+): WallOpening[] {
+  const result: WallOpening[] = [];
+  const totalArc = getArcLength(wall.from, wall.to, wall.bulge!);
+  const EPSILON = 1;
+
+  for (const op of allOpenings) {
+    if (op.arcOffset === undefined || op.arcWidth === undefined || !op.wallFrom || !op.wallTo) {
+      continue;
+    }
+
+    // Check if this opening's wall matches the drawn wall (same arc, possibly reversed)
+    const sameDirection =
+      Math.abs(op.wallFrom.x - wall.from.x) <= EPSILON &&
+      Math.abs(op.wallFrom.y - wall.from.y) <= EPSILON &&
+      Math.abs(op.wallTo.x - wall.to.x) <= EPSILON &&
+      Math.abs(op.wallTo.y - wall.to.y) <= EPSILON;
+
+    const reversed =
+      Math.abs(op.wallFrom.x - wall.to.x) <= EPSILON &&
+      Math.abs(op.wallFrom.y - wall.to.y) <= EPSILON &&
+      Math.abs(op.wallTo.x - wall.from.x) <= EPSILON &&
+      Math.abs(op.wallTo.y - wall.from.y) <= EPSILON;
+
+    if (!sameDirection && !reversed) continue;
+
+    let offset: number;
+    if (sameDirection) {
+      offset = op.arcOffset;
+    } else {
+      // Reversed wall: mirror the offset
+      offset = totalArc - op.arcOffset - op.arcWidth;
+    }
+
+    // Clamp to wall extent
+    const clampedStart = Math.max(0, offset);
+    const clampedEnd = Math.min(totalArc, offset + op.arcWidth);
+
+    if (clampedEnd > clampedStart) {
+      result.push({ offset: clampedStart, width: clampedEnd - clampedStart });
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Find all openings that are collinear with a straight wall and overlap its extent.
  *
  * This handles three cases:
  * 1. Exact wall match (same endpoints, possibly reversed)
@@ -245,6 +352,11 @@ function findOverlappingOpenings(
   allOpenings: CollectedOpening[],
   wall: ResolvedWall,
 ): WallOpening[] {
+  // For curved walls, use arc-length-based matching
+  if (wall.bulge && wall.bulge !== 0) {
+    return findOverlappingOpeningsOnArc(allOpenings, wall);
+  }
+
   const dx = wall.to.x - wall.from.x;
   const dy = wall.to.y - wall.from.y;
   const len = Math.sqrt(dx * dx + dy * dy);
@@ -260,6 +372,9 @@ function findOverlappingOpenings(
   const EPSILON = 1;
 
   for (const op of allOpenings) {
+    // Skip arc-based openings — they won't be collinear with a straight wall
+    if (op.arcOffset !== undefined) continue;
+
     // Check if the opening lies on this wall's line (perpendicular distance ≈ 0)
     const perpDist = Math.abs(
       (op.start.x - wall.from.x) * nx + (op.start.y - wall.from.y) * ny,
@@ -355,23 +470,33 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
 
       const wdx = wall.to.x - wall.from.x;
       const wdy = wall.to.y - wall.from.y;
-      const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
-      if (wlen === 0) continue;
+      const chordLen = Math.sqrt(wdx * wdx + wdy * wdy);
+      if (chordLen === 0) continue;
 
-      // Collect openings (doors, windows, openings) on this wall
-      const openingRanges = collectWallOpeningRanges(wall, room, wlen);
+      const isCurved = wall.bulge !== undefined && wall.bulge !== 0;
 
-      if (openingRanges.length > 0) {
-        // Build a dimchain with waypoints at each opening boundary
-        const waypoints = buildWaypoints(openingRanges, wlen);
-        if (waypoints.length >= 2) {
-          const chain = buildDimChain(wall, waypoints, DEFAULT_DIM_OFFSET);
-          children.push(...dimChainToGeometry(chain));
-        }
-      } else {
-        // Simple full-wall dimension
-        const dim = buildDimension(wall, wlen, DEFAULT_DIM_OFFSET);
+      if (isCurved) {
+        // For curved walls, show a single chord-length dimension.
+        // Dimension chains along arcs would require curved dimension lines
+        // which aren't supported, so we show the chord as a simple dimension.
+        const dim = buildDimension(wall, chordLen, DEFAULT_DIM_OFFSET);
         children.push(...dimensionToGeometry(dim));
+      } else {
+        // Collect openings (doors, windows, openings) on this wall
+        const openingRanges = collectWallOpeningRanges(wall, room, chordLen);
+
+        if (openingRanges.length > 0) {
+          // Build a dimchain with waypoints at each opening boundary
+          const waypoints = buildWaypoints(openingRanges, chordLen);
+          if (waypoints.length >= 2) {
+            const chain = buildDimChain(wall, waypoints, DEFAULT_DIM_OFFSET);
+            children.push(...dimChainToGeometry(chain));
+          }
+        } else {
+          // Simple full-wall dimension
+          const dim = buildDimension(wall, chordLen, DEFAULT_DIM_OFFSET);
+          children.push(...dimensionToGeometry(dim));
+        }
       }
     }
   }
@@ -392,6 +517,8 @@ interface OpeningRange {
 
 /**
  * Collect the offset ranges of all openings (doors, windows, openings) on a wall.
+ * For curved walls, uses the stored arc-length offset. For straight walls,
+ * projects the opening position onto the wall direction.
  */
 function collectWallOpeningRanges(
   wall: ResolvedWall,
@@ -399,38 +526,50 @@ function collectWallOpeningRanges(
   wallLen: number,
 ): OpeningRange[] {
   const ranges: OpeningRange[] = [];
+  const isCurved = wall.bulge !== undefined && wall.bulge !== 0;
 
   for (const door of room.doors) {
     if (door.wall === wall) {
-      // door.position is the start point; offset = projection along wall
-      const dx = door.position.x - wall.from.x;
-      const dy = door.position.y - wall.from.y;
-      const ux = (wall.to.x - wall.from.x) / wallLen;
-      const uy = (wall.to.y - wall.from.y) / wallLen;
-      const offset = dx * ux + dy * uy;
-      ranges.push({ start: offset, end: offset + door.width });
+      if (isCurved && door.arcOffset !== undefined) {
+        ranges.push({ start: door.arcOffset, end: door.arcOffset + door.width });
+      } else {
+        const dx = door.position.x - wall.from.x;
+        const dy = door.position.y - wall.from.y;
+        const ux = (wall.to.x - wall.from.x) / wallLen;
+        const uy = (wall.to.y - wall.from.y) / wallLen;
+        const offset = dx * ux + dy * uy;
+        ranges.push({ start: offset, end: offset + door.width });
+      }
     }
   }
 
   for (const win of room.windows) {
     if (win.wall === wall) {
-      const dx = win.position.x - wall.from.x;
-      const dy = win.position.y - wall.from.y;
-      const ux = (wall.to.x - wall.from.x) / wallLen;
-      const uy = (wall.to.y - wall.from.y) / wallLen;
-      const offset = dx * ux + dy * uy;
-      ranges.push({ start: offset, end: offset + win.width });
+      if (isCurved && win.arcOffset !== undefined) {
+        ranges.push({ start: win.arcOffset, end: win.arcOffset + win.width });
+      } else {
+        const dx = win.position.x - wall.from.x;
+        const dy = win.position.y - wall.from.y;
+        const ux = (wall.to.x - wall.from.x) / wallLen;
+        const uy = (wall.to.y - wall.from.y) / wallLen;
+        const offset = dx * ux + dy * uy;
+        ranges.push({ start: offset, end: offset + win.width });
+      }
     }
   }
 
   for (const op of room.openings) {
     if (op.wall === wall) {
-      const dx = op.position.x - wall.from.x;
-      const dy = op.position.y - wall.from.y;
-      const ux = (wall.to.x - wall.from.x) / wallLen;
-      const uy = (wall.to.y - wall.from.y) / wallLen;
-      const offset = dx * ux + dy * uy;
-      ranges.push({ start: offset, end: offset + op.width });
+      if (isCurved && op.arcOffset !== undefined) {
+        ranges.push({ start: op.arcOffset, end: op.arcOffset + op.width });
+      } else {
+        const dx = op.position.x - wall.from.x;
+        const dy = op.position.y - wall.from.y;
+        const ux = (wall.to.x - wall.from.x) / wallLen;
+        const uy = (wall.to.y - wall.from.y) / wallLen;
+        const offset = dx * ux + dy * uy;
+        ranges.push({ start: offset, end: offset + op.width });
+      }
     }
   }
 

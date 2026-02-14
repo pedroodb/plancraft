@@ -77,7 +77,8 @@ Walls can be curved using the optional `bulge` property:
 ### Tips for curved walls
 
 - The bulge is relative to the `from`/`to` endpoints, so the curve moves with the wall when the room is dragged
-- Curved walls with openings (doors/windows) fall back to polygon approximation rendering
+- Doors, windows, and openings are fully supported on curved walls — they are positioned along the arc and oriented tangent to the curve
+- The `offset` for openings on curved walls is measured along the arc length, not the chord
 - Keep bulge values small (0.1–0.5) for realistic architectural curves
 - Use larger values (0.5–1.0) for dramatic design features like turrets or rounded corners
 

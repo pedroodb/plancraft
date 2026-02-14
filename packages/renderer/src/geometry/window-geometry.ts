@@ -11,29 +11,47 @@ import type { Point, ResolvedWindow } from "@plancraft/dsl";
 import type { SGLine, SGNode } from "../scene-graph.js";
 import { LINE_WEIGHTS } from "../scene-graph.js";
 
-function wallUnitDir(wall: { from: Point; to: Point }): { dx: number; dy: number } {
-  const dx = wall.to.x - wall.from.x;
-  const dy = wall.to.y - wall.from.y;
-  const len = Math.sqrt(dx * dx + dy * dy);
-  return { dx: dx / len, dy: dy / len };
+/**
+ * Compute the unit direction and effective width for a window opening.
+ * If endPosition is available (curved walls), the direction goes from
+ * position to endPosition so the window connects the wall gap edges exactly.
+ */
+function openingDir(
+  position: Point,
+  endPosition: Point | undefined,
+  wall: { from: Point; to: Point },
+): { dx: number; dy: number; effectiveWidth: number } {
+  if (endPosition) {
+    const ddx = endPosition.x - position.x;
+    const ddy = endPosition.y - position.y;
+    const len = Math.sqrt(ddx * ddx + ddy * ddy);
+    if (len > 0) return { dx: ddx / len, dy: ddy / len, effectiveWidth: len };
+  }
+  const wdx = wall.to.x - wall.from.x;
+  const wdy = wall.to.y - wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  return { dx: wdx / wlen, dy: wdy / wlen, effectiveWidth: 0 };
 }
 
 function wallNormal(wall: { from: Point; to: Point }): { nx: number; ny: number } {
-  const { dx, dy } = wallUnitDir(wall);
-  return { nx: -dy, ny: dx };
+  const wdx = wall.to.x - wall.from.x;
+  const wdy = wall.to.y - wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  return { nx: -wdy / wlen, ny: wdx / wlen };
 }
 
 export function windowToGeometry(win: ResolvedWindow): SGNode[] {
   const nodes: SGNode[] = [];
-  const { dx, dy } = wallUnitDir(win.wall);
+  const { dx, dy, effectiveWidth } = openingDir(win.position, win.endPosition, win.wall);
   const { nx, ny } = wallNormal(win.wall);
   const halfThick = win.wall.thickness / 2;
+  const winWidth = effectiveWidth || win.width;
 
   // Window start and end along the wall
   const start: Point = { ...win.position };
   const end: Point = {
-    x: start.x + dx * win.width,
-    y: start.y + dy * win.width,
+    x: start.x + dx * winWidth,
+    y: start.y + dy * winWidth,
   };
 
   // Two parallel glass lines (offset from centerline by ±1/4 of wall thickness)

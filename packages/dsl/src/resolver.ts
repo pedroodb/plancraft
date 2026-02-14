@@ -205,6 +205,7 @@ function wallPolygon(
 
 /**
  * Compute the position along a wall centerline at a given offset from `from`.
+ * For straight walls only — uses linear interpolation along the chord.
  */
 function pointAlongWall(from: Point, to: Point, offset: number): Point {
   const dx = to.x - from.x;
@@ -214,6 +215,64 @@ function pointAlongWall(from: Point, to: Point, offset: number): Point {
     x: from.x + (dx / len) * offset,
     y: from.y + (dy / len) * offset,
   };
+}
+
+/**
+ * Compute the total arc length of a curved wall.
+ */
+export function getArcLength(from: Point, to: Point, bulge: number): number {
+  const { radius, startAngle, endAngle, ccw } = arcFromBulge(from, to, bulge);
+  let sweep = endAngle - startAngle;
+  if (ccw) {
+    if (sweep <= 0) sweep += 2 * Math.PI;
+  } else {
+    if (sweep >= 0) sweep -= 2 * Math.PI;
+  }
+  return radius * Math.abs(sweep);
+}
+
+/**
+ * Compute a point and tangent direction along a curved wall at a given
+ * arc-length offset from the wall start.
+ *
+ * Returns:
+ * - `point`: the 2D position on the arc centerline
+ * - `tangent`: the unit tangent vector in the direction of travel
+ */
+export function pointAlongArc(
+  from: Point,
+  to: Point,
+  bulge: number,
+  offset: number,
+): { point: Point; tangent: { dx: number; dy: number } } {
+  const { center, radius, startAngle, endAngle, ccw } = arcFromBulge(from, to, bulge);
+
+  // Compute sweep angle (same logic as sampleArc)
+  let sweep = endAngle - startAngle;
+  if (ccw) {
+    if (sweep <= 0) sweep += 2 * Math.PI;
+  } else {
+    if (sweep >= 0) sweep -= 2 * Math.PI;
+  }
+
+  const totalArcLen = radius * Math.abs(sweep);
+  const t = totalArcLen > 0 ? offset / totalArcLen : 0;
+  const angle = startAngle + sweep * t;
+
+  const point: Point = {
+    x: center.x + radius * Math.cos(angle),
+    y: center.y + radius * Math.sin(angle),
+  };
+
+  // Tangent is perpendicular to the radius vector, in the direction of travel.
+  // sweep > 0 (CCW): tangent = (-sin θ, cos θ)
+  // sweep < 0 (CW):  tangent = (sin θ, -cos θ)
+  const tangent =
+    sweep > 0
+      ? { dx: -Math.sin(angle), dy: Math.cos(angle) }
+      : { dx: Math.sin(angle), dy: -Math.cos(angle) };
+
+  return { point, tangent };
 }
 
 /**
@@ -680,6 +739,20 @@ function resolveSharedWall(
 }
 
 function resolveDoor(door: DoorNode, wall: ResolvedWall): ResolvedDoor {
+  if (wall.bulge && wall.bulge !== 0) {
+    const { point: startPt, tangent } = pointAlongArc(wall.from, wall.to, wall.bulge, door.offset);
+    const { point: endPt } = pointAlongArc(wall.from, wall.to, wall.bulge, door.offset + door.width);
+    return {
+      wallDirection: door.wallDirection,
+      position: startPt,
+      endPosition: endPt,
+      width: door.width,
+      swing: door.swing,
+      wall,
+      tangent,
+      arcOffset: door.offset,
+    };
+  }
   const position = pointAlongWall(wall.from, wall.to, door.offset);
   return {
     wallDirection: door.wallDirection,
@@ -694,6 +767,21 @@ function resolveWindow(
   window: WindowNode,
   wall: ResolvedWall,
 ): ResolvedWindow {
+  if (wall.bulge && wall.bulge !== 0) {
+    const { point: startPt, tangent } = pointAlongArc(wall.from, wall.to, wall.bulge, window.offset);
+    const { point: endPt } = pointAlongArc(wall.from, wall.to, wall.bulge, window.offset + window.width);
+    return {
+      wallDirection: window.wallDirection,
+      position: startPt,
+      endPosition: endPt,
+      width: window.width,
+      height: window.height,
+      sill: window.sill,
+      wall,
+      tangent,
+      arcOffset: window.offset,
+    };
+  }
   const position = pointAlongWall(wall.from, wall.to, window.offset);
   return {
     wallDirection: window.wallDirection,
@@ -709,6 +797,19 @@ function resolveOpening(
   opening: OpeningNode,
   wall: ResolvedWall,
 ): ResolvedOpening {
+  if (wall.bulge && wall.bulge !== 0) {
+    const { point: startPt, tangent } = pointAlongArc(wall.from, wall.to, wall.bulge, opening.offset);
+    const { point: endPt } = pointAlongArc(wall.from, wall.to, wall.bulge, opening.offset + opening.width);
+    return {
+      wallDirection: opening.wallDirection,
+      position: startPt,
+      endPosition: endPt,
+      width: opening.width,
+      wall,
+      tangent,
+      arcOffset: opening.offset,
+    };
+  }
   const position = pointAlongWall(wall.from, wall.to, opening.offset);
   return {
     wallDirection: opening.wallDirection,

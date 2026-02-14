@@ -114,6 +114,16 @@ export interface ResolvedDoor {
   swing: SwingDirection;
   /** The wall this door is on */
   wall: ResolvedWall;
+  /** End position on the wall centerline (position + width along the wall).
+   *  For curved walls this is on the arc; for straight walls it's on the chord.
+   *  When set, door/window geometry draws between position and endPosition. */
+  endPosition?: Point;
+  /** Unit tangent direction along the wall at this opening's position.
+   *  For straight walls this equals the wall unit direction.
+   *  For curved walls this is the arc tangent at the opening point. */
+  tangent?: { dx: number; dy: number };
+  /** Arc-length offset from wall start (only set for curved walls). */
+  arcOffset?: number;
 }
 
 export interface ResolvedWindow {
@@ -123,6 +133,12 @@ export interface ResolvedWindow {
   height: number;
   sill: number;
   wall: ResolvedWall;
+  /** End position on the wall centerline. */
+  endPosition?: Point;
+  /** Unit tangent direction along the wall at this opening's position. */
+  tangent?: { dx: number; dy: number };
+  /** Arc-length offset from wall start (only set for curved walls). */
+  arcOffset?: number;
 }
 
 export interface ResolvedOpening {
@@ -130,6 +146,12 @@ export interface ResolvedOpening {
   position: Point;
   width: number;
   wall: ResolvedWall;
+  /** End position on the wall centerline. */
+  endPosition?: Point;
+  /** Unit tangent direction along the wall at this opening's position. */
+  tangent?: { dx: number; dy: number };
+  /** Arc-length offset from wall start (only set for curved walls). */
+  arcOffset?: number;
 }
 
 export interface ResolvedRoom {

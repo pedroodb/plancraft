@@ -8,7 +8,7 @@
  */
 
 import type { Point, ResolvedWall } from "@plancraft/dsl";
-import { arcFromBulge } from "@plancraft/dsl";
+import { arcFromBulge, getArcLength } from "@plancraft/dsl";
 import type { SGPolygon, SGPath } from "../scene-graph.js";
 import { LINE_WEIGHTS } from "../scene-graph.js";
 
@@ -140,12 +140,122 @@ export function curvedWallToPath(wall: ResolvedWall): SGPath {
   };
 }
 
+// ── Curved wall with openings ────────────────────────────────────────
+
+/**
+ * Build SVG path segments for a curved wall with opening gaps.
+ *
+ * Each solid arc segment between/around openings is rendered as a proper
+ * SVG path with two concentric arc commands (outer and inner edges).
+ *
+ * `openings` offsets and widths are arc-length distances along the wall.
+ */
+function curvedWallWithOpeningsToPath(
+  wall: ResolvedWall,
+  openings: WallOpening[],
+): SGPath[] {
+  const bulge = wall.bulge!;
+  const half = wall.thickness / 2;
+  const { center, radius, startAngle, endAngle, ccw } = arcFromBulge(wall.from, wall.to, bulge);
+
+  const outerRadius = radius + half;
+  const innerRadius = Math.max(radius - half, 0);
+
+  // Compute sweep angle
+  let sweep = endAngle - startAngle;
+  if (ccw) {
+    if (sweep <= 0) sweep += 2 * Math.PI;
+  } else {
+    if (sweep >= 0) sweep -= 2 * Math.PI;
+  }
+
+  const totalArcLen = radius * Math.abs(sweep);
+  if (totalArcLen === 0) return [];
+
+  // SVG sweep flags (same logic as curvedWallToPath)
+  const outerSweepFlag = bulge > 0 ? 0 : 1;
+  const innerSweepFlag = outerSweepFlag === 0 ? 1 : 0;
+
+  // Build solid segments between openings
+  const sorted = [...openings].sort((a, b) => a.offset - b.offset);
+  const segments: { startArcLen: number; endArcLen: number }[] = [];
+  let cursor = 0;
+
+  for (const op of sorted) {
+    const gapStart = op.offset;
+    const gapEnd = op.offset + op.width;
+    if (gapStart > cursor + 0.5) {
+      segments.push({ startArcLen: cursor, endArcLen: gapStart });
+    }
+    cursor = gapEnd;
+  }
+
+  if (cursor < totalArcLen - 0.5) {
+    segments.push({ startArcLen: cursor, endArcLen: totalArcLen });
+  }
+
+  // Render each solid segment as an arc path
+  const paths: SGPath[] = [];
+
+  for (const seg of segments) {
+    const t0 = seg.startArcLen / totalArcLen;
+    const t1 = seg.endArcLen / totalArcLen;
+    const segStartAngle = startAngle + sweep * t0;
+    const segEndAngle = startAngle + sweep * t1;
+
+    // Points on the centerline arc
+    const p0 = {
+      x: center.x + radius * Math.cos(segStartAngle),
+      y: center.y + radius * Math.sin(segStartAngle),
+    };
+    const p1 = {
+      x: center.x + radius * Math.cos(segEndAngle),
+      y: center.y + radius * Math.sin(segEndAngle),
+    };
+
+    // Radial unit directions at start and end
+    const rn0x = (p0.x - center.x) / radius;
+    const rn0y = (p0.y - center.y) / radius;
+    const rn1x = (p1.x - center.x) / radius;
+    const rn1y = (p1.y - center.y) / radius;
+
+    // Outer/inner endpoints
+    const outerFrom = { x: p0.x + rn0x * half, y: p0.y + rn0y * half };
+    const outerTo = { x: p1.x + rn1x * half, y: p1.y + rn1y * half };
+    const innerFrom = { x: p0.x - rn0x * half, y: p0.y - rn0y * half };
+    const innerTo = { x: p1.x - rn1x * half, y: p1.y - rn1y * half };
+
+    // Determine large-arc flag for this segment
+    const segSweep = Math.abs(segEndAngle - segStartAngle);
+    const largeArc = segSweep > Math.PI ? 1 : 0;
+
+    const d = [
+      `M ${outerFrom.x} ${outerFrom.y}`,
+      `A ${outerRadius} ${outerRadius} 0 ${largeArc} ${outerSweepFlag} ${outerTo.x} ${outerTo.y}`,
+      `L ${innerTo.x} ${innerTo.y}`,
+      `A ${innerRadius} ${innerRadius} 0 ${largeArc} ${innerSweepFlag} ${innerFrom.x} ${innerFrom.y}`,
+      `Z`,
+    ].join(" ");
+
+    paths.push({
+      type: "path",
+      d,
+      fill: "#000000",
+      strokeWidth: LINE_WEIGHTS.walls,
+      layer: "walls",
+      boundingPoints: [outerFrom, outerTo, innerTo, innerFrom],
+    });
+  }
+
+  return paths;
+}
+
 // ── Public API ───────────────────────────────────────────────────────
 
 /**
- * Generate wall scene-graph nodes, splitting straight walls at openings.
- * Curved walls (with bulge) are rendered as a single SGPath (openings not
- * supported on curved walls — they fall back to polygon approximation).
+ * Generate wall scene-graph nodes, splitting walls at openings.
+ * Curved walls are rendered as SVG paths with true arc commands,
+ * properly split at opening positions.
  */
 export function wallToPolygons(
   wall: ResolvedWall,
@@ -156,15 +266,9 @@ export function wallToPolygons(
     return [curvedWallToPath(wall)];
   }
 
-  // Curved wall with openings → fall back to polygon approximation
+  // Curved wall with openings → SVG path segments with arc-length gaps
   if (wall.bulge && wall.bulge !== 0 && openings.length > 0) {
-    return [{
-      type: "polygon",
-      points: wall.polygon.map((p) => ({ x: p.x, y: p.y })),
-      fill: "#000000",
-      strokeWidth: LINE_WEIGHTS.walls,
-      layer: "walls",
-    }];
+    return curvedWallWithOpeningsToPath(wall, openings);
   }
 
   // Straight wall without openings

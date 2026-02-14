@@ -1,5 +1,5 @@
 export { parse, ParseError } from "./parser.js";
-export { resolve, ResolveError, arcFromBulge, sampleArc } from "./resolver.js";
+export { resolve, ResolveError, arcFromBulge, sampleArc, pointAlongArc, getArcLength } from "./resolver.js";
 export type {
   // Units and basic types
   Unit,

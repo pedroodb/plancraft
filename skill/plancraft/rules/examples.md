@@ -36,26 +36,31 @@
 
 ### Furniture (studio.pcf)
 
-Using absolute positions:
+Positions computed from room geometry — bed against north wall (y=0), desk near east window, sofa centered in the south area:
 ```jsonc
 {
   "placements": [
-    { "element": "default/bed", "position": {"x": 1000, "y": 1000}, "width": 1400, "depth": 2000, "room": "Studio" },
-    { "element": "default/desk", "position": {"x": 4000, "y": 3200}, "room": "Studio" }
+    // Bed against north wall, headboard flush (center.y = wall_inner + depth/2)
+    { "element": "default/bed", "position": {"x": 1500, "y": 1100}, "room": "Studio" },
+    // Wardrobe against west wall (rotated 90° so depth faces into room)
+    { "element": "default/wardrobe", "position": {"x": 350, "y": 3000}, "rotation": 90, "room": "Studio" },
+    // Desk near east window for natural light
+    { "element": "default/desk", "position": {"x": 4200, "y": 1500}, "room": "Studio" },
+    { "element": "default/office_chair", "position": {"x": 4200, "y": 2100}, "room": "Studio" },
+    // Living area — sofa centered, clear of door swing
+    { "element": "default/sofa", "position": {"x": 2500, "y": 3200}, "room": "Studio" },
+    { "element": "default/coffee_table", "position": {"x": 2500, "y": 2600}, "room": "Studio" },
+    { "element": "default/floor_lamp", "position": {"x": 400, "y": 3700}, "room": "Studio" }
   ]
 }
 ```
 
-Same layout using anchor and relativePosition (preferred — more robust):
+Same bed using anchor positioning (auto-computes absolute position from wall geometry):
 ```jsonc
-{
-  "placements": [
-    // Bed anchored to west wall, centered along wall, flush against it
-    { "element": "default/bed", "anchor": {"wall": "west", "along": 0.3, "offset": 0}, "width": 1400, "depth": 2000, "room": "Studio" },
-    // Desk at 80% along X, 80% along Y within room bounding box
-    { "element": "default/desk", "relativePosition": {"x": 0.8, "y": 0.8}, "room": "Studio" }
-  ]
-}
+// Bed anchored to north wall, 30% along the wall, flush against it
+{ "element": "default/bed", "anchor": {"wall": "north", "along": 0.3, "offset": 0}, "room": "Studio" }
+// Desk at 80% along X, 40% along Y within room bounding box
+{ "element": "default/desk", "relativePosition": {"x": 0.8, "y": 0.4}, "room": "Studio" }
 ```
 
 ## Two-Bedroom Apartment
@@ -111,17 +116,22 @@ Same layout using anchor and relativePosition (preferred — more robust):
 
 ### Furniture (two-bedroom.pcf)
 
+All positions within room inner bounding boxes, clear of door swings:
 ```jsonc
 {
   "placements": [
-    // Living Room
-    { "element": "default/sofa", "position": {"x": 3000, "y": 1500}, "room": "Living Room" },
-    { "element": "default/table", "position": {"x": 3000, "y": 3000}, "room": "Living Room" },
-    // Kitchen
+    // Living Room — sofa arrangement against north wall (right of door)
+    { "element": "default/sofa", "position": {"x": 4200, "y": 600}, "room": "Living Room" },
+    { "element": "default/coffee_table", "position": {"x": 4200, "y": 1300}, "room": "Living Room" },
+    { "element": "default/tv_console", "position": {"x": 4200, "y": 3675}, "room": "Living Room" },
+    { "element": "default/bookshelf", "position": {"x": 400, "y": 2000}, "rotation": 90, "room": "Living Room" },
+    // Kitchen — L-shaped counter layout with dining area
     { "element": "default/counter", "position": {"x": 8000, "y": 500}, "room": "Kitchen" },
-    { "element": "default/fridge", "position": {"x": 9500, "y": 500}, "room": "Kitchen" },
-    { "element": "default/stove", "position": {"x": 7000, "y": 500}, "room": "Kitchen" },
-    { "element": "default/table", "position": {"x": 8000, "y": 2500}, "width": 1000, "depth": 800, "room": "Kitchen" }
+    { "element": "default/fridge", "position": {"x": 9550, "y": 500}, "room": "Kitchen" },
+    { "element": "default/stove", "position": {"x": 9550, "y": 1400}, "room": "Kitchen" },
+    { "element": "default/table", "position": {"x": 7800, "y": 2800}, "room": "Kitchen" },
+    { "element": "default/chair", "position": {"x": 7100, "y": 2800}, "room": "Kitchen" },
+    { "element": "default/chair", "position": {"x": 8500, "y": 2800}, "room": "Kitchen" }
   ]
 }
 ```
@@ -246,7 +256,7 @@ Use `"openings"` on a shared wall to create an archway between rooms (no door pa
 
 ## Curved Bay Window Villa
 
-Use the `bulge` property to create architectural curves. Negative bulge curves outward (right/CW), positive curves inward (left/CCW). Doors and windows work on curved walls (renderer falls back to polygon approximation).
+Use the `bulge` property to create architectural curves. Negative bulge curves outward (right/CW), positive curves inward (left/CCW). Doors, windows, and openings are fully supported on curved walls — they are positioned along the arc and oriented tangent to the curve.
 
 ### Structure (curved-villa.pc excerpt — key rooms)
 

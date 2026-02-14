@@ -6,16 +6,34 @@ import type { Point, ResolvedDoor } from "@plancraft/dsl";
 import type { SGArc, SGLine, SGNode } from "../scene-graph.js";
 import { LINE_WEIGHTS } from "../scene-graph.js";
 
-function wallUnitDir(wall: { from: Point; to: Point }): { dx: number; dy: number } {
-  const dx = wall.to.x - wall.from.x;
-  const dy = wall.to.y - wall.from.y;
-  const len = Math.sqrt(dx * dx + dy * dy);
-  return { dx: dx / len, dy: dy / len };
+/**
+ * Compute the unit direction and effective width for a door/window opening.
+ * If endPosition is available (curved walls), the direction is from position
+ * to endPosition so the opening connects the two wall gap edges exactly.
+ * Otherwise, uses the wall chord direction.
+ */
+function openingDir(
+  position: Point,
+  endPosition: Point | undefined,
+  wall: { from: Point; to: Point },
+): { dx: number; dy: number; effectiveWidth: number } {
+  if (endPosition) {
+    const ddx = endPosition.x - position.x;
+    const ddy = endPosition.y - position.y;
+    const len = Math.sqrt(ddx * ddx + ddy * ddy);
+    if (len > 0) return { dx: ddx / len, dy: ddy / len, effectiveWidth: len };
+  }
+  const wdx = wall.to.x - wall.from.x;
+  const wdy = wall.to.y - wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  return { dx: wdx / wlen, dy: wdy / wlen, effectiveWidth: 0 };
 }
 
 function wallNormal(wall: { from: Point; to: Point }): { nx: number; ny: number } {
-  const { dx, dy } = wallUnitDir(wall);
-  return { nx: dy, ny: -dx };
+  const wdx = wall.to.x - wall.from.x;
+  const wdy = wall.to.y - wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  return { nx: wdy / wlen, ny: -wdx / wlen };
 }
 
 export function doorToGeometry(door: ResolvedDoor): SGNode[] {
@@ -27,12 +45,13 @@ export function doorToGeometry(door: ResolvedDoor): SGNode[] {
 
 function swingDoorGeometry(door: ResolvedDoor): SGNode[] {
   const nodes: SGNode[] = [];
-  const { dx, dy } = wallUnitDir(door.wall);
+  const { dx, dy, effectiveWidth } = openingDir(door.position, door.endPosition, door.wall);
+  const panelWidth = effectiveWidth || door.width;
 
   const hinge: Point = { ...door.position };
   const doorEnd: Point = {
-    x: hinge.x + dx * door.width,
-    y: hinge.y + dy * door.width,
+    x: hinge.x + dx * panelWidth,
+    y: hinge.y + dy * panelWidth,
   };
 
   const wallAngle = Math.atan2(dy, dx);
@@ -52,7 +71,7 @@ function swingDoorGeometry(door: ResolvedDoor): SGNode[] {
     type: "arc",
     cx: hinge.x,
     cy: hinge.y,
-    r: door.width,
+    r: panelWidth,
     startAngle,
     endAngle,
     strokeWidth: LINE_WEIGHTS.openings,
@@ -76,8 +95,8 @@ function swingDoorGeometry(door: ResolvedDoor): SGNode[] {
   // right swing: open position is at startAngle (wall - 90°)
   const openAngle = door.swing === "left" ? endAngle : startAngle;
   const openEnd: Point = {
-    x: hinge.x + Math.cos(openAngle) * door.width,
-    y: hinge.y + Math.sin(openAngle) * door.width,
+    x: hinge.x + Math.cos(openAngle) * panelWidth,
+    y: hinge.y + Math.sin(openAngle) * panelWidth,
   };
 
   const openLine: SGLine = {
@@ -100,13 +119,14 @@ function swingDoorGeometry(door: ResolvedDoor): SGNode[] {
  */
 function slidingDoorGeometry(door: ResolvedDoor): SGNode[] {
   const nodes: SGNode[] = [];
-  const { dx, dy } = wallUnitDir(door.wall);
+  const { dx, dy, effectiveWidth } = openingDir(door.position, door.endPosition, door.wall);
   const { nx, ny } = wallNormal(door.wall);
+  const slideWidth = effectiveWidth || door.width;
 
   const start: Point = { ...door.position };
   const end: Point = {
-    x: start.x + dx * door.width,
-    y: start.y + dy * door.width,
+    x: start.x + dx * slideWidth,
+    y: start.y + dy * slideWidth,
   };
 
   // Two panel lines offset slightly from the wall centerline
