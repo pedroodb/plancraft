@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="-750 -1360 9110 16210" width="9110" height="16210">
-  <rect x="-750" y="-1360" width="9110" height="16210" fill="white"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-850 -1360 9210 16210" width="9210" height="16210">
+  <rect x="-850" y="-1360" width="9210" height="16210" fill="white"/>
   <defs>
     <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
       <line x1="0" y1="0" x2="0" y2="60" stroke="#666" stroke-width="9"/>
@@ -8,53 +8,271 @@
   </defs>
   <g transform="scale(1,-1) translate(0,-13490)">
     <g id="Tolosa">
-      <g id="Planta Baja">
-        <polygon points="3980,5240 4840,5240 4840,7360 3980,7360" fill="#e8e8e8" stroke="black" stroke-width="18" stroke-linejoin="miter"/>
-        <line x1="3980" y1="5542.857142857143" x2="4840" y2="5542.857142857143" stroke="black" stroke-width="18"/>
-        <line x1="3980" y1="5845.714285714285" x2="4840" y2="5845.714285714285" stroke="black" stroke-width="18"/>
-        <line x1="3980" y1="6148.571428571428" x2="4840" y2="6148.571428571428" stroke="black" stroke-width="18"/>
-        <line x1="3980" y1="6451.428571428572" x2="4840" y2="6451.428571428572" stroke="black" stroke-width="18"/>
-        <line x1="3980" y1="6754.285714285714" x2="4840" y2="6754.285714285714" stroke="black" stroke-width="18"/>
-        <line x1="3980" y1="7057.142857142857" x2="4840" y2="7057.142857142857" stroke="black" stroke-width="18"/>
-        <polygon points="3960,5000 4860,5000 4860,5900 3960,5900" fill="#e8e8e8" stroke="black" stroke-width="18" stroke-linejoin="miter"/>
-        <line x1="3960" y1="5000" x2="4860" y2="5000" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4842.7067523629075" y2="5175.581289814515" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4791.491579260158" y2="5344.415089128581" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4708.322651072291" y2="5500.013209717642" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4596.396103067893" y2="5636.396103067893" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4460.013209717642" y2="5748.322651072291" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4304.415089128581" y2="5831.491579260158" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="4135.581289814516" y2="5882.7067523629075" stroke="black" stroke-width="18"/>
-        <line x1="3960" y1="5000" x2="3960" y2="5900" stroke="black" stroke-width="18"/>
-        <g transform="translate(2390,2500) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Cochera</text>
+      <g id="furniture">
+        <g transform="translate(1500,200) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="1800" height="4200" rx="300" fill="#e8e8e8" stroke="black" stroke-width="10"/>
+  <!-- Windshield -->
+  <rect x="150" y="600" width="1500" height="500" rx="40" fill="#d8d8d8" stroke="black" stroke-width="6"/>
+  <!-- Rear window -->
+  <rect x="200" y="3100" width="1400" height="400" rx="40" fill="#d8d8d8" stroke="black" stroke-width="6"/>
+  <!-- Front left wheel -->
+  <rect x="-30" y="400" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Front right wheel -->
+  <rect x="1710" y="400" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Rear left wheel -->
+  <rect x="-30" y="3200" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Rear right wheel -->
+  <rect x="1710" y="3200" width="120" height="350" rx="30" fill="#a0a0a0" stroke="black" stroke-width="5"/>
+  <!-- Hood line -->
+  <line x1="200" y1="350" x2="1600" y2="350" stroke="black" stroke-width="4"/>
+  <!-- Trunk line -->
+  <line x1="200" y1="3700" x2="1600" y2="3700" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(6185,1610) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Estar</text>
+        <g transform="translate(5185,150) scale(1,1)">
+          <!-- Back -->
+  <rect x="0" y="0" width="2000" height="200" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Seat -->
+  <rect x="0" y="200" width="2000" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Left arm -->
+  <rect x="0" y="200" width="150" height="700" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Right arm -->
+  <rect x="1850" y="200" width="150" height="700" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Cushion dividers -->
+  <line x1="667" y1="250" x2="667" y2="850" stroke="black" stroke-width="4"/>
+  <line x1="1333" y1="250" x2="1333" y2="850" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(6185,4110) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Lavadero</text>
+        <g transform="translate(5585,1000) scale(1,1)">
+          <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="600" rx="30" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Lower shelf -->
+  <rect x="80" y="80" width="1040" height="440" rx="20" fill="#d8d8d8" stroke="black" stroke-width="3"/>
         </g>
-        <g transform="translate(1900,6300) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Pasillo</text>
+        <g transform="translate(5285,2675) scale(1,1)">
+          <!-- Console body -->
+  <rect x="0" y="0" width="1800" height="450" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Left cabinet -->
+  <rect x="20" y="20" width="500" height="410" fill="#d8d8d8" stroke="black" stroke-width="4"/>
+  <!-- Center open shelf -->
+  <rect x="560" y="20" width="680" height="410" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Shelf divider -->
+  <line x1="560" y1="225" x2="1240" y2="225" stroke="black" stroke-width="3"/>
+  <!-- Right cabinet -->
+  <rect x="1280" y="20" width="500" height="410" fill="#d8d8d8" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(4410,6300) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Escalera</text>
+        <g transform="translate(6200,4150) scale(1,1)">
+          <!-- Tank -->
+  <rect x="50" y="0" width="300" height="180" rx="20" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Bowl -->
+  <ellipse cx="200" cy="450" rx="180" ry="230" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Seat opening -->
+  <ellipse cx="200" cy="480" rx="120" ry="160" fill="#f0f0f0" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(1900,9625) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Comedor</text>
+        <g transform="translate(6850,4400) scale(1,1)">
+          <!-- Counter/vanity -->
+  <rect x="0" y="0" width="500" height="400" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Basin -->
+  <ellipse cx="250" cy="220" rx="170" ry="130" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="250" cy="240" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet -->
+  <circle cx="250" cy="60" r="22" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <line x1="250" y1="82" x2="250" y2="120" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(5695,9625) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Living</text>
+        <g transform="translate(3960,5800) scale(1,0.68)">
+          <!-- Outline -->
+  <rect x="0" y="0" width="900" height="2500" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Steps (10 treads) -->
+  <line x1="0" y1="250" x2="900" y2="250" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="500" x2="900" y2="500" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="750" x2="900" y2="750" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="1000" x2="900" y2="1000" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="1250" x2="900" y2="1250" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="1500" x2="900" y2="1500" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="1750" x2="900" y2="1750" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="2000" x2="900" y2="2000" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="2250" x2="900" y2="2250" stroke="black" stroke-width="4"/>
+  <!-- Direction arrow -->
+  <line x1="450" y1="2300" x2="450" y2="200" stroke="black" stroke-width="5"/>
+  <polygon points="450,150 400,300 500,300" fill="black"/>
         </g>
-        <g transform="translate(1900,12950) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Cocina</text>
+        <g transform="translate(5300,5250) scale(1,1)">
+          <!-- Tank -->
+  <rect x="50" y="0" width="300" height="180" rx="20" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Bowl -->
+  <ellipse cx="200" cy="450" rx="180" ry="230" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Seat opening -->
+  <ellipse cx="200" cy="480" rx="120" ry="160" fill="#f0f0f0" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(5695,12950) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Dormitorio</text>
+        <g transform="translate(6050,5200) scale(1,1)">
+          <!-- Counter/vanity -->
+  <rect x="0" y="0" width="500" height="400" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Basin -->
+  <ellipse cx="250" cy="220" rx="170" ry="130" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="250" cy="240" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet -->
+  <circle cx="250" cy="60" r="22" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <line x1="250" y1="82" x2="250" y2="120" stroke="black" stroke-width="4"/>
         </g>
-        <g transform="translate(6305,6300) scale(1,-1)">
-          <text x="0" y="0" font-family="Arial, sans-serif" font-size="150" text-anchor="middle" fill="black">Baño</text>
+        <g transform="translate(7050,6600) rotate(90) translate(-350,-850) scale(1,1)">
+          <!-- Outer shell -->
+  <rect x="0" y="0" width="700" height="1700" rx="60" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Inner basin -->
+  <rect x="50" y="50" width="600" height="1600" rx="50" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Drain -->
+  <circle cx="350" cy="1500" r="30" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Faucet area -->
+  <circle cx="350" cy="120" r="35" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <circle cx="280" cy="120" r="18" fill="#b0b0b0" stroke="black" stroke-width="2"/>
+  <circle cx="420" cy="120" r="18" fill="#b0b0b0" stroke="black" stroke-width="2"/>
+        </g>
+        <g transform="translate(1300,9100) scale(1,1)">
+          <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="800" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Legs -->
+  <rect x="40" y="40" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="1100" y="40" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="40" y="700" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+  <rect x="1100" y="700" width="60" height="60" fill="#a0a0a0" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(975,9275) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(2375,9275) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(1675,8675) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(1675,9875) scale(1,1)">
+          <!-- Seat -->
+  <rect x="25" y="80" width="400" height="370" rx="20" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Backrest -->
+  <rect x="25" y="0" width="400" height="100" rx="20" fill="#c0c0c0" stroke="black" stroke-width="6"/>
+        </g>
+        <g transform="translate(400,10800) rotate(90) translate(-400,-175) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="800" height="350" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Shelf dividers (horizontal) -->
+  <line x1="0" y1="88" x2="800" y2="88" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="175" x2="800" y2="175" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="263" x2="800" y2="263" stroke="black" stroke-width="4"/>
+  <!-- Vertical divider -->
+  <line x1="400" y1="0" x2="400" y2="350" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(4700,7950) scale(1,1)">
+          <!-- Back -->
+  <rect x="0" y="0" width="2000" height="200" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Seat -->
+  <rect x="0" y="200" width="2000" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Left arm -->
+  <rect x="0" y="200" width="150" height="700" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Right arm -->
+  <rect x="1850" y="200" width="150" height="700" fill="#d0d0d0" stroke="black" stroke-width="6"/>
+  <!-- Cushion dividers -->
+  <line x1="667" y1="250" x2="667" y2="850" stroke="black" stroke-width="4"/>
+  <line x1="1333" y1="250" x2="1333" y2="850" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(5100,8800) scale(1,1)">
+          <!-- Table top -->
+  <rect x="0" y="0" width="1200" height="600" rx="30" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Lower shelf -->
+  <rect x="80" y="80" width="1040" height="440" rx="20" fill="#d8d8d8" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(7200,10500) rotate(90) translate(-400,-175) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="800" height="350" fill="#e8e8e8" stroke="black" stroke-width="6"/>
+  <!-- Shelf dividers (horizontal) -->
+  <line x1="0" y1="88" x2="800" y2="88" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="175" x2="800" y2="175" stroke="black" stroke-width="4"/>
+  <line x1="0" y1="263" x2="800" y2="263" stroke="black" stroke-width="4"/>
+  <!-- Vertical divider -->
+  <line x1="400" y1="0" x2="400" y2="350" stroke="black" stroke-width="4"/>
+        </g>
+        <g transform="translate(4050,11050) scale(1,1)">
+          <!-- Base -->
+  <circle cx="150" cy="150" r="130" fill="#e8e8e8" stroke="black" stroke-width="5"/>
+  <!-- Shade outline -->
+  <circle cx="150" cy="150" r="90" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Pole -->
+  <circle cx="150" cy="150" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(400,13550) scale(1,1)">
+          <!-- Counter body -->
+  <rect x="0" y="0" width="3000" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Sink basin -->
+  <rect x="1200" y="100" width="600" height="400" rx="30" fill="#d8d8d8" stroke="black" stroke-width="5"/>
+  <!-- Faucet -->
+  <circle cx="1500" cy="150" r="25" fill="#a0a0a0" stroke="black" stroke-width="3"/>
+  <!-- Cabinet dividers -->
+  <line x1="750" y1="20" x2="750" y2="580" stroke="black" stroke-width="3"/>
+  <line x1="2250" y1="20" x2="2250" y2="580" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(3000,12050) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="700" height="700" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Door divider (freezer/fridge) -->
+  <line x1="0" y1="220" x2="700" y2="220" stroke="black" stroke-width="5"/>
+  <!-- Top handle (freezer) -->
+  <line x1="620" y1="80" x2="620" y2="180" stroke="black" stroke-width="5"/>
+  <!-- Bottom handle (fridge) -->
+  <line x1="620" y1="280" x2="620" y2="420" stroke="black" stroke-width="5"/>
+        </g>
+        <g transform="translate(300,13550) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="600" height="600" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Top-left burner -->
+  <circle cx="180" cy="180" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="180" cy="180" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Top-right burner -->
+  <circle cx="420" cy="180" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="420" cy="180" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Bottom-left burner -->
+  <circle cx="180" cy="420" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="180" cy="420" r="40" fill="none" stroke="black" stroke-width="3"/>
+  <!-- Bottom-right burner -->
+  <circle cx="420" cy="420" r="80" fill="none" stroke="black" stroke-width="5"/>
+  <circle cx="420" cy="420" r="40" fill="none" stroke="black" stroke-width="3"/>
+        </g>
+        <g transform="translate(5000,12050) scale(1,1)">
+          <!-- Frame -->
+  <rect x="0" y="0" width="1400" height="2000" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Headboard -->
+  <rect x="0" y="0" width="1400" height="120" fill="#c0c0c0" stroke="black" stroke-width="8"/>
+  <!-- Left pillow -->
+  <rect x="80" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Right pillow -->
+  <rect x="780" y="200" width="540" height="360" rx="40" fill="#f0f0f0" stroke="black" stroke-width="5"/>
+  <!-- Blanket fold line -->
+  <line x1="80" y1="900" x2="1320" y2="900" stroke="black" stroke-width="4" stroke-dasharray="20,10"/>
+        </g>
+        <g transform="translate(4100,11750) scale(1,1)">
+          <!-- Body -->
+  <rect x="0" y="0" width="1000" height="500" fill="#e8e8e8" stroke="black" stroke-width="8"/>
+  <!-- Door divider -->
+  <line x1="500" y1="0" x2="500" y2="500" stroke="black" stroke-width="6"/>
+  <!-- Left door handle -->
+  <line x1="460" y1="220" x2="460" y2="280" stroke="black" stroke-width="5"/>
+  <!-- Right door handle -->
+  <line x1="540" y1="220" x2="540" y2="280" stroke="black" stroke-width="5"/>
+        </g>
+        <g transform="translate(7050,13650) scale(1,1)">
+          <!-- Base -->
+  <circle cx="150" cy="150" r="130" fill="#e8e8e8" stroke="black" stroke-width="5"/>
+  <!-- Shade outline -->
+  <circle cx="150" cy="150" r="90" fill="#f0f0f0" stroke="black" stroke-width="4"/>
+  <!-- Pole -->
+  <circle cx="150" cy="150" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/>
         </g>
       </g>
     </g>

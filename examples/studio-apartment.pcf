@@ -1,0 +1,28 @@
+{
+  // Studio Apartment — single room (5m × 4m)
+  // Inner area: (100, 100) to (4900, 3900)
+  // Door: south wall offset 2000, width 900 → opening at x=[2100,3000], swings inward
+  // Window: east wall offset 1000, width 1200
+
+  "placements": [
+
+    // ─── Sleeping area: bed against north wall, left side ──────────
+    { "element": "default/bed", "position": {"x": 800, "y": 1100}, "room": "Studio" },
+
+    // ─── Work area: desk against north wall, right side ────────────
+    { "element": "default/desk", "position": {"x": 4300, "y": 400}, "room": "Studio" },
+    { "element": "default/office_chair", "position": {"x": 4300, "y": 1000}, "room": "Studio" },
+
+    // ─── Storage: wardrobe against west wall, between zones ────────
+    { "element": "default/wardrobe", "position": {"x": 600, "y": 2500}, "room": "Studio" },
+
+    // ─── Living area: sofa against south wall, RIGHT of door ───────
+    // Door swings from x=2100 to x=3000; sofa starts at x=3100
+    { "element": "default/sofa", "position": {"x": 4000, "y": 3450}, "scaleWidth": 90, "room": "Studio" },
+    // Coffee table in front of sofa
+    { "element": "default/coffee_table", "position": {"x": 4000, "y": 2800}, "room": "Studio" },
+
+    // ─── Lighting: floor lamp in SW corner, left of door ───────────
+    { "element": "default/floor_lamp", "position": {"x": 1200, "y": 3700}, "room": "Studio" }
+  ]
+}

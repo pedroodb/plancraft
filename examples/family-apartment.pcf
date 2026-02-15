@@ -37,10 +37,10 @@
 
     // ─── Kitchen (7000,0)-(13000,4500) ───────────────────────────────
     // Appliances lined along south wall, dining area in the upper half
-    { "element": "default/counter", "position": {"x": 8500, "y": 300},   "width": 2400, "depth": 600, "room": "Kitchen" },
-    { "element": "default/stove",   "position": {"x": 10600, "y": 300},  "room": "Kitchen" },
-    { "element": "default/oven",    "position": {"x": 11400, "y": 300},  "room": "Kitchen" },
-    { "element": "default/fridge",  "position": {"x": 12600, "y": 400},  "room": "Kitchen" },
+    { "element": "default/counter", "position": {"x": 8500, "y": 500},   "scaleWidth": 80, "room": "Kitchen" },
+    { "element": "default/stove",   "position": {"x": 10600, "y": 500},  "room": "Kitchen" },
+    { "element": "default/oven",    "position": {"x": 11400, "y": 500},  "room": "Kitchen" },
+    { "element": "default/fridge",  "position": {"x": 12600, "y": 550},  "room": "Kitchen" },
     // Dining table with four chairs
     { "element": "default/table",   "position": {"x": 10000, "y": 3000}, "room": "Kitchen" },
     { "element": "default/chair",   "position": {"x": 9300, "y": 3000},  "room": "Kitchen" },
@@ -50,28 +50,28 @@
 
     // ─── Master Bedroom (0,5700)-(4500,9000) ─────────────────────────
     // Double bed against north wall, wardrobe rotated 90° against east area
-    { "element": "default/bed",        "position": {"x": 2000, "y": 8000}, "room": "Master Bedroom" },
-    { "element": "default/wardrobe",   "position": {"x": 3800, "y": 8700}, "rotation": 90, "room": "Master Bedroom" },
+    { "element": "default/bed",        "position": {"x": 2000, "y": 7900}, "room": "Master Bedroom" },
+    { "element": "default/wardrobe",   "position": {"x": 3800, "y": 8400}, "rotation": 90, "room": "Master Bedroom" },
     { "element": "default/floor_lamp", "position": {"x": 500, "y": 6200},  "room": "Master Bedroom" },
 
     // ─── Ensuite (4500,5700)-(6500,9000) ─────────────────────────────
     // Compact bathroom: toilet + sink near entry, shower in far corner
     { "element": "default/toilet", "position": {"x": 5000, "y": 6200}, "room": "Ensuite" },
     { "element": "default/sink",   "position": {"x": 5800, "y": 6000}, "room": "Ensuite" },
-    { "element": "default/shower", "position": {"x": 5950, "y": 8550}, "room": "Ensuite" },
+    { "element": "default/shower", "position": {"x": 5950, "y": 8450}, "room": "Ensuite" },
 
     // ─── Kids Room (6500,5700)-(9500,9000) ───────────────────────────
     // Single bed (65% width), study desk with office chair, bookshelf
-    { "element": "default/bed",          "position": {"x": 7500, "y": 8000}, "scaleWidth": 65, "scaleDepth": 100, "lockProportions": false, "room": "Kids Room" },
+    { "element": "default/bed",          "position": {"x": 7500, "y": 7900}, "scaleWidth": 65, "scaleDepth": 100, "lockProportions": false, "room": "Kids Room" },
     { "element": "default/desk",         "position": {"x": 8500, "y": 6400}, "room": "Kids Room" },
     { "element": "default/office_chair", "position": {"x": 8500, "y": 7000}, "room": "Kids Room" },
-    { "element": "default/bookshelf",    "position": {"x": 6900, "y": 7200}, "room": "Kids Room" },
+    { "element": "default/bookshelf",    "position": {"x": 7000, "y": 7200}, "room": "Kids Room" },
 
     // ─── Family Bathroom (9500,5700)-(13000,9000) ────────────────────
     // Full bath suite: bathtub + shower + toilet + sink
-    { "element": "default/bathtub", "position": {"x": 10500, "y": 8150}, "room": "Family Bathroom" },
+    { "element": "default/bathtub", "position": {"x": 10500, "y": 8050}, "room": "Family Bathroom" },
     { "element": "default/toilet",  "position": {"x": 10000, "y": 6200}, "room": "Family Bathroom" },
     { "element": "default/sink",    "position": {"x": 11000, "y": 6000}, "room": "Family Bathroom" },
-    { "element": "default/shower",  "position": {"x": 12550, "y": 8550}, "room": "Family Bathroom" }
+    { "element": "default/shower",  "position": {"x": 12450, "y": 8450}, "room": "Family Bathroom" }
   ]
 }
