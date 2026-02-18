@@ -120,7 +120,10 @@ export function buildFurnitureScene(
 
   for (const placement of layout.placements) {
     const element = resolveElementForPlacement(packages, layout, placement.element);
-    if (!element) continue;
+    if (!element) {
+      console.warn(`[plancraft] Furniture element "${placement.element}" not found in any package — skipping placement`);
+      continue;
+    }
 
     // Check if this is a legacy placement with absolute width/depth
     const isLegacy = (placement as unknown as Record<string, unknown>)["_legacyAbsolute"] === true;
@@ -619,6 +622,7 @@ function buildDimChain(
   const wdx = wall.to.x - wall.from.x;
   const wdy = wall.to.y - wall.from.y;
   const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  if (wlen < 0.01) return { segments: [], offset, normal: { x: 0, y: 1 } };
   const ux = wdx / wlen;
   const uy = wdy / wlen;
   const nx = -uy;
@@ -639,7 +643,8 @@ function buildDimChain(
 }
 
 function wallKey(x1: number, y1: number, x2: number, y2: number): string {
-  if (x1 < x2 || (x1 === x2 && y1 < y2)) {
+  // Canonical ordering: smaller x first, or smaller y if x is equal
+  if (x1 < x2 || (x1 === x2 && y1 <= y2)) {
     return `${x1},${y1}-${x2},${y2}`;
   }
   return `${x2},${y2}-${x1},${y1}`;

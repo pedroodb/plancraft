@@ -269,8 +269,14 @@ function emitSvgEmbed(
 
   // Wrap in a group that un-flips the Y axis for the embedded SVG content
   lines.push(`${indent}<g transform="${transform}">`);
-  // The embedded SVG content uses standard SVG coordinates
-  lines.push(`${indent}  ${embed.svgContent}`);
+  // Sanitize SVG content: strip script tags, event handlers, and foreignObject
+  const sanitized = embed.svgContent
+    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<script[\s\S]*?\/>/gi, "")
+    .replace(/\bon\w+\s*=\s*"[^"]*"/gi, "")
+    .replace(/\bon\w+\s*=\s*'[^']*'/gi, "")
+    .replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, "");
+  lines.push(`${indent}  ${sanitized}`);
   lines.push(`${indent}</g>`);
 }
 
@@ -368,5 +374,6 @@ function escapeXml(s: string): string {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }

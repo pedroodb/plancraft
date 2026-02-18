@@ -30,6 +30,7 @@ function openingDir(
   const wdx = wall.to.x - wall.from.x;
   const wdy = wall.to.y - wall.from.y;
   const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  if (wlen < 0.01) return { dx: 1, dy: 0, effectiveWidth: 0 };
   return { dx: wdx / wlen, dy: wdy / wlen, effectiveWidth: 0 };
 }
 
@@ -37,6 +38,7 @@ function wallNormal(wall: { from: Point; to: Point }): { nx: number; ny: number 
   const wdx = wall.to.x - wall.from.x;
   const wdy = wall.to.y - wall.from.y;
   const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  if (wlen < 0.01) return { nx: 0, ny: 1 };
   return { nx: -wdy / wlen, ny: wdx / wlen };
 }
 

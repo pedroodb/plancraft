@@ -153,12 +153,16 @@ function transformWall(raw: unknown, roomName: string): WallNode {
   }
   const obj = raw as Record<string, unknown>;
   const ctx = `Wall in room "${roomName}"`;
+  const thickness = requireNumber(obj, "thickness", ctx);
+  if (thickness <= 0) {
+    throw new ParseError(`${ctx}: "thickness" must be greater than 0`);
+  }
   const node: WallNode = {
     type: "wall",
     direction: requireString(obj, "direction", ctx),
     from: requirePoint(obj["from"], `${ctx} "from"`),
     to: requirePoint(obj["to"], `${ctx} "to"`),
-    thickness: requireNumber(obj, "thickness", ctx),
+    thickness,
   };
   // Optional bulge (wall curvature)
   if (obj["bulge"] !== undefined && obj["bulge"] !== null) {
@@ -197,11 +201,19 @@ function transformDoor(raw: unknown, roomName: string): DoorNode {
   if (!VALID_SWINGS.has(swing)) {
     throw new ParseError(`${ctx}: "swing" must be one of: left, right, sliding`);
   }
+  const offset = requireNumber(obj, "offset", ctx);
+  const width = requireNumber(obj, "width", ctx);
+  if (offset < 0) {
+    throw new ParseError(`${ctx}: "offset" must be >= 0`);
+  }
+  if (width <= 0) {
+    throw new ParseError(`${ctx}: "width" must be > 0`);
+  }
   return {
     type: "door",
     wallDirection: requireString(obj, "wall", ctx),
-    offset: requireNumber(obj, "offset", ctx),
-    width: requireNumber(obj, "width", ctx),
+    offset,
+    width,
     swing: swing as SwingDirection,
   };
 }
@@ -212,11 +224,19 @@ function transformWindow(raw: unknown, roomName: string): WindowNode {
   }
   const obj = raw as Record<string, unknown>;
   const ctx = `Window in room "${roomName}"`;
+  const offset = requireNumber(obj, "offset", ctx);
+  const width = requireNumber(obj, "width", ctx);
+  if (offset < 0) {
+    throw new ParseError(`${ctx}: "offset" must be >= 0`);
+  }
+  if (width <= 0) {
+    throw new ParseError(`${ctx}: "width" must be > 0`);
+  }
   return {
     type: "window",
     wallDirection: requireString(obj, "wall", ctx),
-    offset: requireNumber(obj, "offset", ctx),
-    width: requireNumber(obj, "width", ctx),
+    offset,
+    width,
     height: requireNumber(obj, "height", ctx),
     sill: requireNumber(obj, "sill", ctx),
   };
@@ -228,11 +248,19 @@ function transformOpening(raw: unknown, roomName: string): OpeningNode {
   }
   const obj = raw as Record<string, unknown>;
   const ctx = `Opening in room "${roomName}"`;
+  const offset = requireNumber(obj, "offset", ctx);
+  const width = requireNumber(obj, "width", ctx);
+  if (offset < 0) {
+    throw new ParseError(`${ctx}: "offset" must be >= 0`);
+  }
+  if (width <= 0) {
+    throw new ParseError(`${ctx}: "width" must be > 0`);
+  }
   return {
     type: "opening",
     wallDirection: requireString(obj, "wall", ctx),
-    offset: requireNumber(obj, "offset", ctx),
-    width: requireNumber(obj, "width", ctx),
+    offset,
+    width,
   };
 }
 
@@ -310,6 +338,9 @@ export function parse(source: string): ProjectNode {
 
   // Scale: number (the ratio, e.g. 100 for 1:100)
   const scaleValue = optionalNumber(obj, "scale", 100);
+  if (scaleValue <= 0) {
+    throw new ParseError(`Project: "scale" must be greater than 0`);
+  }
   const scale: Scale = { ratio: scaleValue };
 
   // Unit

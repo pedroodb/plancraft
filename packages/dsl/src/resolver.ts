@@ -211,6 +211,7 @@ function pointAlongWall(from: Point, to: Point, offset: number): Point {
   const dx = to.x - from.x;
   const dy = to.y - from.y;
   const len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 0.01) return { x: from.x, y: from.y };
   return {
     x: from.x + (dx / len) * offset,
     y: from.y + (dy / len) * offset,
@@ -402,7 +403,11 @@ function pointOnSegment(p: Point, a: Point, b: Point): boolean {
 function clipWallFrom(wall: ResolvedWall, newFrom: Point): ResolvedWall {
   const clipped: ResolvedWall = { ...wall, from: newFrom };
   // Recompute polygon for the clipped segment
-  if (!wall.bulge) {
+  if (wall.bulge && wall.bulge !== 0) {
+    const { polygon, curvePoints } = wallPolygon(newFrom, wall.to, wall.thickness, wall.bulge);
+    clipped.polygon = polygon;
+    clipped.curvePoints = curvePoints;
+  } else {
     clipped.polygon = wallPolygon(newFrom, wall.to, wall.thickness).polygon;
   }
   return clipped;
@@ -413,7 +418,11 @@ function clipWallFrom(wall: ResolvedWall, newFrom: Point): ResolvedWall {
  */
 function clipWallTo(wall: ResolvedWall, newTo: Point): ResolvedWall {
   const clipped: ResolvedWall = { ...wall, to: newTo };
-  if (!wall.bulge) {
+  if (wall.bulge && wall.bulge !== 0) {
+    const { polygon, curvePoints } = wallPolygon(wall.from, newTo, wall.thickness, wall.bulge);
+    clipped.polygon = polygon;
+    clipped.curvePoints = curvePoints;
+  } else {
     clipped.polygon = wallPolygon(wall.from, newTo, wall.thickness).polygon;
   }
   return clipped;
@@ -425,7 +434,11 @@ function clipWallTo(wall: ResolvedWall, newTo: Point): ResolvedWall {
  */
 function clipWallBoth(wall: ResolvedWall, newFrom: Point, newTo: Point): ResolvedWall {
   const clipped: ResolvedWall = { ...wall, from: newFrom, to: newTo };
-  if (!wall.bulge) {
+  if (wall.bulge && wall.bulge !== 0) {
+    const { polygon, curvePoints } = wallPolygon(newFrom, newTo, wall.thickness, wall.bulge);
+    clipped.polygon = polygon;
+    clipped.curvePoints = curvePoints;
+  } else {
     clipped.polygon = wallPolygon(newFrom, newTo, wall.thickness).polygon;
   }
   return clipped;
@@ -675,7 +688,7 @@ function resolveRoom(
       start = curr.from; // fallback
     }
 
-    const isReversed = start.x === curr.to.x && start.y === curr.to.y;
+    const isReversed = pointsEqual(start, curr.to);
 
     if (curr.curvePoints && curr.curvePoints.length > 0) {
       // Curved wall: add sampled arc points in the correct traversal order

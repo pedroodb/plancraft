@@ -33,6 +33,16 @@ function wallSegmentPolygon(
   const dx = wall.to.x - wall.from.x;
   const dy = wall.to.y - wall.from.y;
   const len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 0.01) {
+    const p = wall.from;
+    return {
+      type: "polygon",
+      points: [{ ...p }, { ...p }, { ...p }, { ...p }],
+      fill: "#000000",
+      strokeWidth: LINE_WEIGHTS.walls,
+      layer: "walls",
+    };
+  }
   const ux = dx / len;
   const uy = dy / len;
   // Normal perpendicular (CCW rotation)
@@ -88,6 +98,7 @@ export function curvedWallToPath(wall: ResolvedWall): SGPath {
   const rFromX = wall.from.x - center.x;
   const rFromY = wall.from.y - center.y;
   const rFromLen = Math.sqrt(rFromX * rFromX + rFromY * rFromY);
+  if (rFromLen < 0.01) return { type: "path", d: "", fill: "#000000", strokeWidth: LINE_WEIGHTS.walls, layer: "walls" };
   const rnFromX = rFromX / rFromLen;
   const rnFromY = rFromY / rFromLen;
 
@@ -95,6 +106,7 @@ export function curvedWallToPath(wall: ResolvedWall): SGPath {
   const rToX = wall.to.x - center.x;
   const rToY = wall.to.y - center.y;
   const rToLen = Math.sqrt(rToX * rToX + rToY * rToY);
+  if (rToLen < 0.01) return { type: "path", d: "", fill: "#000000", strokeWidth: LINE_WEIGHTS.walls, layer: "walls" };
   const rnToX = rToX / rToLen;
   const rnToY = rToY / rToLen;
 

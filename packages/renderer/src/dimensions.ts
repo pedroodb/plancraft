@@ -46,6 +46,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
   const dx = dim.to.x - dim.from.x;
   const dy = dim.to.y - dim.from.y;
   const len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 0.01) return nodes;
   const ux = dx / len;
   const uy = dy / len;
 
@@ -158,6 +159,9 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
     nodes.push(ext);
   }
 
+  // Track waypoints that already have tick marks to avoid duplicates
+  const tickedPoints = new Set<string>();
+
   // For each segment: dimension line, tick marks, text
   for (const seg of chain.segments) {
     const p1 = { x: seg.from.x + offsetX, y: seg.from.y + offsetY };
@@ -167,6 +171,7 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
     const sdx = seg.to.x - seg.from.x;
     const sdy = seg.to.y - seg.from.y;
     const slen = Math.sqrt(sdx * sdx + sdy * sdy);
+    if (slen < 0.01) continue;
     const ux = sdx / slen;
     const uy = sdy / slen;
 
@@ -182,8 +187,11 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
     };
     nodes.push(dimLine);
 
-    // 45° tick marks at each end
+    // 45° tick marks at each end (skip if already drawn for a shared waypoint)
     for (const pt of [p1, p2]) {
+      const key = `${Math.round(pt.x)},${Math.round(pt.y)}`;
+      if (tickedPoints.has(key)) continue;
+      tickedPoints.add(key);
       const tickHalf = TICK_SIZE / 2;
       const tick: SGLine = {
         type: "line",

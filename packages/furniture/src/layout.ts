@@ -201,9 +201,13 @@ function transformPlacement(
       throw new LayoutParseError(`${ctx}: "anchor" must be an object`);
     }
     const anchorObj = obj["anchor"] as Record<string, unknown>;
+    const along = requireNumber(anchorObj, "along", `${ctx} anchor`);
+    if (along < 0 || along > 1) {
+      throw new LayoutParseError(`${ctx}: anchor "along" must be between 0 and 1`);
+    }
     anchor = {
       wall: requireString(anchorObj, "wall", `${ctx} anchor`),
-      along: requireNumber(anchorObj, "along", `${ctx} anchor`),
+      along,
       offset: optionalNumber(anchorObj, "offset") ?? 0,
     };
   }
@@ -238,8 +242,15 @@ function transformPlacement(
   // New scale-based fields with defaults
   const scaleWidth = optionalNumber(obj, "scaleWidth") ?? 100;
   const scaleDepth = optionalNumber(obj, "scaleDepth") ?? 100;
+  if (scaleWidth <= 0) {
+    throw new LayoutParseError(`${ctx}: "scaleWidth" must be > 0`);
+  }
+  if (scaleDepth <= 0) {
+    throw new LayoutParseError(`${ctx}: "scaleDepth" must be > 0`);
+  }
   const lockProportions = optionalBoolean(obj, "lockProportions") ?? true;
-  const rotation = optionalNumber(obj, "rotation") ?? 0;
+  let rotation = optionalNumber(obj, "rotation") ?? 0;
+  rotation = ((rotation % 360) + 360) % 360;
   const room = optionalString(obj, "room");
 
   // Backward compatibility: if old-style width/depth are present and
