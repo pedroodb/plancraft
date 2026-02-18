@@ -232,6 +232,15 @@ export function getArcLength(from: Point, to: Point, bulge: number): number {
   return radius * Math.abs(sweep);
 }
 
+function computeWallLen(wall: ResolvedWall): number {
+  if (wall.bulge && wall.bulge !== 0) {
+    return getArcLength(wall.from, wall.to, wall.bulge);
+  }
+  const dx = wall.to.x - wall.from.x;
+  const dy = wall.to.y - wall.from.y;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
 /**
  * Compute a point and tangent direction along a curved wall at a given
  * arc-length offset from the wall start.
@@ -643,6 +652,12 @@ function resolveRoom(
           `Door references wall.${child.wallDirection} in room "${room.name}", but no such wall exists. Valid walls: [${availDirs}]`,
         );
       }
+      const wallLen = computeWallLen(wall);
+      if (child.offset + child.width > wallLen + 1) {
+        throw new ResolveError(
+          `Door on wall "${child.wallDirection}" in room "${room.name}" exceeds wall length: offset (${child.offset}) + width (${child.width}) = ${child.offset + child.width}mm, but wall is only ${Math.round(wallLen)}mm long`,
+        );
+      }
       doors.push(resolveDoor(child, wall));
     } else if (child.type === "window") {
       const wall = wallByDir.get(child.wallDirection);
@@ -652,6 +667,12 @@ function resolveRoom(
           `Window references wall.${child.wallDirection} in room "${room.name}", but no such wall exists. Valid walls: [${availDirs}]`,
         );
       }
+      const wallLen = computeWallLen(wall);
+      if (child.offset + child.width > wallLen + 1) {
+        throw new ResolveError(
+          `Window on wall "${child.wallDirection}" in room "${room.name}" exceeds wall length: offset (${child.offset}) + width (${child.width}) = ${child.offset + child.width}mm, but wall is only ${Math.round(wallLen)}mm long`,
+        );
+      }
       windows.push(resolveWindow(child, wall));
     } else if (child.type === "opening") {
       const wall = wallByDir.get(child.wallDirection);
@@ -659,6 +680,12 @@ function resolveRoom(
         throw new ResolveError(
           `Opening references wall.${child.wallDirection} in room "${room.name}", but no such wall exists`,
         );
+      const wallLen = computeWallLen(wall);
+      if (child.offset + child.width > wallLen + 1) {
+        throw new ResolveError(
+          `Opening on wall "${child.wallDirection}" in room "${room.name}" exceeds wall length: offset (${child.offset}) + width (${child.width}) = ${child.offset + child.width}mm, but wall is only ${Math.round(wallLen)}mm long`,
+        );
+      }
       openings.push(resolveOpening(child, wall));
     }
   }

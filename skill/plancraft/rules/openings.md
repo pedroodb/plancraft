@@ -52,10 +52,39 @@ Use `"swing": "sliding"` to render a sliding door (two parallel lines instead of
 { "wall": "east", "offset": 1000, "width": 1800, "swing": "sliding" }
 ```
 
-## Placement Tips
+## Placement Rules (MANDATORY)
 
-- Ensure `offset + width` does not exceed the wall length
-- Leave at least 0.2m from wall corners for structural integrity
-- Standard door width: 0.8–0.9m (interior), 0.9–1m (exterior)
-- Standard window sill height: 0.9m (rooms), 1.2m (bathrooms)
-- Use openings for archways, pass-throughs, and open-plan transitions
+### Wall Length Constraint
+
+**Before placing any door or window, you MUST know the wall length.** Call `list_rooms` to see each wall's `lengthMm`. Then ensure:
+
+```
+offset + width ≤ wall length
+```
+
+If a wall is 3000mm long, a 900mm door can have offset at most 2100mm (3000 - 900). Violating this places the element outside the wall, which is architecturally invalid.
+
+### Offset Guidelines
+
+- `offset` is measured from the wall's `from` point (start)
+- Keep `offset ≥ 200` (leave 0.2m from the starting corner)
+- Keep `offset + width ≤ wallLength - 200` (leave 0.2m from the ending corner)
+- Centre a single element: `offset = (wallLength - width) / 2`
+
+### Standard Dimensions
+
+- Interior door width: 800–900mm
+- Exterior door width: 900–1000mm
+- Sliding door width: 1200–1800mm
+- Window width: 600–1800mm (common: 1200mm)
+- Window sill height: 900mm (rooms), 1200mm (bathrooms)
+
+### Multiple Elements on One Wall
+
+When placing multiple doors/windows on the same wall, ensure their ranges don't overlap:
+- Element A occupies `[offsetA, offsetA + widthA]`
+- Element B must start after element A ends: `offsetB ≥ offsetA + widthA + 100` (leave 100mm gap minimum)
+
+### Openings
+
+Use openings for archways, pass-throughs, and open-plan transitions. Same offset + width rules apply.
