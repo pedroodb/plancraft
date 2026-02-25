@@ -244,32 +244,24 @@ function emitSvgEmbed(
   opts: SVGEmitterOptions,
   indent: string,
 ): void {
-  // Scale the SVG content from its viewBox to the target dimensions
+  if (!embed.svgContent) return;
+
   const scaleX = embed.width / embed.viewBoxWidth;
   const scaleY = embed.height / embed.viewBoxHeight;
-
-  // Build transform: translate to center, rotate, then scale and offset to top-left
-  // The SVG content origin is at (0,0), so we translate to position it correctly.
-  // Center position in plan coords → translate so the element center is at (x, y)
   const halfW = embed.width / 2;
   const halfH = embed.height / 2;
 
-  // We need to account for Y-flip: since the scene is already in a scale(1,-1) group,
-  // the SVG embed content (which uses standard SVG Y-down) would be flipped.
-  // We un-flip the embedded content so it renders correctly.
-  let transform = `translate(${embed.x - halfW},${embed.y - halfH})`;
-  transform += ` scale(${scaleX},${scaleY})`;
-
+  // The scene is inside a scale(1,-1) Y-flip group (architectural Y-up → SVG Y-down).
+  // Embedded SVG content uses standard SVG Y-down, so we un-flip it with negative scaleY
+  // and adjust the Y translate from -halfH to +halfH to keep the same bounding box.
+  let transform: string;
   if (embed.rotation !== 0) {
-    // Rotate around the center of the element in viewBox coordinates
-    const cx = embed.viewBoxWidth / 2;
-    const cy = embed.viewBoxHeight / 2;
-    transform = `translate(${embed.x},${embed.y}) rotate(${embed.rotation}) translate(${-halfW},${-halfH}) scale(${scaleX},${scaleY})`;
+    transform = `translate(${embed.x},${embed.y}) rotate(${embed.rotation}) translate(${-halfW},${halfH}) scale(${scaleX},${-scaleY})`;
+  } else {
+    transform = `translate(${embed.x - halfW},${embed.y + halfH}) scale(${scaleX},${-scaleY})`;
   }
 
-  // Wrap in a group that un-flips the Y axis for the embedded SVG content
   lines.push(`${indent}<g transform="${transform}">`);
-  // Sanitize SVG content: strip script tags, event handlers, and foreignObject
   const sanitized = embed.svgContent
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<script[\s\S]*?\/>/gi, "")
