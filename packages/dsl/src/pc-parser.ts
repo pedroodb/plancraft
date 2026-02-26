@@ -24,7 +24,6 @@ import {
   RoomChild,
   RoomNode,
   Scale,
-  SharedWallNode,
   SwingDirection,
   Unit,
   WallNode,
@@ -181,28 +180,6 @@ function parseWallLine(tokens: string[], lineNum: number, roomName: string): Wal
   }
 
   return node;
-}
-
-function parseSharedLine(tokens: string[], lineNum: number, roomName: string): SharedWallNode {
-  // shared <direction> from <sourceRoom> [sourceWall=<direction>]
-  const ctx = `Line ${lineNum} (shared wall in "${roomName}")`;
-  if (tokens.length < 4) {
-    throw new ParseError(`${ctx}: expected "shared <direction> from <sourceRoom>"`);
-  }
-  if (tokens[2] !== "from") {
-    throw new ParseError(`${ctx}: expected "from" keyword, got "${tokens[2]}"`);
-  }
-  const direction = tokens[1];
-  const sourceRoomName = tokens[3];
-
-  // Find sourceWall in remaining tokens (could be key=value or positional)
-  let sourceWallDirection = direction; // default: same as direction
-  const kv = parseKvPairs(tokens, 4);
-  if (kv.has("sourceWall")) {
-    sourceWallDirection = kv.get("sourceWall")!;
-  }
-
-  return { type: "shared_wall", direction, sourceWallDirection, sourceRoomName };
 }
 
 function parseDoorLine(tokens: string[], lineNum: number, roomName: string): DoorNode {
@@ -382,9 +359,6 @@ export function parsePc(source: string): ProjectNode {
       switch (keyword) {
         case "wall":
           currentRoom.children.push(parseWallLine(tokens, lineNum, currentRoom.name));
-          break;
-        case "shared":
-          currentRoom.children.push(parseSharedLine(tokens, lineNum, currentRoom.name));
           break;
         case "door":
           currentRoom.children.push(parseDoorLine(tokens, lineNum, currentRoom.name));

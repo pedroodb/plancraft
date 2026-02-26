@@ -64,7 +64,7 @@ floor: "Ground Floor"
     wall north 6000,0 10000,0 200
     wall east 10000,0 10000,4000 200
     wall south 10000,4000 6000,4000 200
-    shared west from "Living Room" sourceWall=east
+    wall west 6000,4000 6000,0 200
     door south 1500 900 right
     window north 1000 1200 1400 900
 ```
@@ -92,7 +92,7 @@ placements:
 
 ## Open-Plan Apartment with Openings
 
-Use `opening` on a shared wall to create an archway between rooms (no door panel). This example shows a Living Room connected to a Kitchen with a wide archway and a hallway distributing to bedrooms and bathrooms.
+Use `opening` on a boundary wall to create an archway between rooms (no door panel). This example shows a Living Room connected to a Kitchen with a wide archway and a hallway distributing to bedrooms and bathrooms.
 
 ### Structure (family-apartment.pc excerpt — key rooms)
 
@@ -111,23 +111,22 @@ room: "Living Room"
 ```
 
 ```
-// Kitchen shares west wall with Living Room (inherits the archway)
+// Kitchen's west wall uses same coordinates as Living Room's east wall (boundary wall with archway)
 room: Kitchen
   wall south 7000,0 13000,0 200
   wall east 13000,0 13000,4500 200
   wall north 13000,4500 7000,4500 150
-  shared west from "Living Room" sourceWall=east
+  wall west 7000,4500 7000,0 150
   door north 2500 900 left
   window south 2000 1500 1400 1200
   window east 1500 1000 1200 1200
 ```
 
 ```
-// Hallway with split north wall — each segment matches an upper room
-// so bedrooms can use shared to reference them
+// Hallway — south wall segments align with Living Room and Kitchen north walls
 room: Hallway
-  shared "south left" from "Living Room" sourceWall=north
-  shared "south right" from Kitchen sourceWall=north
+  wall "south left" 0,4500 7000,4500 150
+  wall "south right" 7000,4500 13000,4500 150
   wall east 13000,4500 13000,5700 200
   wall "north right" 13000,5700 9500,5700 150
   wall "north mid" 9500,5700 6500,5700 150
@@ -141,9 +140,9 @@ room: Hallway
 ```
 
 ```
-// Master Bedroom referencing hallway segment as south wall
+// Master Bedroom — south wall aligns with Hallway's "north left" segment
 room: "Master Bedroom"
-  shared south from Hallway sourceWall="north left"
+  wall south 0,5700 4500,5700 150
   wall east 4500,5700 4500,9000 150
   wall north 4500,9000 0,9000 200
   wall west 0,9000 0,5700 200
@@ -153,11 +152,13 @@ room: "Master Bedroom"
 
 ```
 // Ensuite accessed only from Master Bedroom (no hallway door)
+// South wall aligns with Hallway's "north mid-left" segment
+// West wall aligns with Master Bedroom's east wall
 room: Ensuite
-  shared south from Hallway sourceWall="north mid-left"
-  shared west from "Master Bedroom" sourceWall=east
+  wall south 4500,5700 6500,5700 150
   wall east 6500,5700 6500,9000 150
   wall north 6500,9000 4500,9000 200
+  wall west 4500,9000 4500,5700 150
   window north 500 800 1000 1200
 ```
 
@@ -184,11 +185,12 @@ room: "Living Room"
 
 ```
 // Sunroom with curved east wall (bulge=-0.3, ~67 degree conservatory bay)
+// South wall aligns with Hallway's "north right" segment; west wall aligns with Bathroom's east wall
 room: Sunroom
-  shared south from Hallway sourceWall="north right"
-  shared west from Bathroom sourceWall=east
+  wall south 6500,5200 10000,5200 150
   wall east 10000,5200 10000,8000 200 bulge=-0.3
   wall north 10000,8000 6500,8000 200
+  wall west 6500,8000 6500,5200 150
   // Tall window on the curved bay wall
   window east 500 1500 1800 400
   window north 500 1200 1400 900
@@ -222,8 +224,9 @@ room: Studio
 ```
 // Gallery with a perfect semicircular east bay (bulge=-1.0).
 // Both a window AND an opening are placed on the curved wall.
+// South wall aligns with Studio's "north right" segment.
 room: Gallery
-  shared south from Studio sourceWall="north right"
+  wall south 2500,5000 8000,5000 150
   // bulge=-1.0 = perfect semicircle (curve protrudes by half the chord length)
   wall east 8000,5000 8000,8000 200 bulge=-1.0
   wall north 8000,8000 2500,8000 200
@@ -313,15 +316,14 @@ placements:
 
 ### Structure Patterns
 
-1. **Shared walls via coordinates**: Adjacent rooms share wall coordinates exactly (e.g., x=6000 is the boundary between Living Room and Kitchen)
-2. **Shared walls with `shared`**: Kitchen references Living Room's east wall as its west wall
-3. **Split wall segments**: Hallway's north wall is split into labeled segments (`"north left"`, `"north mid"`, etc.) so each upper room can reference its segment via shared
-4. **Openings (archways)**: Use `opening` for wall gaps without door panels — ideal for open-plan layouts
-5. **Curved walls**: Add `bulge=N` to any wall — negative values curve outward, positive inward. `0.1` = subtle, `0.3` = noticeable, `1.0` = semicircle
-6. **Elements on curved walls**: Doors, windows, and openings all work on curved walls (see Artist Studio gallery archway and Curved Villa sliding door)
-7. **Diagonal walls**: Use non-axis-aligned start/end coordinates with a custom direction name like `diagonal`. Windows/doors work on diagonal walls too (see Artist Studio pentagonal room)
-8. **Ensuite pattern**: Room accessible only from another room (no hallway door), using shared for both south and west walls
-9. **Semicircular bay**: `bulge=-1.0` creates a perfect semicircle — the curve protrudes by half the chord length (see Artist Studio gallery)
+1. **Coordinate-aligned adjacent walls**: Adjacent rooms use the same coordinates at boundary walls (e.g., x=6000 is the boundary between Living Room and Kitchen). The renderer deduplicates overlapping walls automatically.
+2. **Split wall segments**: Hallway's north wall is split into labeled segments (`"north left"`, `"north mid"`, etc.) so each upper room's south wall can align with its corresponding segment
+3. **Openings (archways)**: Use `opening` for wall gaps without door panels — ideal for open-plan layouts
+4. **Curved walls**: Add `bulge=N` to any wall — negative values curve outward, positive inward. `0.1` = subtle, `0.3` = noticeable, `1.0` = semicircle
+5. **Elements on curved walls**: Doors, windows, and openings all work on curved walls (see Artist Studio gallery archway and Curved Villa sliding door)
+6. **Diagonal walls**: Use non-axis-aligned start/end coordinates with a custom direction name like `diagonal`. Windows/doors work on diagonal walls too (see Artist Studio pentagonal room)
+7. **Ensuite pattern**: Room accessible only from another room (no hallway door), with its south and west walls aligned to the hallway and master bedroom respectively
+8. **Semicircular bay**: `bulge=-1.0` creates a perfect semicircle — the curve protrudes by half the chord length (see Artist Studio gallery)
 
 ### Furniture Patterns
 

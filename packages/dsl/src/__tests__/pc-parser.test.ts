@@ -141,34 +141,6 @@ floor: F1
     assert.equal(op.width, 2000);
   });
 
-  it("parses shared walls", () => {
-    const source = `plan: Test
-
-floor: F1
-  room: A
-    wall north 0,0 5000,0 200
-    wall east 5000,0 5000,4000 200
-    wall south 5000,4000 0,4000 200
-    wall west 0,4000 0,0 200
-
-  room: B
-    wall north 5000,0 10000,0 200
-    wall east 10000,0 10000,4000 200
-    wall south 10000,4000 5000,4000 200
-    shared west from A sourceWall=east
-`;
-    const ast = parsePc(source);
-    const rooms = ast.floors[0].children.filter((c) => c.type === "room");
-    assert.equal(rooms.length, 2);
-    const roomB = rooms[1];
-    if (roomB.type !== "room") return;
-    const shared = roomB.children.filter((c) => c.type === "shared_wall");
-    assert.equal(shared.length, 1);
-    if (shared[0].type !== "shared_wall") return;
-    assert.equal(shared[0].sourceRoomName, "A");
-    assert.equal(shared[0].sourceWallDirection, "east");
-  });
-
   it("parses walls with bulge", () => {
     const source = `plan: Test
 
@@ -224,17 +196,14 @@ floor: "Main Floor"
     wall north 5000,0 10000,0 200
     wall east 10000,0 10000,4000 200
     wall south 10000,4000 5000,4000 200
-    shared west from "Living Room" sourceWall=east
+    wall west 5000,4000 5000,0 200
 `;
     const ast = parsePc(source);
     assert.equal(ast.name, "Family Apartment");
     assert.equal(ast.floors[0].name, "Main Floor");
     const rooms = ast.floors[0].children.filter((c) => c.type === "room");
     assert.equal(rooms[0].name, "Living Room");
-    if (rooms[1].type !== "room") return;
-    const shared = rooms[1].children.filter((c) => c.type === "shared_wall");
-    if (shared[0].type !== "shared_wall") return;
-    assert.equal(shared[0].sourceRoomName, "Living Room");
+    assert.equal(rooms[1].name, "Kitchen");
   });
 
   it("parses quoted wall directions", () => {
@@ -392,27 +361,6 @@ floor: F1
     const serialized = serialize(ast);
     assert.ok(serialized.includes("scale: 50"));
     assert.ok(serialized.includes("unit: m"));
-  });
-
-  it("serializes shared walls with sourceWall", () => {
-    const source = `plan: Test
-
-floor: F1
-  room: A
-    wall north 0,0 5000,0 200
-    wall east 5000,0 5000,4000 200
-    wall south 5000,4000 0,4000 200
-    wall west 0,4000 0,0 200
-
-  room: B
-    wall north 5000,0 10000,0 200
-    wall east 10000,0 10000,4000 200
-    wall south 10000,4000 5000,4000 200
-    shared west from A sourceWall=east
-`;
-    const ast = parse(source);
-    const serialized = serialize(ast);
-    assert.ok(serialized.includes("shared west from A sourceWall=east"));
   });
 
   it("serializes walls with bulge", () => {

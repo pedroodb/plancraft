@@ -21,7 +21,6 @@ import {
   RoomChild,
   RoomNode,
   Scale,
-  SharedWallNode,
   SwingDirection,
   Unit,
   WallNode,
@@ -180,23 +179,6 @@ function transformWall(raw: unknown, roomName: string): WallNode {
   return node;
 }
 
-function transformSharedWall(raw: unknown, roomName: string): SharedWallNode {
-  if (typeof raw !== "object" || raw === null) {
-    throw new ParseError(`Shared wall in room "${roomName}" must be an object`);
-  }
-  const obj = raw as Record<string, unknown>;
-  const ctx = `Shared wall in room "${roomName}"`;
-  const direction = requireString(obj, "direction", ctx);
-  const sourceRoom = requireString(obj, "sourceRoom", ctx);
-  const sourceWall = typeof obj["sourceWall"] === "string" ? obj["sourceWall"] as string : direction;
-  return {
-    type: "shared_wall",
-    direction,
-    sourceWallDirection: sourceWall,
-    sourceRoomName: sourceRoom,
-  };
-}
-
 function transformDoor(raw: unknown, roomName: string): DoorNode {
   if (typeof raw !== "object" || raw === null) {
     throw new ParseError(`Door in room "${roomName}" must be an object`);
@@ -283,9 +265,6 @@ function transformRoom(raw: unknown, floorName: string): RoomNode {
 
   for (const w of optionalArray(obj, "walls")) {
     children.push(transformWall(w, name));
-  }
-  for (const sw of optionalArray(obj, "sharedWalls")) {
-    children.push(transformSharedWall(sw, name));
   }
   for (const d of optionalArray(obj, "doors")) {
     children.push(transformDoor(d, name));

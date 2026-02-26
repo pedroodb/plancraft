@@ -45,10 +45,8 @@
         // wall element types work on curved geometry.
         {
           "name": "Gallery",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Studio", "sourceWall": "north right" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 2500, "y": 5000}, "to": {"x": 8000, "y": 5000}, "thickness": 150 },
             // Perfect semicircular bay — bulge -1.0 means the curve is a full semicircle
             { "direction": "east",  "from": {"x": 8000, "y": 5000}, "to": {"x": 8000, "y": 8000}, "thickness": 200, "bulge": -1.0 },
             { "direction": "north", "from": {"x": 8000, "y": 8000}, "to": {"x": 2500, "y": 8000}, "thickness": 200 },
@@ -69,11 +67,9 @@
         // ── Washroom (compact, 2.5m × 3m) ──────────────────────────────
         {
           "name": "Washroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Studio", "sourceWall": "north left" },
-            { "direction": "east",  "sourceRoom": "Gallery", "sourceWall": "west" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 0, "y": 5000},    "to": {"x": 2500, "y": 5000}, "thickness": 150 },
+            { "direction": "east",  "from": {"x": 2500, "y": 5000}, "to": {"x": 2500, "y": 8000}, "thickness": 150 },
             { "direction": "north", "from": {"x": 2500, "y": 8000}, "to": {"x": 0, "y": 8000}, "thickness": 200 },
             { "direction": "west",  "from": {"x": 0, "y": 8000},    "to": {"x": 0, "y": 5000}, "thickness": 200 }
           ],

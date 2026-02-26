@@ -98,9 +98,7 @@ describe("Renderer", () => {
               { direction: "north", from: { x: 5000, y: 0 }, to: { x: 10000, y: 0 }, thickness: 200 },
               { direction: "east", from: { x: 10000, y: 0 }, to: { x: 10000, y: 4000 }, thickness: 200 },
               { direction: "south", from: { x: 10000, y: 4000 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            ],
-            sharedWalls: [
-              { direction: "west", sourceRoom: "A", sourceWall: "east" },
+              { direction: "west", from: { x: 5000, y: 4000 }, to: { x: 5000, y: 0 }, thickness: 200 },
             ],
           },
         ],

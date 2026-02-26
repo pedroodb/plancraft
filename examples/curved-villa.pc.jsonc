@@ -36,13 +36,11 @@
 
         // ── Hallway (middle strip, 10m × 1.2m) ─────────────────────────
         // Connects the Living Room to the upper rooms. North wall is
-        // split into segments for shared wall references with each room.
+        // split into segments matching each upper room's south wall.
         {
           "name": "Hallway",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Living Room", "sourceWall": "north" }
-          ],
           "walls": [
+            { "direction": "south",       "from": {"x": 0, "y": 4000},     "to": {"x": 10000, "y": 4000}, "thickness": 150 },
             { "direction": "east",        "from": {"x": 10000, "y": 4000}, "to": {"x": 10000, "y": 5200}, "thickness": 200 },
             { "direction": "north right", "from": {"x": 10000, "y": 5200}, "to": {"x": 6500, "y": 5200},  "thickness": 150 },
             { "direction": "north mid",   "from": {"x": 6500, "y": 5200},  "to": {"x": 4000, "y": 5200},  "thickness": 150 },
@@ -66,10 +64,8 @@
         // ── Bedroom (top-left, 4m × 2.8m) ──────────────────────────────
         {
           "name": "Bedroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north left" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 0, "y": 5200},    "to": {"x": 4000, "y": 5200}, "thickness": 150 },
             { "direction": "east",  "from": {"x": 4000, "y": 5200}, "to": {"x": 4000, "y": 8000}, "thickness": 150 },
             { "direction": "north", "from": {"x": 4000, "y": 8000}, "to": {"x": 0, "y": 8000},    "thickness": 200 },
             { "direction": "west",  "from": {"x": 0, "y": 8000},    "to": {"x": 0, "y": 5200},    "thickness": 200 }
@@ -82,11 +78,9 @@
         // ── Bathroom (top-center, 2.5m × 2.8m) ─────────────────────────
         {
           "name": "Bathroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north mid" },
-            { "direction": "west",  "sourceRoom": "Bedroom", "sourceWall": "east" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 4000, "y": 5200}, "to": {"x": 6500, "y": 5200}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 4000, "y": 8000}, "to": {"x": 4000, "y": 5200}, "thickness": 150 },
             { "direction": "east",  "from": {"x": 6500, "y": 5200}, "to": {"x": 6500, "y": 8000}, "thickness": 150 },
             { "direction": "north", "from": {"x": 6500, "y": 8000}, "to": {"x": 4000, "y": 8000}, "thickness": 200 }
           ],
@@ -102,11 +96,9 @@
         // flood the room with natural light.
         {
           "name": "Sunroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north right" },
-            { "direction": "west",  "sourceRoom": "Bathroom", "sourceWall": "east" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 6500, "y": 5200},  "to": {"x": 10000, "y": 5200}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 6500, "y": 8000},  "to": {"x": 6500, "y": 5200},  "thickness": 150 },
             { "direction": "east",  "from": {"x": 10000, "y": 5200}, "to": {"x": 10000, "y": 8000}, "thickness": 200, "bulge": -0.3 },
             { "direction": "north", "from": {"x": 10000, "y": 8000}, "to": {"x": 6500, "y": 8000},  "thickness": 200 }
           ],

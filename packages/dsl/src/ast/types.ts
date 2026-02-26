@@ -35,13 +35,6 @@ export interface WallNode {
   bulge?: number;
 }
 
-export interface SharedWallNode {
-  type: "shared_wall";
-  direction: WallDirection;
-  sourceWallDirection: WallDirection;
-  sourceRoomName: string;
-}
-
 export interface DoorNode {
   type: "door";
   wallDirection: WallDirection;
@@ -66,7 +59,7 @@ export interface OpeningNode {
   width: number;
 }
 
-export type RoomChild = WallNode | SharedWallNode | DoorNode | WindowNode | OpeningNode;
+export type RoomChild = WallNode | DoorNode | WindowNode | OpeningNode;
 
 export interface RoomNode {
   type: "room";

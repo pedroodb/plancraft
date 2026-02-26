@@ -97,10 +97,8 @@
         // ── Escalera (Staircase) ──────────────────────────────────────────
         {
           "name": "Escalera",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Paso", "sourceWall": "north" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 3800, "y": 5700}, "to": {"x": 5020, "y": 5700}, "thickness": 150 },
             { "direction": "east",  "from": {"x": 5020, "y": 5700}, "to": {"x": 5020, "y": 7600}, "thickness": 150 },
             { "direction": "north", "from": {"x": 5020, "y": 7600}, "to": {"x": 3800, "y": 7600}, "thickness": 150 },
             { "direction": "west",  "from": {"x": 3800, "y": 7600}, "to": {"x": 3800, "y": 5700}, "thickness": 150 }

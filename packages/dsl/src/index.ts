@@ -11,7 +11,6 @@ export type {
   WallDirection,
   // Raw AST
   WallNode,
-  SharedWallNode,
   DoorNode,
   WindowNode,
   OpeningNode,

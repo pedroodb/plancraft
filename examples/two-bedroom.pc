@@ -12,6 +12,6 @@ floor: "Ground Floor"
     wall north 6000,0 10000,0 200
     wall east 10000,0 10000,4000 200
     wall south 10000,4000 6000,4000 200
-    shared west from "Living Room" sourceWall=east
+    wall west 6000,4000 6000,0 200
     door south 1500 900 right
     window north 1000 1200 1400 900

@@ -74,7 +74,7 @@ See `rules/furniture.md` for the complete element reference and `.pcf` format.
 - `structure-guide.md` — **Start here**: step-by-step structure workflow and checklist
 - `walls.md` — Wall definitions and thickness
 - `openings.md` — Doors, windows, openings, and sliding doors
-- `rooms.md` — Room objects, shared walls, and custom wall names
+- `rooms.md` — Room objects, adjacent walls, and custom wall names
 - `coordinates.md` — Coordinate system and units
 - `measurement-extraction.md` — How to extract and verify dimensions from a reference image
 

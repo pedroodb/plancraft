@@ -10,7 +10,7 @@ Before writing any DSL, you MUST analyze the reference thoroughly and **output t
 2. **List total building dimensions** (W x H) from annotations, in meters
 3. **Read EVERY annotated dimension** from the reference image (see `measurement-extraction.md`)
 4. **Compute absolute coordinates** for each room's corners (in meters for your inventory, convert to mm for .pc code)
-5. **Map the room adjacency graph** — which rooms share which walls
+5. **Map the room adjacency graph** — which rooms are adjacent at boundary walls
 6. **List all doors and windows** with their wall, offset, width, and swing direction
 7. **List furniture** visible in each room (using only supported types)
 8. **Note unsupported elements** — add these as `// NOTE:` comments later
@@ -24,8 +24,7 @@ Start from the **outside** and work **inward**:
 1. Define the **overall building footprint** — the outermost rectangle (or L-shape, etc.)
 2. Identify **major zones**: garage, main house, annex, etc.
 3. Subdivide zones into **individual rooms**
-4. Identify which walls are **shared** between rooms
-5. Note all doors, windows, and openings
+4. Note all doors, windows, and openings
 6. List furniture in each room
 
 Do NOT start by defining individual rooms — start with the perimeter, then carve it into rooms.
@@ -37,13 +36,14 @@ Choose an origin point (usually bottom-left corner of the building footprint):
 - Y increases upward (architectural convention)
 - Communicate in meters to users; .pc coordinates use mm (multiply by 1000)
 
-### 3. Define Rooms in Order
+### 3. Define Rooms (Grid Tiling — No Overlaps)
 
-Start with rooms that don't depend on others, then rooms with shared walls. The order of rooms matters:
-
-```
-Room A -> Room B (shares wall with A) -> Room C (shares wall with B)
-```
+Rooms tile together to fill the building footprint. **Room coordinate spaces must NEVER overlap.** Think of it as slicing a rectangle into tiles:
+- Divide the footprint into rows (horizontal bands by Y ranges)
+- Within each row, rooms are placed side by side (by X ranges)
+- Room widths per row must sum to the building width
+- Room heights per column must sum to the building height
+- Adjacent rooms meet at boundary walls with matching coordinates
 
 ### 4. Add Openings
 
@@ -68,7 +68,7 @@ Before considering the plan complete, verify ALL of the following:
 1. **Width check**: Room widths along each row sum to total building width
 2. **Height check**: Room heights along each column sum to total building height
 3. **Closed polygons**: Every room's last wall end matches its first wall start
-4. **Shared wall alignment**: Adjacent rooms share exact coordinates at their shared walls
+4. **Adjacent wall alignment**: Adjacent rooms use the same coordinates at boundary walls
 5. **No overlaps**: No two rooms occupy the same coordinate space
 6. **Opening bounds**: Every door/window `offset + width` fits within its wall's length
 7. **Unsupported elements**: All features the format can't represent are documented in comments
@@ -103,12 +103,14 @@ floor: "Ground Floor"
     wall north 4000,0 8000,0 200
     wall east 8000,0 8000,3000 200
     wall south 8000,3000 4000,3000 200
-    shared west from "Room A" sourceWall=east
+    wall west 4000,3000 4000,0 200
 ```
+
+Room B's west wall uses the same coordinates as Room A's east wall. The renderer deduplicates the overlapping wall automatically.
 
 ### Garage + House Combo
 
-Garages often don't span the full building width. Define the garage and adjacent rooms as separate zones with shared walls at the boundary:
+Garages often don't span the full building width. Define the garage and adjacent rooms as separate zones with aligned coordinates at the boundary:
 
 ```
 floor: "Ground Floor"
@@ -122,8 +124,10 @@ floor: "Ground Floor"
     wall south 4800,0 7600,0 200
     wall east 7600,0 7600,3200 200
     wall north 7600,3200 4800,3200 150
-    shared west from Garage sourceWall=east
+    wall west 4800,3200 4800,0 200
 ```
+
+Study's west wall shares coordinates with the relevant segment of Garage's east wall.
 
 ### L-Shaped Building
 

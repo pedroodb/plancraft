@@ -40,10 +40,8 @@
           "walls": [
             { "direction": "south", "from": {"x": 7000, "y": 0}, "to": {"x": 13000, "y": 0}, "thickness": 200 },
             { "direction": "east",  "from": {"x": 13000, "y": 0}, "to": {"x": 13000, "y": 4500}, "thickness": 200 },
-            { "direction": "north", "from": {"x": 13000, "y": 4500}, "to": {"x": 7000, "y": 4500}, "thickness": 150 }
-          ],
-          "sharedWalls": [
-            { "direction": "west", "sourceRoom": "Living Room", "sourceWall": "east" }
+            { "direction": "north", "from": {"x": 13000, "y": 4500}, "to": {"x": 7000, "y": 4500}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 7000, "y": 4500}, "to": {"x": 7000, "y": 0}, "thickness": 150 }
           ],
           "doors": [
             // Door to Hallway
@@ -59,14 +57,12 @@
 
         // ── Hallway (middle strip, 13m × 1.2m) ─────────────────────────
         // Central corridor connecting all rooms. North wall split into
-        // segments matching each upper room for shared wall references.
+        // segments matching each upper room's south wall.
         {
           "name": "Hallway",
-          "sharedWalls": [
-            { "direction": "south left",  "sourceRoom": "Living Room", "sourceWall": "north" },
-            { "direction": "south right", "sourceRoom": "Kitchen", "sourceWall": "north" }
-          ],
           "walls": [
+            { "direction": "south left",  "from": {"x": 0, "y": 4500},     "to": {"x": 7000, "y": 4500},  "thickness": 150 },
+            { "direction": "south right", "from": {"x": 7000, "y": 4500},  "to": {"x": 13000, "y": 4500}, "thickness": 150 },
             { "direction": "east",           "from": {"x": 13000, "y": 4500}, "to": {"x": 13000, "y": 5700}, "thickness": 200 },
             { "direction": "north right",    "from": {"x": 13000, "y": 5700}, "to": {"x": 9500, "y": 5700},  "thickness": 150 },
             { "direction": "north mid",      "from": {"x": 9500, "y": 5700},  "to": {"x": 6500, "y": 5700},  "thickness": 150 },
@@ -89,10 +85,8 @@
         // ── Master Bedroom (top-left, 4.5m × 3.3m) ─────────────────────
         {
           "name": "Master Bedroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north left" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 0, "y": 5700},    "to": {"x": 4500, "y": 5700}, "thickness": 150 },
             { "direction": "east",  "from": {"x": 4500, "y": 5700}, "to": {"x": 4500, "y": 9000}, "thickness": 150 },
             { "direction": "north", "from": {"x": 4500, "y": 9000}, "to": {"x": 0, "y": 9000},    "thickness": 200 },
             { "direction": "west",  "from": {"x": 0, "y": 9000},    "to": {"x": 0, "y": 5700},    "thickness": 200 }
@@ -110,11 +104,9 @@
         // Accessed only from Master Bedroom (no hallway door)
         {
           "name": "Ensuite",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north mid-left" },
-            { "direction": "west",  "sourceRoom": "Master Bedroom", "sourceWall": "east" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 4500, "y": 5700}, "to": {"x": 6500, "y": 5700}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 4500, "y": 9000}, "to": {"x": 4500, "y": 5700}, "thickness": 150 },
             { "direction": "east",  "from": {"x": 6500, "y": 5700}, "to": {"x": 6500, "y": 9000}, "thickness": 150 },
             { "direction": "north", "from": {"x": 6500, "y": 9000}, "to": {"x": 4500, "y": 9000}, "thickness": 200 }
           ],
@@ -127,11 +119,9 @@
         // ── Kids Room (top, 3m × 3.3m) ──────────────────────────────────
         {
           "name": "Kids Room",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north mid" },
-            { "direction": "west",  "sourceRoom": "Ensuite", "sourceWall": "east" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 6500, "y": 5700}, "to": {"x": 9500, "y": 5700}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 6500, "y": 9000}, "to": {"x": 6500, "y": 5700}, "thickness": 150 },
             { "direction": "east",  "from": {"x": 9500, "y": 5700}, "to": {"x": 9500, "y": 9000}, "thickness": 150 },
             { "direction": "north", "from": {"x": 9500, "y": 9000}, "to": {"x": 6500, "y": 9000}, "thickness": 200 }
           ],
@@ -143,11 +133,9 @@
         // ── Family Bathroom (top-right, 3.5m × 3.3m) ───────────────────
         {
           "name": "Family Bathroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north right" },
-            { "direction": "west",  "sourceRoom": "Kids Room", "sourceWall": "east" }
-          ],
           "walls": [
+            { "direction": "south", "from": {"x": 9500, "y": 5700},  "to": {"x": 13000, "y": 5700}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 9500, "y": 9000},  "to": {"x": 9500, "y": 5700},  "thickness": 150 },
             { "direction": "east",  "from": {"x": 13000, "y": 5700}, "to": {"x": 13000, "y": 9000}, "thickness": 200 },
             { "direction": "north", "from": {"x": 13000, "y": 9000}, "to": {"x": 9500, "y": 9000},  "thickness": 200 }
           ],

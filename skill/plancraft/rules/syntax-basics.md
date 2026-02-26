@@ -22,7 +22,7 @@ floor: "Floor Name"
 - **`scale:`** — Scale ratio number (optional, default `100`)
 - **`unit:`** — Unit of measurement (optional, default `mm`). **Must always be `mm`** — internal coordinates use millimeters (communicate in meters to users: 3.8m = 3800 in the file)
 - **`floor:`** — Floor section (indent 0), contains rooms
-- **`room:`** — Room section (indent 2), contains walls, doors, windows, openings, and shared wall references
+- **`room:`** — Room section (indent 2), contains walls, doors, windows, and openings
 
 ## Comments
 
@@ -53,7 +53,7 @@ Numbers are plain integers or decimals: `6000`, `1.5`, `200`.
 Indentation is significant and defines the hierarchy:
 - **Indent 0** — `floor:` declarations
 - **Indent 2** (2 spaces) — `room:` declarations within a floor
-- **Indent 4** (4 spaces) — `wall`, `shared`, `door`, `window`, `opening` within a room
+- **Indent 4** (4 spaces) — `wall`, `door`, `window`, `opening` within a room
 
 ## Walls
 
@@ -65,17 +65,6 @@ Example:
 ```
 wall north 0,0 5000,0 200
 wall east 5000,0 5000,4000 200 bulge=-0.3
-```
-
-## Shared Walls
-
-```
-shared <direction> from <sourceRoom> [sourceWall=<dir>]
-```
-
-Example:
-```
-shared west from "Living Room" sourceWall=east
 ```
 
 ## Doors
@@ -114,7 +103,7 @@ opening east 1200 2000
 
 ## Optional Elements
 
-Rooms with no doors, windows, or openings simply omit those lines. Only walls (or shared wall references) are required for a room.
+Rooms with no doors, windows, or openings simply omit those lines. Only walls are required for a room.
 
 ## Blank Lines
 

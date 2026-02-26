@@ -88,7 +88,7 @@ Cross-check by summing:
 
 - All horizontal segments along each row must equal the total building width at that height
 - All vertical segments along each column must equal the total building height at that position
-- Room widths on either side of a shared wall must agree
+- Room widths on either side of a boundary wall must agree
 
 ```
 Example:
@@ -100,9 +100,9 @@ Example:
 
 For each room, compute its **absolute coordinates** (present in meters, convert to mm for .pc files):
 - Start with room(s) at the origin (bottom-left corner of the building at `0,0`)
-- Work outward: rooms to the right share the X coordinate of the left room's right wall
-- Work upward: rooms above share the Y coordinate of the bottom room's top wall
-- For shared walls, the coordinate is the same on both sides
+- Work outward: rooms to the right use the same X coordinate as the left room's right wall
+- Work upward: rooms above use the same Y coordinate as the bottom room's top wall
+- For adjacent walls, the coordinate is the same on both sides
 
 **Output a table of rooms with their corner coordinates:**
 
@@ -126,7 +126,7 @@ For each door and window visible in the image:
 ## Step 7: Handle Missing Annotations
 
 If a dimension is not explicitly annotated:
-- **Derive by subtraction**: If total width is 7590mm and one room is 4780mm wide, the adjacent room is 7590 - 4780 = 2810mm (minus shared wall thickness)
+- **Derive by subtraction**: If total width is 7590mm and one room is 4780mm wide, the adjacent room is 7590 - 4780 = 2810mm (minus boundary wall thickness)
 - **Derive by proportion**: If the reference is roughly to scale, estimate proportionally and note the estimate in a comment
 - **Always add a comment** for derived dimensions: `// Derived: 2810mm = 7590 - 4780`
 

@@ -128,49 +128,6 @@ describe("Parser", () => {
     assert.equal(win.sill, 900);
   });
 
-  it("parses shared walls", () => {
-    const source = JSON.stringify({
-      name: "Test",
-      scale: 100,
-      unit: "mm",
-      floors: [{
-        name: "F1",
-        rooms: [
-          {
-            name: "A",
-            walls: [
-              { direction: "north", from: { x: 0, y: 0 }, to: { x: 5000, y: 0 }, thickness: 200 },
-              { direction: "east", from: { x: 5000, y: 0 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-              { direction: "south", from: { x: 5000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
-              { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
-            ],
-          },
-          {
-            name: "B",
-            walls: [
-              { direction: "north", from: { x: 5000, y: 0 }, to: { x: 10000, y: 0 }, thickness: 200 },
-              { direction: "east", from: { x: 10000, y: 0 }, to: { x: 10000, y: 4000 }, thickness: 200 },
-              { direction: "south", from: { x: 10000, y: 4000 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            ],
-            sharedWalls: [
-              { direction: "east", sourceRoom: "A", sourceWall: "east" },
-            ],
-          },
-        ],
-      }],
-    });
-    const ast = parse(source);
-    const rooms = ast.floors[0].children.filter((c) => c.type === "room");
-    assert.equal(rooms.length, 2);
-    const roomB = rooms[1];
-    if (roomB.type !== "room") return;
-    const shared = roomB.children.filter((c) => c.type === "shared_wall");
-    assert.equal(shared.length, 1);
-    if (shared[0].type !== "shared_wall") return;
-    assert.equal(shared[0].sourceRoomName, "A");
-    assert.equal(shared[0].sourceWallDirection, "east");
-  });
-
   it("supports JSONC comments", () => {
     const source = `{
       // This is a line comment

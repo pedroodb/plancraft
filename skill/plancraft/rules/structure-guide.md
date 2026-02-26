@@ -42,7 +42,7 @@ Before writing any DSL:
 1. **Measure the overall footprint** (width x height)
 2. **List ALL rooms** — every separate enclosed space, including hallways, stairwells, transition areas, and small utility rooms
 3. **Use original room names** from the image — do NOT translate them
-4. **Draw a room adjacency graph** — which rooms share which walls
+4. **Draw a room adjacency graph** — which rooms are adjacent at boundary walls
 5. **Mark all doors** — position, width, swing direction
 6. **Mark all windows** — position, width
 7. **Mark all stairs** — type (straight/spiral), position
@@ -56,15 +56,11 @@ Start from the outside and work inward:
 2. Identify **major zones** (garage, main house, upper floors, etc.)
 3. Subdivide into **individual rooms**
 
-### 3. Define Rooms in Dependency Order
+### 3. Define Rooms
 
-Rooms that define shared walls must come first in the floor:
+Rooms can be defined in any order within a floor. Each room defines all of its own walls with explicit coordinates. Adjacent rooms use the same coordinate values at their boundary -- the renderer deduplicates overlapping walls automatically.
 
-```
-Room A (exterior walls) -> Room B (shares wall with A) -> Room C (shares wall with B)
-```
-
-**CRITICAL — Shared wall door rule**: When two rooms share a wall, define all doors on that wall in the **first room** that defines it (based on order). This avoids a renderer bug where wall gaps and door arcs are placed at different positions.
+When two rooms share a boundary wall, place doors on that wall in only one of the two rooms to avoid duplicate door geometry.
 
 ### 4. Add Doors and Windows
 
@@ -94,11 +90,11 @@ Before considering the structure complete:
 - [ ] **Perimeter closes**: Every room's last wall end matches its first wall start
 - [ ] **Width sums**: Room widths along each row sum to total building width
 - [ ] **Height sums**: Room heights along each column sum to total building height
-- [ ] **Shared wall alignment**: Adjacent rooms share exact coordinates
+- [ ] **Adjacent wall alignment**: Adjacent rooms use the same coordinates at boundary walls
 - [ ] **Door positions**: Every door is on the correct wall with correct offset
 - [ ] **Window positions**: Every window is on the correct wall with correct offset
 - [ ] **Opening bounds**: `offset + width` fits within wall length for every opening
-- [ ] **No duplicate doors on shared walls**: Doors only defined on the first room
+- [ ] **No duplicate doors on boundary walls**: Doors on a boundary wall defined in only one of the two adjacent rooms
 - [ ] **Curved walls**: If the design has curved walls, `bulge` values are set correctly (positive = left/CCW, negative = right/CW, 1 = semicircle). Avoid placing doors/windows on curved walls when possible.
 - [ ] **Compile test**: `plancraft compile plan.pc --structure-only` succeeds
 
@@ -130,6 +126,6 @@ Open the SVG and verify:
 
 - `walls.md` — Wall syntax and thickness
 - `openings.md` — Door, window, and opening syntax
-- `rooms.md` — Room objects and shared walls
+- `rooms.md` — Room objects and adjacent walls
 - `coordinates.md` — Coordinate system and units
 - `measurement-extraction.md` — Extracting dimensions from reference images

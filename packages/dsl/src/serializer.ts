@@ -11,7 +11,6 @@ import type {
   ProjectNode,
   RoomChild,
   RoomNode,
-  SharedWallNode,
   WallNode,
   WindowNode,
 } from "./ast/types.js";
@@ -39,14 +38,6 @@ function serializeWall(wall: WallNode): string {
   return line;
 }
 
-function serializeSharedWall(sw: SharedWallNode): string {
-  let line = `shared ${q(sw.direction)} from ${q(sw.sourceRoomName)}`;
-  if (sw.sourceWallDirection !== sw.direction) {
-    line += ` sourceWall=${q(sw.sourceWallDirection)}`;
-  }
-  return line;
-}
-
 function serializeDoor(door: DoorNode): string {
   return `door ${q(door.wallDirection)} ${door.offset} ${door.width} ${door.swing}`;
 }
@@ -63,8 +54,6 @@ function serializeRoomChild(child: RoomChild): string {
   switch (child.type) {
     case "wall":
       return serializeWall(child);
-    case "shared_wall":
-      return serializeSharedWall(child);
     case "door":
       return serializeDoor(child);
     case "window":

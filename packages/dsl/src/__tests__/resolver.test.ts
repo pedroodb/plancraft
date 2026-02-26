@@ -57,7 +57,7 @@ describe("Resolver", () => {
     assert.equal(room.center.y, 2000);
   });
 
-  it("resolves shared walls", () => {
+  it("resolves adjacent rooms with explicit walls", () => {
     const source = JSON.stringify({
       name: "T",
       scale: 100,
@@ -80,9 +80,7 @@ describe("Resolver", () => {
               { direction: "north", from: { x: 5000, y: 0 }, to: { x: 10000, y: 0 }, thickness: 200 },
               { direction: "east", from: { x: 10000, y: 0 }, to: { x: 10000, y: 4000 }, thickness: 200 },
               { direction: "south", from: { x: 10000, y: 4000 }, to: { x: 5000, y: 4000 }, thickness: 200 },
-            ],
-            sharedWalls: [
-              { direction: "east", sourceRoom: "A", sourceWall: "east" },
+              { direction: "west", from: { x: 5000, y: 4000 }, to: { x: 5000, y: 0 }, thickness: 200 },
             ],
           },
         ],
@@ -91,11 +89,10 @@ describe("Resolver", () => {
     const resolved = resolve(parse(source));
     const roomB = resolved.floors[0].rooms[1];
     assert.equal(roomB.walls.length, 4);
-    const sharedWall = roomB.walls[3];
-    // Shared wall is reversed by normalizeWallChain so the perimeter chains:
-    // south.to = (5000,4000) → sharedWall.from = (5000,4000) → sharedWall.to = (5000,0) → north.from
-    assert.deepEqual(sharedWall.from, { x: 5000, y: 4000 });
-    assert.deepEqual(sharedWall.to, { x: 5000, y: 0 });
+    // West wall chains properly: south.to = (5000,4000) → west.from = (5000,4000)
+    const westWall = roomB.walls[3];
+    assert.deepEqual(westWall.from, { x: 5000, y: 4000 });
+    assert.deepEqual(westWall.to, { x: 5000, y: 0 });
   });
 
   it("resolves doors with positions", () => {
@@ -124,27 +121,6 @@ describe("Resolver", () => {
     assert.equal(door.position.x, 1500);
     assert.equal(door.position.y, 0);
     assert.equal(door.width, 900);
-  });
-
-  it("throws on missing room reference in shared wall", () => {
-    const source = JSON.stringify({
-      name: "T",
-      scale: 100,
-      unit: "mm",
-      floors: [{
-        name: "F",
-        rooms: [{
-          name: "A",
-          walls: [
-            { direction: "north", from: { x: 0, y: 0 }, to: { x: 100, y: 0 }, thickness: 10 },
-          ],
-          sharedWalls: [
-            { direction: "east", sourceRoom: "NonExistent" },
-          ],
-        }],
-      }],
-    });
-    assert.throws(() => resolve(parse(source)), ResolveError);
   });
 
   it("resolves a wall with bulge (curved wall)", () => {

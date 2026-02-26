@@ -1,6 +1,6 @@
 /**
- * Semantic analysis pass: resolves references, computes wall polygons,
- * merges shared walls, and calculates room areas + centers.
+ * Semantic analysis pass: computes wall polygons
+ * and calculates room areas + centers.
  */
 
 import {
@@ -17,7 +17,6 @@ import {
   ResolvedWall,
   ResolvedWindow,
   RoomNode,
-  SharedWallNode,
   WallNode,
   WindowNode,
 } from "./ast/types.js";
@@ -383,94 +382,13 @@ function reverseWall(wall: ResolvedWall): ResolvedWall {
 }
 
 /**
- * Check if point `p` lies on the straight-line segment from `a` to `b`.
- * Uses a tolerance proportional to the segment length for the cross-product
- * (perpendicular distance) check, and the dot-product (along-segment) check.
- */
-function pointOnSegment(p: Point, a: Point, b: Point): boolean {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const lenSq = dx * dx + dy * dy;
-  if (lenSq < 1) return false; // degenerate segment
-
-  // Cross product: perpendicular distance × length
-  const cross = Math.abs(dx * (p.y - a.y) - dy * (p.x - a.x));
-  const len = Math.sqrt(lenSq);
-  if (cross / len > POINT_EQ_TOLERANCE) return false;
-
-  // Dot product: projection along segment (0 = at `a`, lenSq = at `b`)
-  const dot = (p.x - a.x) * dx + (p.y - a.y) * dy;
-  // Allow the point to be slightly past the endpoints
-  return dot >= -POINT_EQ_TOLERANCE * len && dot <= lenSq + POINT_EQ_TOLERANCE * len;
-}
-
-/**
- * Clip a wall segment so it starts at `newFrom` instead of the original `from`.
- * Preserves direction, roomName, thickness, polygon etc.
- * For curved walls, removes arc sample points before the clip point.
- */
-function clipWallFrom(wall: ResolvedWall, newFrom: Point): ResolvedWall {
-  const clipped: ResolvedWall = { ...wall, from: newFrom };
-  // Recompute polygon for the clipped segment
-  if (wall.bulge && wall.bulge !== 0) {
-    const { polygon, curvePoints } = wallPolygon(newFrom, wall.to, wall.thickness, wall.bulge);
-    clipped.polygon = polygon;
-    clipped.curvePoints = curvePoints;
-  } else {
-    clipped.polygon = wallPolygon(newFrom, wall.to, wall.thickness).polygon;
-  }
-  return clipped;
-}
-
-/**
- * Clip a wall segment so it ends at `newTo` instead of the original `to`.
- */
-function clipWallTo(wall: ResolvedWall, newTo: Point): ResolvedWall {
-  const clipped: ResolvedWall = { ...wall, to: newTo };
-  if (wall.bulge && wall.bulge !== 0) {
-    const { polygon, curvePoints } = wallPolygon(wall.from, newTo, wall.thickness, wall.bulge);
-    clipped.polygon = polygon;
-    clipped.curvePoints = curvePoints;
-  } else {
-    clipped.polygon = wallPolygon(wall.from, newTo, wall.thickness).polygon;
-  }
-  return clipped;
-}
-
-/**
- * Clip a wall segment at both ends — from `newFrom` to `newTo`.
- * Used when a shared wall needs to be trimmed to the consuming room's segment.
- */
-function clipWallBoth(wall: ResolvedWall, newFrom: Point, newTo: Point): ResolvedWall {
-  const clipped: ResolvedWall = { ...wall, from: newFrom, to: newTo };
-  if (wall.bulge && wall.bulge !== 0) {
-    const { polygon, curvePoints } = wallPolygon(newFrom, newTo, wall.thickness, wall.bulge);
-    clipped.polygon = polygon;
-    clipped.curvePoints = curvePoints;
-  } else {
-    clipped.polygon = wallPolygon(newFrom, newTo, wall.thickness).polygon;
-  }
-  return clipped;
-}
-
-/**
  * Reorder and orient walls so they form a proper closed chain where
  * wall[i].to === wall[i+1].from for every consecutive pair, and the
  * last wall's `to` equals the first wall's `from`.
  *
- * This is necessary because:
- * 1. The parser emits explicit walls before shared walls, which may
- *    break perimeter order.
- * 2. Shared walls keep the source room's from/to, which may be the
- *    reverse of the consuming room's traversal direction.
- * 3. Shared walls copy the ENTIRE source wall geometry, but the
- *    consuming room may only use a segment.  The chain algorithm
- *    clips shared walls to the segment actually needed.
- *
- * The algorithm greedily builds a chain by matching endpoints.  When an
- * exact endpoint match fails, it checks if the chain endpoint lies ON a
- * wall segment and clips that wall accordingly (handling shared walls
- * that are longer than the consuming room's boundary).
+ * Walls may be defined out of perimeter order or with reversed from/to.
+ * The algorithm greedily builds a chain by matching endpoints, reversing
+ * walls as needed.
  *
  * If the first wall's initial orientation doesn't produce a valid chain
  * it retries with the first wall reversed.  On failure it returns the
@@ -512,49 +430,6 @@ function normalizeWallChain(walls: ResolvedWall[]): ResolvedWall[] {
         }
       }
 
-      // 2. Fallback: check if prevEnd lies ON a wall segment (shared wall clipping).
-      //    For the LAST step, also check that firstStart lies on the same wall
-      //    so we can clip both ends and guarantee chain closure.
-      if (!found) {
-        for (let j = 0; j < walls.length; j++) {
-          if (used.has(j)) continue;
-
-          const wFrom = walls[j].from;
-          const wTo = walls[j].to;
-
-          if (isLastStep) {
-            // Last step: need both prevEnd and firstStart on the same wall
-            // so we can clip from prevEnd to firstStart and close the chain.
-            if (pointOnSegment(prevEnd, wFrom, wTo) && pointOnSegment(firstStart, wFrom, wTo)) {
-              result.push(clipWallBoth(walls[j], { ...prevEnd }, { ...firstStart }));
-              used.add(j);
-              found = true;
-              break;
-            }
-            if (pointOnSegment(prevEnd, wTo, wFrom) && pointOnSegment(firstStart, wTo, wFrom)) {
-              result.push(clipWallBoth(reverseWall(walls[j]), { ...prevEnd }, { ...firstStart }));
-              used.add(j);
-              found = true;
-              break;
-            }
-          } else {
-            // Intermediate step: clip start only
-            if (pointOnSegment(prevEnd, wFrom, wTo)) {
-              result.push(clipWallFrom(walls[j], { ...prevEnd }));
-              used.add(j);
-              found = true;
-              break;
-            }
-            if (pointOnSegment(prevEnd, wTo, wFrom)) {
-              result.push(clipWallFrom(reverseWall(walls[j]), { ...prevEnd }));
-              used.add(j);
-              found = true;
-              break;
-            }
-          }
-        }
-      }
-
       if (!found) {
         success = false;
         break;
@@ -592,31 +467,18 @@ export function resolve(project: ProjectNode): ResolvedProject {
 }
 
 function resolveFloor(floor: FloorNode): ResolvedFloor {
-  const roomMap = new Map<string, ResolvedRoom>();
-  const rooms: RoomNode[] = [];
+  const rooms: ResolvedRoom[] = [];
 
   for (const child of floor.children) {
     if (child.type === "room") {
-      rooms.push(child);
+      rooms.push(resolveRoom(child));
     }
   }
 
-  // Resolve rooms in order (shared walls reference earlier rooms)
-  for (const room of rooms) {
-    const resolved = resolveRoom(room, roomMap);
-    roomMap.set(room.name, resolved);
-  }
-
-  return {
-    name: floor.name,
-    rooms: Array.from(roomMap.values()),
-  };
+  return { name: floor.name, rooms };
 }
 
-function resolveRoom(
-  room: RoomNode,
-  roomMap: Map<string, ResolvedRoom>,
-): ResolvedRoom {
+function resolveRoom(room: RoomNode): ResolvedRoom {
   const walls: ResolvedWall[] = [];
   const doors: ResolvedDoor[] = [];
   const windows: ResolvedWindow[] = [];
@@ -626,13 +488,10 @@ function resolveRoom(
   for (const child of room.children) {
     if (child.type === "wall") {
       walls.push(resolveWall(child, room.name));
-    } else if (child.type === "shared_wall") {
-      walls.push(resolveSharedWall(child, room.name, roomMap));
     }
   }
 
   // Normalize wall chain so walls form a proper closed perimeter.
-  // This fixes rooms where shared walls break the traversal order or direction.
   const chainedWalls = normalizeWallChain(walls);
   // Replace the walls array contents with the normalized chain
   walls.length = 0;
@@ -692,10 +551,7 @@ function resolveRoom(
 
   // Compute area and center from wall centerline points.
   // For each wall, determine the correct traversal start point by checking
-  // endpoint connectivity with the previous wall. This handles shared walls
-  // whose from/to may not match the room's perimeter winding direction
-  // (they retain the source room's orientation when chain normalization
-  // falls back to the original order).
+  // endpoint connectivity with the previous wall.
   const areaPoints: Point[] = [];
   for (let i = 0; i < walls.length; i++) {
     const prev = walls[(i - 1 + walls.length) % walls.length];
@@ -749,33 +605,6 @@ function resolveWall(wall: WallNode, roomName: string): ResolvedWall {
     resolved.curvePoints = curvePoints;
   }
   return resolved;
-}
-
-function resolveSharedWall(
-  shared: SharedWallNode,
-  roomName: string,
-  roomMap: Map<string, ResolvedRoom>,
-): ResolvedWall {
-  const sourceRoom = roomMap.get(shared.sourceRoomName);
-  if (!sourceRoom)
-    throw new ResolveError(
-      `Shared wall references room "${shared.sourceRoomName}", which has not been defined yet`,
-    );
-
-  const sourceWall = sourceRoom.walls.find(
-    (w) => w.direction === shared.sourceWallDirection,
-  );
-  if (!sourceWall)
-    throw new ResolveError(
-      `Shared wall references wall.${shared.sourceWallDirection} from room "${shared.sourceRoomName}", but no such wall exists`,
-    );
-
-  // The shared wall uses the same geometry but belongs to this room
-  return {
-    ...sourceWall,
-    direction: shared.direction,
-    roomName,
-  };
 }
 
 function resolveDoor(door: DoorNode, wall: ResolvedWall): ResolvedDoor {

@@ -17,7 +17,7 @@ floor: "Ground Floor"
     wall "north mid" 6500,5200 4000,5200 150
     wall "north left" 4000,5200 0,5200 150
     wall west 0,5200 0,4000 200
-    shared south from "Living Room" sourceWall=north
+    wall south 0,4000 10000,4000 150
     door west 200 900 left
     door "north left" 1200 800 right
     door "north mid" 700 700 left
@@ -26,18 +26,18 @@ floor: "Ground Floor"
     wall east 4000,5200 4000,8000 150
     wall north 4000,8000 0,8000 200
     wall west 0,8000 0,5200 200
-    shared south from Hallway sourceWall="north left"
+    wall south 0,5200 4000,5200 150
     window north 1000 1500 1400 900
   room: Bathroom
     wall east 6500,5200 6500,8000 150
     wall north 6500,8000 4000,8000 200
-    shared south from Hallway sourceWall="north mid"
-    shared west from Bedroom sourceWall=east
+    wall south 4000,5200 6500,5200 150
+    wall west 4000,8000 4000,5200 150
     window north 500 800 1000 1200
   room: Sunroom
     wall east 10000,5200 10000,8000 200 bulge=-0.3
     wall north 10000,8000 6500,8000 200
-    shared south from Hallway sourceWall="north right"
-    shared west from Bathroom sourceWall=east
+    wall south 6500,5200 10000,5200 150
+    wall west 6500,8000 6500,5200 150
     window east 500 1500 1800 400
     window north 500 1200 1400 900

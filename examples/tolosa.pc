@@ -43,7 +43,7 @@ floor: "Planta Baja"
     wall east 5020,5700 5020,7600 150
     wall north 5020,7600 3800,7600 150
     wall west 3800,7600 3800,5700 150
-    shared south from Paso sourceWall=north
+    wall south 3800,5700 5020,5700 150
     door east 200 700 right
   room: Baño
     wall "south left" 5020,5000 5790,5000 200

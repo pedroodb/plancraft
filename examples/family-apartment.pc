@@ -14,7 +14,7 @@ floor: "Main Floor"
     wall south 7000,0 13000,0 200
     wall east 13000,0 13000,4500 200
     wall north 13000,4500 7000,4500 150
-    shared west from "Living Room" sourceWall=east
+    wall west 7000,4500 7000,0 150
     door north 2500 900 left
     window south 2000 1500 1400 1200
     window east 1500 1000 1200 1200
@@ -25,8 +25,8 @@ floor: "Main Floor"
     wall "north mid-left" 6500,5700 4500,5700 150
     wall "north left" 4500,5700 0,5700 150
     wall west 0,5700 0,4500 200
-    shared "south left" from "Living Room" sourceWall=north
-    shared "south right" from Kitchen sourceWall=north
+    wall "south left" 0,4500 7000,4500 150
+    wall "south right" 7000,4500 13000,4500 150
     door west 150 900 left
     door "north left" 1500 800 right
     door "north mid" 1000 800 left
@@ -35,24 +35,24 @@ floor: "Main Floor"
     wall east 4500,5700 4500,9000 150
     wall north 4500,9000 0,9000 200
     wall west 0,9000 0,5700 200
-    shared south from Hallway sourceWall="north left"
+    wall south 0,5700 4500,5700 150
     door east 500 700 left
     window north 1500 1500 1400 900
   room: Ensuite
     wall east 6500,5700 6500,9000 150
     wall north 6500,9000 4500,9000 200
-    shared south from Hallway sourceWall="north mid-left"
-    shared west from "Master Bedroom" sourceWall=east
+    wall south 4500,5700 6500,5700 150
+    wall west 4500,9000 4500,5700 150
     window north 500 800 1000 1200
   room: "Kids Room"
     wall east 9500,5700 9500,9000 150
     wall north 9500,9000 6500,9000 200
-    shared south from Hallway sourceWall="north mid"
-    shared west from Ensuite sourceWall=east
+    wall south 6500,5700 9500,5700 150
+    wall west 6500,9000 6500,5700 150
     window north 500 1200 1400 900
   room: "Family Bathroom"
     wall east 13000,5700 13000,9000 200
     wall north 13000,9000 9500,9000 200
-    shared south from Hallway sourceWall="north right"
-    shared west from "Kids Room" sourceWall=east
+    wall south 9500,5700 13000,5700 150
+    wall west 9500,9000 9500,5700 150
     window north 1000 1000 1000 1200

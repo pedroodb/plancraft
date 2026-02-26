@@ -1,4 +1,4 @@
-# Rooms and Shared Walls
+# Rooms
 
 ## Room Block
 
@@ -10,13 +10,12 @@ room: "Room Name"
   wall east 5000,0 5000,4000 200
   wall south 5000,4000 0,4000 200
   wall west 0,4000 0,0 200
-  shared west from "Other Room" sourceWall=east
   door south 2000 900 left
   window east 1000 1200 1400 900
   opening east 1200 2000
 ```
 
-Only the room name and walls are required. Shared walls, doors, windows, and openings can be omitted if not present.
+Only the room name and walls are required. Doors, windows, and openings can be omitted if not present.
 
 ## Wall Direction Names
 
@@ -34,31 +33,33 @@ room: "L-Shaped Room"
 
 This allows non-rectangular rooms with any number of walls.
 
-## Shared Walls
+## Adjacent Rooms — Grid Tiling (NO OVERLAPS)
 
-When two rooms share a wall, use `shared` to avoid duplicate geometry:
+Rooms tile together like a grid to fill the building footprint. **Room coordinate spaces must NEVER overlap.** Adjacent rooms meet at boundary walls with matching coordinates.
+
+**Approach: perimeter first, then subdivide.**
+1. Define the building footprint (total width × height)
+2. Divide into rows/columns of rooms
+3. Each room's coordinates fill exactly its portion — no gaps, no overlaps
+4. Verify: room widths per row sum to building width; room heights per column sum to building height
 
 ```
-// Room A defines the wall
+// 10m × 4m building: Living Room (6m) + Kitchen (4m) side by side
 room: "Living Room"
-  wall north 0,0 6000,0 200
+  wall south 0,0 6000,0 200
   wall east 6000,0 6000,4000 200
-  wall south 6000,4000 0,4000 200
+  wall north 6000,4000 0,4000 200
   wall west 0,4000 0,0 200
 
-// Room B references it
+// Kitchen starts where Living Room ends (x=6000). NO OVERLAP.
 room: Kitchen
-  wall north 6000,0 10000,0 200
+  wall south 6000,0 10000,0 200
   wall east 10000,0 10000,4000 200
-  wall south 10000,4000 6000,4000 200
-  shared west from "Living Room" sourceWall=east
+  wall north 10000,4000 6000,4000 200
+  wall west 6000,4000 6000,0 200
 ```
 
-### Shared Wall Fields
-
-- **`direction`** — The wall direction name in this room
-- **`from <sourceRoom>`** — The name of the room that originally defines the wall
-- **`sourceWall=<dir>`** — The wall direction in the source room (defaults to the same direction if omitted)
+The renderer automatically deduplicates overlapping boundary walls.
 
 ## Rooms with Curved Walls
 
@@ -86,9 +87,10 @@ Note: oblique/diagonal walls are already supported by setting start and end to n
 
 ## Tips
 
-- Define rooms in order so shared wall references resolve (source room must come first)
 - Room names must be unique within a floor
+- Rooms can be defined in any order within a floor
 - Rooms can have any number of walls (not limited to 4)
+- Adjacent rooms share exact coordinates at boundary walls -- the renderer deduplicates overlapping walls automatically
 - Use custom wall direction names for L-shaped, T-shaped, or irregular rooms
 - Oblique/diagonal walls work with any start/end coordinates
 - Curved walls use the optional `bulge` parameter (see [walls.md](walls.md))
