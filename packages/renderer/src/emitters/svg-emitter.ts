@@ -21,6 +21,12 @@ export interface SVGEmitterOptions {
    * Example: ["walls", "openings", "labels"] for structure-only output.
    */
   layers?: Layer[];
+  /**
+   * Optional viewport override. When set, the SVG viewBox is constrained to
+   * this bounding box (plus padding) instead of auto-computing from the scene.
+   * Useful for rendering a single room or a cropped region.
+   */
+  viewport?: { minX: number; minY: number; maxX: number; maxY: number };
 }
 
 const DEFAULT_OPTIONS: SVGEmitterOptions = {
@@ -31,8 +37,8 @@ const DEFAULT_OPTIONS: SVGEmitterOptions = {
 export function emitSVG(scene: SGGroup, opts: Partial<SVGEmitterOptions> = {}): string {
   const options = { ...DEFAULT_OPTIONS, ...opts };
 
-  // Compute bounding box
-  const bbox = computeBBox(scene);
+  // Compute bounding box (or use the caller-supplied viewport)
+  const bbox = options.viewport ?? computeBBox(scene);
   const pad = options.padding;
 
   const minX = bbox.minX - pad;

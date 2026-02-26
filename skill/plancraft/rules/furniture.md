@@ -4,7 +4,7 @@
 
 Furniture is managed separately from the structural plan. While the `.pc` file defines the building structure (walls, doors, windows), furniture placements are stored in a separate `.pcf` file.
 
-The `.pcf` file is **self-contained**: all element definitions (SVG, dimensions, metadata) are embedded in its `"elements"` section alongside the placements. This means the file has everything needed to render, with no external dependencies.
+The `.pcf` file is **self-contained**: all element definitions (SVG, dimensions, metadata) are embedded in its `elements:` section alongside the placements. This means the file has everything needed to render, with no external dependencies.
 
 ## Furniture Packages
 
@@ -46,87 +46,78 @@ Tags are the primary way to find and organize elements. Each element has one or 
 
 ### Element Reference Format
 
-Elements are referenced by **plain IDs** (e.g. `"bed"`, `"sofa"`, `"standing_lamp"`). No package prefix is needed. The element's definition lives in the layout's `"elements"` section.
+Elements are referenced by **plain IDs** (e.g. `bed`, `sofa`, `standing_lamp`). No package prefix is needed. The element's definition lives in the layout's `elements:` section.
 
 ## .pcf Placement File Format
 
-The `.pcf` file is JSONC (JSON with comments) containing element definitions and placements:
+The `.pcf` file uses a compact DSL format containing element definitions and placements:
 
-```jsonc
-{
-  "elements": {
-    "bed": {
-      "name": "Double Bed",
-      "tags": ["bedroom", "sleeping"],
-      "defaultWidth": 1400,
-      "defaultDepth": 2000,
-      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1400 2000\">...</svg>",
-      "source": "default"
-    },
-    "standing_lamp": {
-      "name": "Standing Lamp",
-      "tags": ["living", "lighting"],
-      "defaultWidth": 300,
-      "defaultDepth": 300,
-      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 300 300\"><circle cx=\"150\" cy=\"150\" r=\"130\" fill=\"#e8e8e8\" stroke=\"black\" stroke-width=\"5\"/><circle cx=\"150\" cy=\"150\" r=\"20\" fill=\"#a0a0a0\" stroke=\"black\" stroke-width=\"3\"/></svg>",
-      "source": "generated"
-    }
-  },
-  "placements": [
-    {
-      "element": "bed",
-      "position": {"x": 2000, "y": 1750},
-      "scaleWidth": 100,
-      "scaleDepth": 100,
-      "lockProportions": true,
-      "rotation": 0,
-      "room": "Bedroom"
-    },
-    {
-      "element": "standing_lamp",
-      "position": {"x": 500, "y": 3000},
-      "scaleWidth": 80,
-      "scaleDepth": 80,
-      "lockProportions": true,
-      "rotation": 0,
-      "room": "Living Room"
-    }
-  ]
-}
+```
+furniture:
+
+elements:
+  element bed "Double Bed" tags=bedroom,sleeping width=1400 depth=2000 source=default
+    svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 2000">...</svg>
+  element standing_lamp "Standing Lamp" tags=living,lighting width=300 depth=300 source=generated
+    svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><circle cx="150" cy="150" r="130" fill="#e8e8e8" stroke="black" stroke-width="5"/><circle cx="150" cy="150" r="20" fill="#a0a0a0" stroke="black" stroke-width="3"/></svg>
+
+placements:
+  place default/bed at 2000,1750 in Bedroom
+  place standing_lamp at 500,3000 in "Living Room" scale=80
 ```
 
 ## Element Definitions
 
-The `"elements"` key contains all element definitions used by this layout. Each key is the element ID:
+The `elements:` section contains all element definitions used by this layout. Each element line specifies:
 
-- **`name`** — Human-readable display name
-- **`tags`** — Array of tags for grouping and filtering (e.g. `["bedroom", "sleeping"]`)
-- **`defaultWidth`** — Default width in mm
-- **`defaultDepth`** — Default depth in mm
-- **`svg`** — Full SVG content including the `<svg>` root element
-- **`source`** — Optional: which package this was imported from (e.g. "default", "generated")
+- **ID** — Element identifier (e.g. `bed`, `standing_lamp`)
+- **`"Display Name"`** — Human-readable display name in quotes
+- **`tags=`** — Comma-separated tags for grouping and filtering (e.g. `tags=bedroom,sleeping`)
+- **`width=`** — Default width in mm
+- **`depth=`** — Default depth in mm
+- **`source=`** — Optional: which package this was imported from (e.g. `default`, `generated`)
+- **`svg:`** — Full SVG content on the next indented line
 
-## Placement Fields
+## Placement Syntax
 
-- **`element`** — Element ID (key into the `"elements"` map) (required)
-- **`position`** — `{"x": N, "y": N}` center point in mm. Required unless using `anchor` or `relativePosition`.
-- **`anchor`** — Wall-anchored positioning (optional, use instead of `position`):
-  - `wall`: compass side ("north", "south", "east", "west") or wall direction name
-  - `along`: 0-1 position along the wall (0 = start, 0.5 = center, 1 = end)
-  - `offset`: mm from wall inner face (0 = flush, default 0). System auto-adds wall_thickness/2 + furniture_depth/2.
-- **`relativePosition`** — `{"x": N, "y": N}` where 0-1 is percentage within room inner bounding box (optional, use instead of `position`)
-- **`scaleWidth`** — Width as percentage of original size, default `100` (optional)
-- **`scaleDepth`** — Depth as percentage of original size, default `100` (optional)
-- **`lockProportions`** — When `true`, width and depth scale together, default `true` (optional)
-- **`rotation`** — Rotation in degrees, default `0` (optional)
-- **`room`** — Room name. **Required for `anchor` and `relativePosition`.** Enables spatial validation.
+Three placement methods are available:
+
+### Absolute position
+
+```
+place <element> at <x>,<y> [in <room>] [scale=N] [rotation=N]
+```
+
+### Wall anchor
+
+```
+place <element> anchor <wall> <along> <offset> in <room> [scale=N] [rotation=N]
+```
+
+- `wall`: compass side (`north`, `south`, `east`, `west`) or wall direction name
+- `along`: 0-1 position along the wall (0 = start, 0.5 = center, 1 = end)
+- `offset`: mm from wall inner face (0 = flush, default 0). System auto-adds wall_thickness/2 + furniture_depth/2.
+
+### Room-relative
+
+```
+place <element> rel <x>,<y> in <room> [scale=N] [rotation=N]
+```
+
+Where `x,y` is 0-1 percentage within room inner bounding box.
+
+## Placement Modifiers
+
+- **`in <room>`** — Room name. **Required for `anchor` and `rel`.** Enables spatial validation.
+- **`scale=N`** — Width as percentage of original size, default `100`. Can also be `scale=W,D` for independent width/depth scaling.
+- **`rotation=N`** — Rotation in degrees, default `0`
 
 ### Scale Examples
 
-- `scaleWidth: 100, scaleDepth: 100` — Default size (100%)
-- `scaleWidth: 150, scaleDepth: 150` — 50% larger
-- `scaleWidth: 75, scaleDepth: 75` — 25% smaller
-- `scaleWidth: 120, scaleDepth: 80, lockProportions: false` — Wider but shallower
+- `scale=100` — Default size (100%)
+- `scale=150` — 50% larger
+- `scale=75` — 25% smaller
+- `scale=120,80` — Wider but shallower (independent width/depth)
 
 ### SVG Creation Guidelines
 
@@ -176,25 +167,25 @@ When creating element SVGs:
 
 Three ways to position furniture:
 
-1. **Absolute position**: `"position": {"x": 2100, "y": 1100}` — direct mm coordinates
-2. **Wall anchor**: `"anchor": {"wall": "south", "along": 0.5, "offset": 0}` — auto-aligned to wall (recommended for wall-adjacent items)
-3. **Room-relative**: `"relativePosition": {"x": 0.5, "y": 0.5}` — percentage within room (recommended for center-of-room items)
+1. **Absolute position**: `place default/sofa at 2100,1100 in Bedroom` — direct mm coordinates
+2. **Wall anchor**: `place default/bed anchor south 0.5 0 in Bedroom` — auto-aligned to wall (recommended for wall-adjacent items)
+3. **Room-relative**: `place default/coffee_table rel 0.5,0.5 in "Living Room"` — percentage within room (recommended for center-of-room items)
 
-Anchor and relativePosition require the `"room"` field. The system auto-resolves them to absolute coordinates.
+Anchor and rel require the room name. The system auto-resolves them to absolute coordinates.
 
 ## Placement Tips
 
 - **ALWAYS call `get_room_geometry` first** to get exact room bounds and wall positions
 - **Prefer anchor** for wall-aligned items (beds, wardrobes, counters, toilets) — it auto-handles wall thickness offset
-- **Prefer relativePosition** for center-of-room items (coffee tables, dining tables)
+- **Prefer rel** for center-of-room items (coffee tables, dining tables)
 - Position furniture using absolute coordinates (center of the piece), computed from room geometry
 - Use rotation to orient pieces (0 = default, 90 = rotated clockwise). **Rotation swaps effective width/depth.**
 - Keep at least 600mm clearance between furniture and walls for walkways
 - For wall-aligned furniture: `center = wall_inner_edge + furniture_depth / 2`
 - Use `innerBoundingBox` from room geometry to ensure furniture stays inside the room
 - **Check the warnings** returned by add_furniture_placement and replace_furniture_layout — fix overlaps immediately
-- Always set the `room` field on placements to enable spatial validation
+- Always set the room field on placements to enable spatial validation
 - Group fixtures by function (kitchen appliances together, bathroom fixtures together)
-- Use `scaleWidth`/`scaleDepth` to resize (percentage-based) rather than fixed dimensions
+- Use `scale` to resize (percentage-based) rather than fixed dimensions
 - Use list_furniture_packages and browse_package (with tag filter) to discover available elements
 - Elements are auto-imported when placed — the layout file stays self-contained

@@ -6,7 +6,7 @@
  * are used to validate furniture placement and produce warnings for the AI.
  */
 
-import type { Point, ResolvedRoom, ResolvedWall, ResolvedProject } from "@plancraft/dsl";
+import type { Point, ResolvedRoom, ResolvedWall, ResolvedDoor, ResolvedProject } from "@plancraft/dsl";
 import type { FurnitureLayout, FurnitureElementDef } from "@plancraft/furniture";
 
 // ── Bounding box types ───────────────────────────────────────────────
@@ -54,12 +54,23 @@ export interface FurnitureAABB {
 }
 
 export interface SpatialWarning {
-  type: "wall_overlap" | "furniture_overlap" | "out_of_room" | "wall_gap";
+  type: "wall_overlap" | "furniture_overlap" | "out_of_room" | "wall_gap" | "door_blocked";
   message: string;
   /** Index of the furniture placement */
   placementIndex: number;
   /** Optional second placement index (for furniture-furniture overlaps) */
   otherIndex?: number;
+}
+
+export interface DoorClearanceInfo {
+  /** Room this door belongs to */
+  roomName: string;
+  /** The resolved door */
+  door: ResolvedDoor;
+  /** AABB of the door clearance zone (swing arc or sliding track) */
+  aabb: AABB;
+  /** Whether this is a swing or sliding door */
+  doorType: "swing" | "sliding";
 }
 
 // ── Geometry helpers ─────────────────────────────────────────────────
@@ -157,6 +168,159 @@ export function polygonAABB(points: Point[]): AABB {
   return { minX, minY, maxX, maxY };
 }
 
+// ── Door clearance computation ───────────────────────────────────────
+
+const DOOR_CLEARANCE_TOLERANCE = 100; // 100mm tolerance for door clearance checks
+
+/**
+ * Compute the unit direction along a door/window opening.
+ * Uses endPosition if available (curved walls), otherwise wall chord direction.
+ */
+function doorOpeningDir(door: ResolvedDoor): { dx: number; dy: number; panelWidth: number } {
+  if (door.endPosition) {
+    const ddx = door.endPosition.x - door.position.x;
+    const ddy = door.endPosition.y - door.position.y;
+    const len = Math.sqrt(ddx * ddx + ddy * ddy);
+    if (len > 0) return { dx: ddx / len, dy: ddy / len, panelWidth: len };
+  }
+  const wdx = door.wall.to.x - door.wall.from.x;
+  const wdy = door.wall.to.y - door.wall.from.y;
+  const wlen = Math.sqrt(wdx * wdx + wdy * wdy);
+  if (wlen < 0.01) return { dx: 1, dy: 0, panelWidth: door.width };
+  return { dx: wdx / wlen, dy: wdy / wlen, panelWidth: door.width };
+}
+
+/**
+ * Compute the AABB of a circular arc sector (center + arc from startAngle to endAngle).
+ * Includes the center point and the full arc sweep.
+ */
+function arcSectorAABB(center: Point, radius: number, startAngle: number, endAngle: number): AABB {
+  // Start with the sector vertices: center, arc start, arc end
+  let minX = center.x;
+  let minY = center.y;
+  let maxX = center.x;
+  let maxY = center.y;
+
+  const sx = center.x + Math.cos(startAngle) * radius;
+  const sy = center.y + Math.sin(startAngle) * radius;
+  const ex = center.x + Math.cos(endAngle) * radius;
+  const ey = center.y + Math.sin(endAngle) * radius;
+
+  minX = Math.min(minX, sx, ex);
+  minY = Math.min(minY, sy, ey);
+  maxX = Math.max(maxX, sx, ex);
+  maxY = Math.max(maxY, sy, ey);
+
+  // Check if the arc crosses any cardinal direction (0, π/2, π, 3π/2)
+  // Normalize angles to [0, 2π)
+  const TWO_PI = 2 * Math.PI;
+  const norm = (a: number) => ((a % TWO_PI) + TWO_PI) % TWO_PI;
+  const s = norm(startAngle);
+  const e = norm(endAngle);
+
+  const cardinals = [0, Math.PI / 2, Math.PI, (3 * Math.PI) / 2];
+  const offsets: Point[] = [
+    { x: radius, y: 0 },     // 0°  → right
+    { x: 0, y: radius },     // 90° → down
+    { x: -radius, y: 0 },    // 180° → left
+    { x: 0, y: -radius },    // 270° → up
+  ];
+
+  for (let i = 0; i < 4; i++) {
+    const c = cardinals[i];
+    // Check if cardinal angle c is within the arc from s to e (counterclockwise)
+    const inArc = s <= e ? (c >= s && c <= e) : (c >= s || c <= e);
+    if (inArc) {
+      const px = center.x + offsets[i].x;
+      const py = center.y + offsets[i].y;
+      minX = Math.min(minX, px);
+      minY = Math.min(minY, py);
+      maxX = Math.max(maxX, px);
+      maxY = Math.max(maxY, py);
+    }
+  }
+
+  return { minX, minY, maxX, maxY };
+}
+
+/**
+ * Compute the door clearance AABB for a swing door.
+ * The clearance zone is the quarter-circle arc swept by the door panel.
+ */
+function swingDoorClearanceAABB(door: ResolvedDoor): AABB {
+  const { dx, dy, panelWidth } = doorOpeningDir(door);
+  const wallAngle = Math.atan2(dy, dx);
+
+  let startAngle: number;
+  let endAngle: number;
+
+  if (door.swing === "left") {
+    startAngle = wallAngle;
+    endAngle = wallAngle + Math.PI / 2;
+  } else {
+    startAngle = wallAngle - Math.PI / 2;
+    endAngle = wallAngle;
+  }
+
+  return arcSectorAABB(door.position, panelWidth, startAngle, endAngle);
+}
+
+/**
+ * Compute the door clearance AABB for a sliding door.
+ * The clearance zone is a thin rectangle on both sides of the door track (200mm deep).
+ */
+function slidingDoorClearanceAABB(door: ResolvedDoor): AABB {
+  const { dx, dy, panelWidth } = doorOpeningDir(door);
+  // Wall normal (perpendicular to wall direction)
+  const nx = dy;
+  const ny = -dx;
+  const clearanceDepth = 200; // 200mm clearance on each side of a sliding door
+
+  const start = door.position;
+  const end = {
+    x: start.x + dx * panelWidth,
+    y: start.y + dy * panelWidth,
+  };
+
+  // Four corners of the clearance zone
+  const points: Point[] = [
+    { x: start.x + nx * clearanceDepth, y: start.y + ny * clearanceDepth },
+    { x: start.x - nx * clearanceDepth, y: start.y - ny * clearanceDepth },
+    { x: end.x + nx * clearanceDepth, y: end.y + ny * clearanceDepth },
+    { x: end.x - nx * clearanceDepth, y: end.y - ny * clearanceDepth },
+  ];
+
+  return polygonAABB(points);
+}
+
+/**
+ * Compute door clearance zones for all doors in a project.
+ */
+export function computeDoorClearances(project: ResolvedProject): DoorClearanceInfo[] {
+  const result: DoorClearanceInfo[] = [];
+
+  for (const floor of project.floors) {
+    for (const room of floor.rooms) {
+      for (const door of room.doors) {
+        const doorType = door.swing === "sliding" ? "sliding" : "swing";
+        const aabb =
+          doorType === "sliding"
+            ? slidingDoorClearanceAABB(door)
+            : swingDoorClearanceAABB(door);
+
+        result.push({
+          roomName: room.name,
+          door,
+          aabb,
+          doorType,
+        });
+      }
+    }
+  }
+
+  return result;
+}
+
 /**
  * Compute the inner bounding box of a room (wall centerlines inset by max wall thickness / 2).
  */
@@ -249,7 +413,8 @@ function assignWallSide(wall: ResolvedWall, roomCenter: Point): string {
 
   if (absDy < absDx * 0.3) {
     // Mostly horizontal wall
-    return wallMidY > roomCenter.y ? "north" : "south";
+    // In SVG coordinates Y increases downward: higher Y = further south
+    return wallMidY > roomCenter.y ? "south" : "north";
   }
   if (absDx < absDy * 0.3) {
     // Mostly vertical wall
@@ -492,6 +657,29 @@ export function validateFurniturePlacement(
     }
   }
 
+  // 4. Check furniture blocking door clearance zones
+  const doorClearances = computeDoorClearances(project);
+  for (const furn of furnitureAABBs) {
+    if (!furn.room) continue;
+
+    for (const dc of doorClearances) {
+      // Only check doors in the same room as the furniture
+      if (dc.roomName.toLowerCase() !== furn.room.toLowerCase()) continue;
+
+      if (aabbOverlap(furn.aabb, dc.aabb, DOOR_CLEARANCE_TOLERANCE)) {
+        const depth = aabbOverlapDepth(furn.aabb, dc.aabb);
+        if (depth > DOOR_CLEARANCE_TOLERANCE) {
+          const doorDesc = `${dc.doorType} door on ${dc.door.wallDirection} wall`;
+          warnings.push({
+            type: "door_blocked",
+            message: `${furn.element} (#${furn.index}) blocks ${doorDesc} clearance by ~${Math.round(depth)}mm`,
+            placementIndex: furn.index,
+          });
+        }
+      }
+    }
+  }
+
   return warnings;
 }
 
@@ -501,6 +689,7 @@ export interface SpatialMetrics {
   furnitureWallOverlaps: number;
   furnitureMutualOverlaps: number;
   furnitureOutOfRoom: number;
+  doorBlocked: number;
   totalWarnings: number;
   warnings: SpatialWarning[];
 }
@@ -513,6 +702,7 @@ export function computeSpatialMetrics(warnings: SpatialWarning[]): SpatialMetric
   const wallOverlapPlacements = new Set<number>();
   const mutualOverlapPlacements = new Set<number>();
   const outOfRoomPlacements = new Set<number>();
+  const doorBlockedPlacements = new Set<number>();
 
   for (const w of warnings) {
     switch (w.type) {
@@ -526,6 +716,9 @@ export function computeSpatialMetrics(warnings: SpatialWarning[]): SpatialMetric
       case "out_of_room":
         outOfRoomPlacements.add(w.placementIndex);
         break;
+      case "door_blocked":
+        doorBlockedPlacements.add(w.placementIndex);
+        break;
     }
   }
 
@@ -533,6 +726,7 @@ export function computeSpatialMetrics(warnings: SpatialWarning[]): SpatialMetric
     furnitureWallOverlaps: wallOverlapPlacements.size,
     furnitureMutualOverlaps: mutualOverlapPlacements.size,
     furnitureOutOfRoom: outOfRoomPlacements.size,
+    doorBlocked: doorBlockedPlacements.size,
     totalWarnings: warnings.length,
     warnings,
   };

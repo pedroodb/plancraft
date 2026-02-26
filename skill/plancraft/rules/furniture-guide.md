@@ -90,113 +90,76 @@ position = wall_inner_edge + furniture_depth / 2
 
 **Worked example — bed against the south wall of a Bedroom:**
 - Room `innerBoundingBox`: `{minX: 100, minY: 100, maxX: 4100, maxY: 3600}`
-- Bed default size: 1400mm wide × 2000mm deep
+- Bed default size: 1400mm wide x 2000mm deep
 - South wall inner edge is at `minY = 100`
 - Bed center Y = `100 + 2000/2 = 1100`
 - Center X at room center = `(100 + 4100) / 2 = 2100`
-- Result: `{"x": 2100, "y": 1100}`
+- Result: `at 2100,1100`
 
 **Worked example — wardrobe against the east wall:**
 - East wall inner edge is at `maxX = 4100`
-- Wardrobe: 1000mm wide × 500mm deep, rotated 90°
+- Wardrobe: 1000mm wide x 500mm deep, rotated 90 degrees
 - After rotation: effective width = 500mm, effective depth = 1000mm
 - Wardrobe center X = `4100 - 500/2 = 3850`
-- Result: `{"x": 3850, "y": 1850}` with `rotation: 90`
+- Result: `at 3850,1850` with `rotation=90`
 
 **Worked example — toilet against the north wall:**
 - North wall inner edge is at `maxY = 3600`
-- Toilet: 400mm wide × 700mm deep
+- Toilet: 400mm wide x 700mm deep
 - Toilet center Y = `3600 - 700/2 = 3250`
 - Place near the left side: center X = `100 + 400/2 + 200 = 500` (200mm from left wall)
-- Result: `{"x": 500, "y": 3250}`
+- Result: `at 500,3250`
 
 #### Positioning Methods
 
 You have **three ways** to position furniture:
 
 **Method 1: Absolute position (traditional)** — Compute exact mm coordinates from room geometry:
-```jsonc
-{
-  "element": "bed",
-  "position": {"x": 2100, "y": 1100},
-  "room": "Bedroom"
-}
+```
+place default/bed at 2100,1100 in Bedroom
 ```
 
 **Method 2: Wall anchor (recommended for wall-aligned items)** — Automatically computes position from wall geometry. The system adds wall_thickness/2 + furniture_depth/2 for you:
-```jsonc
-{
-  "element": "bed",
-  "room": "Bedroom",
-  "anchor": {
-    "wall": "south",    // compass side or wall direction name
-    "along": 0.5,       // 0-1 position along wall (0.5 = centered)
-    "offset": 0         // mm from wall inner face (0 = flush)
-  }
-}
+```
+place default/bed anchor south 0.5 0 in Bedroom
+// wall=south, along=0.5 (centered), offset=0 (flush)
 ```
 
 **Method 3: Room-relative percentage (good for center-of-room items):**
-```jsonc
-{
-  "element": "coffee_table",
-  "room": "Living Room",
-  "relativePosition": {"x": 0.5, "y": 0.5}  // centered in room
-}
+```
+place default/coffee_table rel 0.5,0.5 in "Living Room"
+// centered in room
 ```
 
 **When to use each:**
 - **Anchor**: Beds, wardrobes, counters, toilets, sinks — anything that goes against a wall
-- **RelativePosition**: Coffee tables, dining tables, rugs — items in the middle of a room
+- **Rel**: Coffee tables, dining tables, rugs — items in the middle of a room
 - **Absolute position**: Items outside rooms, or when you need precise control
 
 #### Placement format
 
-```jsonc
-{
-  "placements": [
-    {
-      "element": "bed",
-      "room": "Bedroom",
-      "anchor": {"wall": "south", "along": 0.5, "offset": 0}
-    },
-    {
-      "element": "wardrobe",
-      "room": "Bedroom",
-      "anchor": {"wall": "east", "along": 0.3, "offset": 0},
-      "rotation": 90
-    },
-    {
-      "element": "coffee_table",
-      "room": "Living Room",
-      "relativePosition": {"x": 0.5, "y": 0.5}
-    },
-    {
-      "element": "desk",
-      "position": {"x": 3850, "y": 500},
-      "scaleWidth": 120,
-      "scaleDepth": 120,
-      "lockProportions": true,
-      "rotation": 90,
-      "room": "Bedroom"
-    }
-  ]
-}
+```
+furniture:
+
+placements:
+  place default/bed anchor south 0.5 0 in Bedroom
+  place default/wardrobe anchor east 0.3 0 in Bedroom rotation=90
+  place default/coffee_table rel 0.5,0.5 in "Living Room"
+  place default/desk at 3850,500 in Bedroom scale=120 rotation=90
 ```
 
-- **position** `{"x": N, "y": N}` — **center point** in absolute mm. Required unless using anchor or relativePosition.
-- **anchor** — Wall-anchored positioning. Set `wall` (compass side), `along` (0-1), and `offset` (mm). System auto-calculates absolute position.
-- **relativePosition** `{"x": N, "y": N}` — 0-1 percentage within room inner bounding box.
-- **scaleWidth** / **scaleDepth** — percentages of original size (100 = default)
-- **lockProportions** — when `true`, width and depth scale together
-- **rotation** — degrees (0 = default, 90 = clockwise). **Rotation swaps effective width/depth.**
-- **room** — Room name. **Required for anchor/relativePosition.** Enables spatial validation.
+- **`at x,y`** — **center point** in absolute mm. Required unless using anchor or rel.
+- **`anchor <wall> <along> <offset>`** — Wall-anchored positioning. System auto-calculates absolute position.
+- **`rel x,y`** — 0-1 percentage within room inner bounding box.
+- **`scale=N`** — percentage of original size (100 = default). Use `scale=W,D` for independent width/depth.
+- **`rotation=N`** — degrees (0 = default, 90 = clockwise). **Rotation swaps effective width/depth.**
+- **`in <room>`** — Room name. **Required for anchor/rel.** Enables spatial validation.
 
 ### 3. Common Furniture Sizes (mm)
 
 | Element | Default Size (W x D) |
 |---------|---------------------|
-| default/bed (single, use scaleWidth: 65) | ~900 x 2000 |
+| default/bed (single, use scale=65) | ~900 x 2000 |
 | default/bed (double) | 1400 x 2000 |
 | default/sofa | 2000 x 900 |
 | default/l_sofa | 2400 x 2000 |
@@ -222,13 +185,13 @@ You have **three ways** to position furniture:
 - **Check warnings**: `add_furniture_placement` and `replace_furniture_layout` return spatial warnings. If you see overlap or out-of-room warnings, fix positions immediately.
 - **Keep clearance**: Leave at least 600mm between furniture and walls for walkways
 - **Align to walls**: Furniture against walls looks natural — place the center at `wall_inner_edge + depth/2`
-- **Remember rotation swaps dimensions**: A 1000×500 wardrobe at rotation=90 has effective dimensions 500×1000
+- **Remember rotation swaps dimensions**: A 1000x500 wardrobe at rotation=90 has effective dimensions 500x1000
 - **Group by function**: Kitchen appliances along the counter wall, bathroom fixtures along the plumbing wall
 - **Use rotation**: Orient beds with headboard against wall (rotation 0 = head at top)
 - **Scale check**: Ensure furniture fits within the room boundaries using `innerBoundingBox`
-- **Use scale for sizing**: Use `scaleWidth`/`scaleDepth` percentages rather than guessing mm sizes
+- **Use scale for sizing**: Use `scale` percentages rather than guessing mm sizes
 - **Create custom elements**: If a piece doesn't exist in built-in packages, create it with `create_furniture_element`
-- **Set the `room` field**: Always set the room name when placing furniture — this enables spatial validation
+- **Set the room field**: Always set the room name when placing furniture — this enables spatial validation
 
 ### 6. Furniture Self-Review Checklist
 

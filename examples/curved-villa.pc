@@ -1,123 +1,43 @@
-{
-  "name": "Curved Villa",
-  "scale": 100,
-  "unit": "mm",
+plan: "Curved Villa"
 
-  "floors": [
-    {
-      "name": "Ground Floor",
-      "rooms": [
-        // ── Living Room (bottom, 10m × 4m) ──────────────────────────────
-        // South wall has a subtle outward curve (bulge: -0.1) creating a
-        // bay window effect across the entire facade. Windows and a
-        // sliding glass door are placed on the curved wall.
-        {
-          "name": "Living Room",
-          "walls": [
-            { "direction": "south", "from": {"x": 0, "y": 0}, "to": {"x": 10000, "y": 0}, "thickness": 200, "bulge": -0.1 },
-            { "direction": "east",  "from": {"x": 10000, "y": 0}, "to": {"x": 10000, "y": 4000}, "thickness": 200 },
-            { "direction": "north", "from": {"x": 10000, "y": 4000}, "to": {"x": 0, "y": 4000}, "thickness": 150 },
-            { "direction": "west",  "from": {"x": 0, "y": 4000}, "to": {"x": 0, "y": 0}, "thickness": 200 }
-          ],
-          "doors": [
-            // Door to Hallway
-            { "wall": "north", "offset": 4000, "width": 900, "swing": "right" },
-            // Sliding glass door on the curved south facade (garden access)
-            { "wall": "south", "offset": 3500, "width": 2000, "swing": "sliding" }
-          ],
-          "windows": [
-            // Windows flanking the sliding door on the curved wall
-            { "wall": "south", "offset": 1000, "width": 1500, "height": 1400, "sill": 900 },
-            { "wall": "south", "offset": 7000, "width": 1500, "height": 1400, "sill": 900 },
-            // Side window
-            { "wall": "west", "offset": 1000, "width": 1200, "height": 1400, "sill": 900 }
-          ]
-        },
-
-        // ── Hallway (middle strip, 10m × 1.2m) ─────────────────────────
-        // Connects the Living Room to the upper rooms. North wall is
-        // split into segments for shared wall references with each room.
-        {
-          "name": "Hallway",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Living Room", "sourceWall": "north" }
-          ],
-          "walls": [
-            { "direction": "east",        "from": {"x": 10000, "y": 4000}, "to": {"x": 10000, "y": 5200}, "thickness": 200 },
-            { "direction": "north right", "from": {"x": 10000, "y": 5200}, "to": {"x": 6500, "y": 5200},  "thickness": 150 },
-            { "direction": "north mid",   "from": {"x": 6500, "y": 5200},  "to": {"x": 4000, "y": 5200},  "thickness": 150 },
-            { "direction": "north left",  "from": {"x": 4000, "y": 5200},  "to": {"x": 0, "y": 5200},     "thickness": 150 },
-            { "direction": "west",        "from": {"x": 0, "y": 5200},     "to": {"x": 0, "y": 4000},     "thickness": 200 }
-          ],
-          "doors": [
-            // Front entrance
-            { "wall": "west", "offset": 200, "width": 900, "swing": "left" },
-            // Door to Bedroom
-            { "wall": "north left", "offset": 1200, "width": 800, "swing": "right" },
-            // Door to Bathroom
-            { "wall": "north mid", "offset": 700, "width": 700, "swing": "left" }
-          ],
-          "openings": [
-            // Wide archway to Sunroom — open transition
-            { "wall": "north right", "offset": 800, "width": 1500 }
-          ]
-        },
-
-        // ── Bedroom (top-left, 4m × 2.8m) ──────────────────────────────
-        {
-          "name": "Bedroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north left" }
-          ],
-          "walls": [
-            { "direction": "east",  "from": {"x": 4000, "y": 5200}, "to": {"x": 4000, "y": 8000}, "thickness": 150 },
-            { "direction": "north", "from": {"x": 4000, "y": 8000}, "to": {"x": 0, "y": 8000},    "thickness": 200 },
-            { "direction": "west",  "from": {"x": 0, "y": 8000},    "to": {"x": 0, "y": 5200},    "thickness": 200 }
-          ],
-          "windows": [
-            { "wall": "north", "offset": 1000, "width": 1500, "height": 1400, "sill": 900 }
-          ]
-        },
-
-        // ── Bathroom (top-center, 2.5m × 2.8m) ─────────────────────────
-        {
-          "name": "Bathroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north mid" },
-            { "direction": "west",  "sourceRoom": "Bedroom", "sourceWall": "east" }
-          ],
-          "walls": [
-            { "direction": "east",  "from": {"x": 6500, "y": 5200}, "to": {"x": 6500, "y": 8000}, "thickness": 150 },
-            { "direction": "north", "from": {"x": 6500, "y": 8000}, "to": {"x": 4000, "y": 8000}, "thickness": 200 }
-          ],
-          "windows": [
-            // Small high window for privacy
-            { "wall": "north", "offset": 500, "width": 800, "height": 1000, "sill": 1200 }
-          ]
-        },
-
-        // ── Sunroom (top-right, 3.5m × 2.8m) ───────────────────────────
-        // East wall has a pronounced outward curve (bulge: -0.3) creating
-        // a conservatory bay effect. Large windows on the curved wall
-        // flood the room with natural light.
-        {
-          "name": "Sunroom",
-          "sharedWalls": [
-            { "direction": "south", "sourceRoom": "Hallway", "sourceWall": "north right" },
-            { "direction": "west",  "sourceRoom": "Bathroom", "sourceWall": "east" }
-          ],
-          "walls": [
-            { "direction": "east",  "from": {"x": 10000, "y": 5200}, "to": {"x": 10000, "y": 8000}, "thickness": 200, "bulge": -0.3 },
-            { "direction": "north", "from": {"x": 10000, "y": 8000}, "to": {"x": 6500, "y": 8000},  "thickness": 200 }
-          ],
-          "windows": [
-            // Tall window on the curved east wall
-            { "wall": "east", "offset": 500, "width": 1500, "height": 1800, "sill": 400 },
-            // North-facing window
-            { "wall": "north", "offset": 500, "width": 1200, "height": 1400, "sill": 900 }
-          ]
-        }
-      ]
-    }
-  ]
-}
+floor: "Ground Floor"
+  room: "Living Room"
+    wall south 0,0 10000,0 200 bulge=-0.1
+    wall east 10000,0 10000,4000 200
+    wall north 10000,4000 0,4000 150
+    wall west 0,4000 0,0 200
+    door north 4000 900 right
+    door south 3500 2000 sliding
+    window south 1000 1500 1400 900
+    window south 7000 1500 1400 900
+    window west 1000 1200 1400 900
+  room: Hallway
+    wall east 10000,4000 10000,5200 200
+    wall "north right" 10000,5200 6500,5200 150
+    wall "north mid" 6500,5200 4000,5200 150
+    wall "north left" 4000,5200 0,5200 150
+    wall west 0,5200 0,4000 200
+    shared south from "Living Room" sourceWall=north
+    door west 200 900 left
+    door "north left" 1200 800 right
+    door "north mid" 700 700 left
+    opening "north right" 800 1500
+  room: Bedroom
+    wall east 4000,5200 4000,8000 150
+    wall north 4000,8000 0,8000 200
+    wall west 0,8000 0,5200 200
+    shared south from Hallway sourceWall="north left"
+    window north 1000 1500 1400 900
+  room: Bathroom
+    wall east 6500,5200 6500,8000 150
+    wall north 6500,8000 4000,8000 200
+    shared south from Hallway sourceWall="north mid"
+    shared west from Bedroom sourceWall=east
+    window north 500 800 1000 1200
+  room: Sunroom
+    wall east 10000,5200 10000,8000 200 bulge=-0.3
+    wall north 10000,8000 6500,8000 200
+    shared south from Hallway sourceWall="north right"
+    shared west from Bathroom sourceWall=east
+    window east 500 1500 1800 400
+    window north 500 1200 1400 900

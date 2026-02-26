@@ -1,38 +1,16 @@
-{
-  // Two Bedroom Apartment — Living Room + Kitchen
-  // Living Room: inner x=100-5900, y=100-3900 (5.8m × 3.8m)
-  //   Door: north wall (y=0) offset 1500 (x≈1500-2400)
-  //   Window: south wall (y=4000) offset 2000 (x≈2000-3500)
-  // Kitchen: inner x=6100-9900, y=100-3900 (3.8m × 3.8m)
-  //   Door: south wall (y=4000) offset 1500 (x≈7500-8400)
-  //   Window: north wall (y=0) offset 1000 (x≈7000-8200)
-  "placements": [
+furniture:
 
-    // ─── Living Room ────────────────────────────────────────────────
-    // Sofa against north wall, right of the door opening
-    { "element": "default/sofa", "position": {"x": 4200, "y": 600}, "room": "Living Room" },
-    // Coffee table in front of sofa
-    { "element": "default/coffee_table", "position": {"x": 4200, "y": 1300}, "room": "Living Room" },
-    // TV console against south wall, opposite the sofa
-    { "element": "default/tv_console", "position": {"x": 4200, "y": 3675}, "room": "Living Room" },
-    // Bookshelf against west wall (rotated 90°)
-    { "element": "default/bookshelf", "position": {"x": 400, "y": 2000}, "rotation": 90, "room": "Living Room" },
-    // Floor lamp in NE corner
-    { "element": "default/floor_lamp", "position": {"x": 5600, "y": 350}, "room": "Living Room" },
-
-    // ─── Kitchen ────────────────────────────────────────────────────
-    // Counter along north wall (under the window)
-    { "element": "default/counter", "position": {"x": 7600, "y": 500}, "room": "Kitchen" },
-    // Fridge in NE corner against east wall
-    { "element": "default/fridge", "position": {"x": 9550, "y": 500}, "room": "Kitchen" },
-    // Stove along east wall
-    { "element": "default/stove", "position": {"x": 9550, "y": 1400}, "room": "Kitchen" },
-    // Dining table in center-south area
-    { "element": "default/table", "position": {"x": 7800, "y": 2800}, "room": "Kitchen" },
-    // Chairs around the table
-    { "element": "default/chair", "position": {"x": 7100, "y": 2800}, "room": "Kitchen" },
-    { "element": "default/chair", "position": {"x": 8500, "y": 2800}, "room": "Kitchen" },
-    { "element": "default/chair", "position": {"x": 7800, "y": 2200}, "room": "Kitchen" },
-    { "element": "default/chair", "position": {"x": 7800, "y": 3400}, "room": "Kitchen" }
-  ]
-}
+placements:
+  place default/sofa at 4200,600 in "Living Room"
+  place default/coffee_table at 4200,1300 in "Living Room"
+  place default/tv_console at 4200,3675 in "Living Room"
+  place default/bookshelf at 400,2000 in "Living Room" rotation=90
+  place default/floor_lamp at 5600,350 in "Living Room"
+  place default/counter at 7600,500 in Kitchen
+  place default/fridge at 9550,500 in Kitchen
+  place default/stove at 9550,1400 in Kitchen
+  place default/table at 7800,2800 in Kitchen
+  place default/chair at 7100,2800 in Kitchen
+  place default/chair at 8500,2800 in Kitchen
+  place default/chair at 7800,2200 in Kitchen
+  place default/chair at 7800,3400 in Kitchen

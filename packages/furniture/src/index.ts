@@ -20,9 +20,12 @@ export {
 
 export {
   parseLayout,
+  parseJsoncLayout,
   serializeLayout,
+  serializeJsoncLayout,
   LayoutParseError,
 } from "./layout.js";
+export { parsePcf, serializePcf } from "./pcf-parser.js";
 
 export {
   resolveAnchors,

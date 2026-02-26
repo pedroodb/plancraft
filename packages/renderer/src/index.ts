@@ -20,6 +20,7 @@ export {
   validateFurniturePlacement,
   computeRoomGeometries,
   computeFurnitureAABBs,
+  computeDoorClearances,
   computeSpatialMetrics,
   aabbOverlap,
   pointInPolygon,
@@ -33,6 +34,7 @@ export type {
   RoomGeometry,
   WallInfo,
   FurnitureAABB,
+  DoorClearanceInfo,
   SpatialWarning,
   SpatialMetrics,
 } from "./geometry/spatial.js";

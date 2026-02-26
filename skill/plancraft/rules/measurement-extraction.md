@@ -1,12 +1,12 @@
 # Measurement Extraction
 
-When reproducing a floor plan from a reference image, accurate dimension extraction is critical. Follow this process **before writing any JSON code**. You MUST output the full inventory as text in your response before calling any tools.
+When reproducing a floor plan from a reference image, accurate dimension extraction is critical. Follow this process **before writing any DSL code**. You MUST output the full inventory as text in your response before calling any tools.
 
 ## Units: Communicate in Meters, Internal Format Uses Millimeters
 
 **Always communicate measurements in meters** when discussing with the user (e.g. "the bedroom is 3.8m × 4m").
 
-The internal .pc file format uses millimeters. The `"unit"` field MUST be `"mm"`.
+The internal .pc file format uses millimeters. The `unit` field MUST be `mm`.
 
 - Convert meters to mm for .pc files: `3.8m → 3800`, `0.76m → 760`
 - Wall thickness: exterior 0.2m (`200`), interior 0.1–0.15m (`100`–`150`)
@@ -33,18 +33,17 @@ Many buildings have L-shaped rooms (e.g., a garage that extends around a corner)
 - The outer wall has a step/notch in it
 - The room wraps around another room
 
-L-shaped rooms need MORE THAN 4 walls. For example, an L-shape needs 6-8 walls with custom direction names like `"east lower"`, `"east upper"`, `"step"`:
+L-shaped rooms need MORE THAN 4 walls. For example, an L-shape needs 6-8 walls with custom direction names like `"east lower"`, `"east upper"`, `step`:
 
-```jsonc
+```
 // L-shaped room example:
-"walls": [
-  { "direction": "south",       "from": {"x": 0, "y": 0},       "to": {"x": 4780, "y": 0},    "thickness": 200 },
-  { "direction": "east lower",  "from": {"x": 4780, "y": 0},    "to": {"x": 4780, "y": 3220}, "thickness": 200 },
-  { "direction": "step",        "from": {"x": 4780, "y": 3220}, "to": {"x": 5790, "y": 3220}, "thickness": 150 },
-  { "direction": "east upper",  "from": {"x": 5790, "y": 3220}, "to": {"x": 5790, "y": 5000}, "thickness": 150 },
-  { "direction": "north",       "from": {"x": 5790, "y": 5000}, "to": {"x": 0, "y": 5000},    "thickness": 200 },
-  { "direction": "west",        "from": {"x": 0, "y": 5000},    "to": {"x": 0, "y": 0},       "thickness": 200 }
-]
+room: "L-Room"
+  wall south 0,0 4780,0 200
+  wall "east lower" 4780,0 4780,3220 200
+  wall step 4780,3220 5790,3220 150
+  wall "east upper" 5790,3220 5790,5000 150
+  wall north 5790,5000 0,5000 200
+  wall west 0,5000 0,0 200
 ```
 
 **Output a numbered list of ALL rooms with their approximate function and shape (rectangular or irregular).**
@@ -100,7 +99,7 @@ Example:
 ## Step 5: Map Dimensions to a Coordinate Grid
 
 For each room, compute its **absolute coordinates** (present in meters, convert to mm for .pc files):
-- Start with room(s) at the origin (bottom-left corner of the building at `{"x": 0, "y": 0}`)
+- Start with room(s) at the origin (bottom-left corner of the building at `0,0`)
 - Work outward: rooms to the right share the X coordinate of the left room's right wall
 - Work upward: rooms above share the Y coordinate of the bottom room's top wall
 - For shared walls, the coordinate is the same on both sides
@@ -140,7 +139,7 @@ Items not in this list should be approximated with the closest type and document
 
 ## Step 9: Verify Your Inventory Before Coding
 
-Before writing any JSON, perform these checks:
+Before writing any DSL code, perform these checks:
 
 1. **Room count check**: Does your room count match the number of visually distinct enclosed spaces? Recount.
 2. **Building envelope check**: Do all rooms tile to fill the entire building footprint with no gaps? If there are gaps, you're missing a room (hallway, passage, landing, etc.)

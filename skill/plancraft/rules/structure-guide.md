@@ -26,18 +26,18 @@ This excludes furniture so you can focus purely on wall geometry, door/window pl
 
 ### 0. MANDATORY: Complete Inventory First
 
-**You MUST complete the full inventory from `measurement-extraction.md` before writing any JSON code.** Output the inventory as text in your response. This means:
+**You MUST complete the full inventory from `measurement-extraction.md` before writing any DSL code.** Output the inventory as text in your response. This means:
 
 1. List ALL rooms (every enclosed space) with names in original language
 2. Read ALL annotated dimensions from the reference
 3. Compute the coordinate grid for all rooms
 4. Map all doors, windows, and openings
 
-**Do not skip this step.** The most common error is starting to write JSON too early with incomplete information.
+**Do not skip this step.** The most common error is starting to write DSL too early with incomplete information.
 
 ### 1. Inventory the Building
 
-Before writing any JSON:
+Before writing any DSL:
 
 1. **Measure the overall footprint** (width x height)
 2. **List ALL rooms** — every separate enclosed space, including hallways, stairwells, transition areas, and small utility rooms
@@ -58,39 +58,40 @@ Start from the outside and work inward:
 
 ### 3. Define Rooms in Dependency Order
 
-Rooms that define shared walls must come first in the `"rooms"` array:
+Rooms that define shared walls must come first in the floor:
 
 ```
 Room A (exterior walls) -> Room B (shares wall with A) -> Room C (shares wall with B)
 ```
 
-**CRITICAL — Shared wall door rule**: When two rooms share a wall, define all doors on that wall in the **first room** that defines it (based on array order). This avoids a renderer bug where wall gaps and door arcs are placed at different positions.
+**CRITICAL — Shared wall door rule**: When two rooms share a wall, define all doors on that wall in the **first room** that defines it (based on order). This avoids a renderer bug where wall gaps and door arcs are placed at different positions.
 
 ### 4. Add Doors and Windows
 
 For each room:
-- Calculate `offset` from the wall's `from` point to the door/window start
+- Calculate `offset` from the wall's start point to the door/window start
 - Verify `offset + width` does not exceed wall length
-- Use `"swing": "left"` or `"right"` for hinged doors, `"swing": "sliding"` for sliding doors
-- Standard door widths: 0.6–0.7m (interior), 0.8–0.9m (exterior), 3–4m (garage)
+- Use `left` or `right` for hinged doors, `sliding` for sliding doors
+- Standard door widths: 0.6-0.7m (interior), 0.8-0.9m (exterior), 3-4m (garage)
 - Standard window sill height: 0.9m
 
 ### 5. Add Stairs (Structural Only)
 
-Staircases and spiral staircases are considered structural:
+Staircases and spiral staircases are placed as furniture in the `.pcf` file:
 
-```jsonc
-"furniture": [
-  { "type": "staircase", "position": {"x": 4800, "y": 6200}, "width": 900, "depth": 2500 },
-  { "type": "spiral_staircase", "position": {"x": 5500, "y": 7800}, "width": 1500, "depth": 1500 }
-]
+```
+furniture:
+
+placements:
+  place default/staircase at 4800,6200 in Hallway
+  place default/spiral_staircase at 5500,7800 in Hallway
 ```
 
 ### 6. Structure Self-Review Checklist
 
 Before considering the structure complete:
 
-- [ ] **Perimeter closes**: Every room's last wall `to` matches its first wall `from`
+- [ ] **Perimeter closes**: Every room's last wall end matches its first wall start
 - [ ] **Width sums**: Room widths along each row sum to total building width
 - [ ] **Height sums**: Room heights along each column sum to total building height
 - [ ] **Shared wall alignment**: Adjacent rooms share exact coordinates
@@ -112,7 +113,7 @@ After compilation, check the results:
 1. **Building envelope check**: Compare the compiled width and height against your inventory
    - If the height is too short, you likely missed rooms or compressed vertical zones
    - If the width is wrong, check horizontal room tiling
-2. **Per-room area check**: Each room's compiled area should match `width × height` from your inventory
+2. **Per-room area check**: Each room's compiled area should match `width x height` from your inventory
 3. **Room count check**: The number of compiled rooms must match your inventory
 
 **If ANY of these checks fail, fix the coordinates BEFORE adding furniture.** Common fixes:

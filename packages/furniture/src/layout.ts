@@ -1,8 +1,12 @@
 /**
  * Furniture layout (.pcf) parser and serializer.
  *
- * The .pcf format is JSONC (JSON with comments) listing furniture placements
- * and optionally custom element definitions.
+ * Supports two input formats:
+ *   1. JSONC (JSON with Comments) — the legacy format
+ *   2. Compact DSL — the indented, line-oriented format (preferred)
+ *
+ * The `parseLayout()` function auto-detects which format the source is in.
+ * `serializeLayout()` outputs the compact DSL format by default.
  */
 
 import type {
@@ -13,6 +17,7 @@ import type {
   WallAnchor,
   RelativePosition,
 } from "./types.js";
+import { parsePcf, serializePcf } from "./pcf-parser.js";
 
 // ── Error type ────────────────────────────────────────────────────────
 
@@ -288,10 +293,27 @@ function transformPlacement(
   return placement;
 }
 
+// ── Format detection ─────────────────────────────────────────────────
+
+/**
+ * Detect whether source is JSONC or the compact DSL format.
+ */
+function isJsoncFormat(source: string): boolean {
+  const trimmed = source.trimStart();
+  if (trimmed.startsWith("{")) return true;
+  if (trimmed.startsWith("//") || trimmed.startsWith("/*")) {
+    const stripped = stripJsonComments(source).trimStart();
+    return stripped.startsWith("{");
+  }
+  return false;
+}
+
+// ── JSONC parser (legacy) ────────────────────────────────────────────
+
 /**
  * Parse a .pcf JSONC source string into a FurnitureLayout.
  */
-export function parseLayout(source: string): FurnitureLayout {
+export function parseJsoncLayout(source: string): FurnitureLayout {
   const stripped = stripJsonComments(source);
 
   let raw: unknown;
@@ -344,10 +366,36 @@ export function parseLayout(source: string): FurnitureLayout {
   return layout;
 }
 
+// ── Public API ───────────────────────────────────────────────────────
+
 /**
- * Serialize a FurnitureLayout to a JSONC string.
+ * Parse a .pcf source string (auto-detects JSONC vs compact DSL).
  */
-export function serializeLayout(layout: FurnitureLayout): string {
+export function parseLayout(source: string): FurnitureLayout {
+  if (isJsoncFormat(source)) {
+    return parseJsoncLayout(source);
+  }
+  return parsePcf(source);
+}
+
+/**
+ * Serialize a FurnitureLayout to the compact DSL format.
+ * Pass `format: "jsonc"` to get the legacy JSON format instead.
+ */
+export function serializeLayout(
+  layout: FurnitureLayout,
+  options?: { format?: "dsl" | "jsonc" },
+): string {
+  if (options?.format === "jsonc") {
+    return serializeJsoncLayout(layout);
+  }
+  return serializePcf(layout);
+}
+
+/**
+ * Serialize a FurnitureLayout to a JSONC string (legacy format).
+ */
+export function serializeJsoncLayout(layout: FurnitureLayout): string {
   // Build clean placement objects (omit default-valued optional fields)
   const placements = layout.placements.map((p) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

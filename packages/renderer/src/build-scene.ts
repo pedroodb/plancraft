@@ -461,7 +461,22 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
     children.push(label);
   }
 
-  // Auto-generate dimensions: one per unique wall
+  // Auto-generate dimensions: one per unique wall.
+  // First pass: collect all room names that share each wall key.
+  const wallRoomNames = new Map<string, string[]>();
+  for (const room of floor.rooms) {
+    for (const wall of room.walls) {
+      const key = wallKey(wall.from.x, wall.from.y, wall.to.x, wall.to.y);
+      const names = wallRoomNames.get(key);
+      if (names) {
+        if (!names.includes(room.name)) names.push(room.name);
+      } else {
+        wallRoomNames.set(key, [room.name]);
+      }
+    }
+  }
+
+  // Second pass: generate dimension geometry, tagged with room names.
   const dimensionedWalls = new Set<string>();
   const DEFAULT_DIM_OFFSET = 500;
 
@@ -476,6 +491,7 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
       const chordLen = Math.sqrt(wdx * wdx + wdy * wdy);
       if (chordLen === 0) continue;
 
+      const roomNames = wallRoomNames.get(key);
       const isCurved = wall.bulge !== undefined && wall.bulge !== 0;
 
       if (isCurved) {
@@ -483,7 +499,7 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
         // Dimension chains along arcs would require curved dimension lines
         // which aren't supported, so we show the chord as a simple dimension.
         const dim = buildDimension(wall, chordLen, DEFAULT_DIM_OFFSET);
-        children.push(...dimensionToGeometry(dim));
+        children.push(...dimensionToGeometry(dim, roomNames));
       } else {
         // Collect openings (doors, windows, openings) on this wall
         const openingRanges = collectWallOpeningRanges(wall, room, chordLen);
@@ -493,12 +509,12 @@ function buildFloorScene(floor: ResolvedFloor): SGGroup {
           const waypoints = buildWaypoints(openingRanges, chordLen);
           if (waypoints.length >= 2) {
             const chain = buildDimChain(wall, waypoints, DEFAULT_DIM_OFFSET);
-            children.push(...dimChainToGeometry(chain));
+            children.push(...dimChainToGeometry(chain, roomNames));
           }
         } else {
           // Simple full-wall dimension
           const dim = buildDimension(wall, chordLen, DEFAULT_DIM_OFFSET);
-          children.push(...dimensionToGeometry(dim));
+          children.push(...dimensionToGeometry(dim, roomNames));
         }
       }
     }

@@ -39,7 +39,7 @@ function formatMeters(mm: number): string {
   return parseFloat(m.toFixed(2)).toString();
 }
 
-export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
+export function dimensionToGeometry(dim: DimensionInput, roomNames?: string[]): SGNode[] {
   const nodes: SGNode[] = [];
 
   // Determine offset direction (perpendicular to the wall)
@@ -70,6 +70,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
     y2: p2.y,
     strokeWidth: LINE_WEIGHTS.dimensions,
     layer: "dimensions",
+    roomNames,
   };
   nodes.push(dimLine);
 
@@ -86,6 +87,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
       y2: dimPt.y + ny * EXTENSION_OVERSHOOT,
       strokeWidth: LINE_WEIGHTS.dimensions,
       layer: "dimensions",
+      roomNames,
     };
     nodes.push(ext);
   }
@@ -102,6 +104,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
       y2: pt.y + (uy + ny) * tickHalf,
       strokeWidth: LINE_WEIGHTS.dimensions,
       layer: "dimensions",
+      roomNames,
     };
     nodes.push(tick);
   }
@@ -118,6 +121,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
     fontSize: FONT_SIZE,
     anchor: "middle",
     layer: "dimensions",
+    roomNames,
   };
   nodes.push(text);
 
@@ -129,7 +133,7 @@ export function dimensionToGeometry(dim: DimensionInput): SGNode[] {
  * Extension lines are drawn for each waypoint, tick marks at each point,
  * and measurement text centered on each segment.
  */
-export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
+export function dimChainToGeometry(chain: DimChainInput, roomNames?: string[]): SGNode[] {
   const nodes: SGNode[] = [];
   const nx = chain.normal.x;
   const ny = chain.normal.y;
@@ -155,6 +159,7 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
       y2: pt.y + offsetY + ny * EXTENSION_OVERSHOOT,
       strokeWidth: LINE_WEIGHTS.dimensions,
       layer: "dimensions",
+      roomNames,
     };
     nodes.push(ext);
   }
@@ -184,6 +189,7 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
       y2: p2.y,
       strokeWidth: LINE_WEIGHTS.dimensions,
       layer: "dimensions",
+      roomNames,
     };
     nodes.push(dimLine);
 
@@ -201,6 +207,7 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
         y2: pt.y + (uy + ny) * tickHalf,
         strokeWidth: LINE_WEIGHTS.dimensions,
         layer: "dimensions",
+        roomNames,
       };
       nodes.push(tick);
     }
@@ -216,6 +223,7 @@ export function dimChainToGeometry(chain: DimChainInput): SGNode[] {
       fontSize: FONT_SIZE,
       anchor: "middle",
       layer: "dimensions",
+      roomNames,
     };
     nodes.push(text);
   }

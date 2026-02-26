@@ -1,0 +1,58 @@
+{
+  // Curved Villa — 5 rooms across 2 rows
+  // Living Room: inner x=100-9900, y≈-400-3900 (9.8m × ~4.3m, curved south wall)
+  //   Door to Hallway: north wall offset 4000
+  //   Sliding door: south wall offset 3500
+  //   Windows: south wall ×2, west wall ×1
+  // Hallway: inner x=100-9900, y=4100-5100 (narrow corridor, 1m)
+  // Bedroom: inner x=100-3900, y=5300-7900 (3.8m × 2.6m)
+  // Bathroom: inner x=4100-6400, y=5300-7900 (2.3m × 2.6m)
+  // Sunroom: inner x=6600-10320, y=5300-7900 (3.7m × 2.6m, curved east wall)
+  "placements": [
+
+    // ─── Living Room ────────────────────────────────────────────────
+    // L-shaped sofa in the west area facing the TV
+    { "element": "default/l_sofa", "position": {"x": 2500, "y": 2500}, "room": "Living Room" },
+    // Coffee table in front of sofa
+    { "element": "default/coffee_table", "position": {"x": 2500, "y": 1200}, "room": "Living Room" },
+    // TV console against south wall (between windows, avoiding sliding door x=3500-5500)
+    { "element": "default/tv_console", "position": {"x": 1500, "y": 500}, "room": "Living Room" },
+    // Dining area in the east half
+    { "element": "default/round_table", "position": {"x": 7500, "y": 2000}, "room": "Living Room" },
+    { "element": "default/chair", "position": {"x": 6800, "y": 2000}, "room": "Living Room" },
+    { "element": "default/chair", "position": {"x": 8200, "y": 2000}, "room": "Living Room" },
+    { "element": "default/chair", "position": {"x": 7500, "y": 1300}, "room": "Living Room" },
+    { "element": "default/chair", "position": {"x": 7500, "y": 2700}, "room": "Living Room" },
+    // Floor lamp in east corner
+    { "element": "default/floor_lamp", "position": {"x": 9600, "y": 3600}, "room": "Living Room" },
+    // Bookshelf against east wall
+    { "element": "default/bookshelf", "position": {"x": 9600, "y": 2000}, "rotation": 90, "room": "Living Room" },
+
+    // ─── Bedroom ────────────────────────────────────────────────────
+    // Bed centered against north wall
+    { "element": "default/bed", "position": {"x": 1500, "y": 6800}, "room": "Bedroom" },
+    // Wardrobe against east wall (rotated 90°)
+    { "element": "default/wardrobe", "position": {"x": 3650, "y": 6000}, "rotation": 90, "room": "Bedroom" },
+    // Floor lamp on nightstand side
+    { "element": "default/floor_lamp", "position": {"x": 400, "y": 7600}, "room": "Bedroom" },
+
+    // ─── Bathroom ───────────────────────────────────────────────────
+    // Toilet against west wall
+    { "element": "default/toilet", "position": {"x": 4400, "y": 6000}, "room": "Bathroom" },
+    // Sink against north wall
+    { "element": "default/sink", "position": {"x": 5250, "y": 7600}, "room": "Bathroom" },
+    // Shower in SE corner
+    { "element": "default/shower", "position": {"x": 5900, "y": 5800}, "room": "Bathroom" },
+
+    // ─── Sunroom ────────────────────────────────────────────────────
+    // Round table centered in the room
+    { "element": "default/round_table", "position": {"x": 8400, "y": 6600}, "room": "Sunroom" },
+    // Chairs around the table
+    { "element": "default/chair", "position": {"x": 7700, "y": 6600}, "room": "Sunroom" },
+    { "element": "default/chair", "position": {"x": 9100, "y": 6600}, "room": "Sunroom" },
+    // Bookshelf against north wall
+    { "element": "default/bookshelf", "position": {"x": 7500, "y": 7700}, "room": "Sunroom" },
+    // Floor lamp near the curved east wall (offset from curve apex)
+    { "element": "default/floor_lamp", "position": {"x": 9400, "y": 7500}, "room": "Sunroom" }
+  ]
+}

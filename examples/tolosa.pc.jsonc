@@ -1,0 +1,198 @@
+{
+  "name": "Tolosa",
+  "scale": 100,
+  "unit": "mm",
+
+  "floors": [
+    {
+      "name": "Planta Baja",
+      "rooms": [
+        // ── Cochera (L-shaped Garage) ─────────────────────────────────────
+        // Base: x=0-4780, y=0-5000
+        // Extension: x=4780-5790, y=3220-5000 (garage widens above Estar)
+        {
+          "name": "Cochera",
+          "walls": [
+            { "direction": "south",       "from": {"x": 0, "y": 0},       "to": {"x": 4780, "y": 0},    "thickness": 200 },
+            { "direction": "east lower",  "from": {"x": 4780, "y": 0},    "to": {"x": 4780, "y": 3220}, "thickness": 200 },
+            { "direction": "step",        "from": {"x": 4780, "y": 3220}, "to": {"x": 5790, "y": 3220}, "thickness": 150 },
+            { "direction": "east upper",  "from": {"x": 5790, "y": 3220}, "to": {"x": 5790, "y": 5000}, "thickness": 150 },
+            { "direction": "north right", "from": {"x": 5790, "y": 5000}, "to": {"x": 3800, "y": 5000}, "thickness": 200 },
+            { "direction": "north left",  "from": {"x": 3800, "y": 5000}, "to": {"x": 0, "y": 5000},    "thickness": 200 },
+            { "direction": "west",        "from": {"x": 0, "y": 5000},    "to": {"x": 0, "y": 0},       "thickness": 200 }
+          ],
+          "doors": [
+            // Garage entrance — large sliding door
+            { "wall": "south", "offset": 500, "width": 3800, "swing": "sliding" },
+            // Door to Pasillo
+            { "wall": "north left", "offset": 2900, "width": 600, "swing": "right" },
+            // Door to Toilette
+            { "wall": "east upper", "offset": 580, "width": 800, "swing": "right" }
+          ]
+        },
+
+        // ── Estar (bottom-right) ──────────────────────────────────────────
+        {
+          "name": "Estar",
+          "walls": [
+            { "direction": "south",       "from": {"x": 4780, "y": 0},    "to": {"x": 7590, "y": 0},    "thickness": 200 },
+            { "direction": "east",        "from": {"x": 7590, "y": 0},    "to": {"x": 7590, "y": 3220}, "thickness": 200 },
+            { "direction": "north right", "from": {"x": 7590, "y": 3220}, "to": {"x": 5790, "y": 3220}, "thickness": 150 },
+            { "direction": "north left",  "from": {"x": 5790, "y": 3220}, "to": {"x": 4780, "y": 3220}, "thickness": 150 },
+            { "direction": "west",        "from": {"x": 4780, "y": 3220}, "to": {"x": 4780, "y": 0},    "thickness": 200 }
+          ],
+          "windows": [
+            { "wall": "south", "offset": 350, "width": 760, "height": 1400, "sill": 900 }
+          ],
+          "doors": [
+            { "wall": "south", "offset": 1490, "width": 860, "swing": "left" }
+          ]
+        },
+
+        // ── Toilette (small bathroom) ─────────────────────────────────────
+        {
+          "name": "Toilette",
+          "walls": [
+            { "direction": "south", "from": {"x": 5790, "y": 3220}, "to": {"x": 7590, "y": 3220}, "thickness": 150 },
+            { "direction": "east",  "from": {"x": 7590, "y": 3220}, "to": {"x": 7590, "y": 5000}, "thickness": 200 },
+            { "direction": "north", "from": {"x": 7590, "y": 5000}, "to": {"x": 5790, "y": 5000}, "thickness": 200 },
+            { "direction": "west",  "from": {"x": 5790, "y": 5000}, "to": {"x": 5790, "y": 3220}, "thickness": 150 }
+          ]
+          // Door from Cochera is on Cochera "east upper" wall
+        },
+
+        // ── Pasillo (Hallway) ─────────────────────────────────────────────
+        {
+          "name": "Pasillo",
+          "walls": [
+            { "direction": "south",      "from": {"x": 0, "y": 5000},    "to": {"x": 3800, "y": 5000}, "thickness": 200 },
+            { "direction": "east lower", "from": {"x": 3800, "y": 5000}, "to": {"x": 3800, "y": 5700}, "thickness": 150 },
+            { "direction": "east upper", "from": {"x": 3800, "y": 5700}, "to": {"x": 3800, "y": 7600}, "thickness": 150 },
+            { "direction": "north",      "from": {"x": 3800, "y": 7600}, "to": {"x": 0, "y": 7600},    "thickness": 150 },
+            { "direction": "west",       "from": {"x": 0, "y": 7600},    "to": {"x": 0, "y": 5000},    "thickness": 200 }
+          ],
+          "doors": [
+            // Door to Paso
+            { "wall": "east lower", "offset": 50, "width": 600, "swing": "right" },
+            // Door to Comedor
+            { "wall": "north", "offset": 2760, "width": 740, "swing": "right" }
+          ]
+        },
+
+        // ── Paso (transition space) ───────────────────────────────────────
+        {
+          "name": "Paso",
+          "walls": [
+            { "direction": "south", "from": {"x": 3800, "y": 5000}, "to": {"x": 5020, "y": 5000}, "thickness": 200 },
+            { "direction": "east",  "from": {"x": 5020, "y": 5000}, "to": {"x": 5020, "y": 5700}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 5020, "y": 5700}, "to": {"x": 3800, "y": 5700}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 3800, "y": 5700}, "to": {"x": 3800, "y": 5000}, "thickness": 150 }
+          ],
+          "openings": [
+            // Pass-through to Escalera above
+            { "wall": "north", "offset": 110, "width": 1000 }
+          ]
+        },
+
+        // ── Escalera (Staircase) ──────────────────────────────────────────
+        {
+          "name": "Escalera",
+          "sharedWalls": [
+            { "direction": "south", "sourceRoom": "Paso", "sourceWall": "north" }
+          ],
+          "walls": [
+            { "direction": "east",  "from": {"x": 5020, "y": 5700}, "to": {"x": 5020, "y": 7600}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 5020, "y": 7600}, "to": {"x": 3800, "y": 7600}, "thickness": 150 },
+            { "direction": "west",  "from": {"x": 3800, "y": 7600}, "to": {"x": 3800, "y": 5700}, "thickness": 150 }
+          ],
+          "doors": [
+            // Door to Baño
+            { "wall": "east", "offset": 200, "width": 700, "swing": "right" }
+          ]
+        },
+
+        // ── Baño (Bathroom) ───────────────────────────────────────────────
+        {
+          "name": "Baño",
+          "walls": [
+            { "direction": "south left",  "from": {"x": 5020, "y": 5000}, "to": {"x": 5790, "y": 5000}, "thickness": 200 },
+            { "direction": "south right", "from": {"x": 5790, "y": 5000}, "to": {"x": 7590, "y": 5000}, "thickness": 200 },
+            { "direction": "east",        "from": {"x": 7590, "y": 5000}, "to": {"x": 7590, "y": 7600}, "thickness": 200 },
+            { "direction": "north",       "from": {"x": 7590, "y": 7600}, "to": {"x": 5020, "y": 7600}, "thickness": 150 },
+            { "direction": "west upper",  "from": {"x": 5020, "y": 7600}, "to": {"x": 5020, "y": 5700}, "thickness": 150 },
+            { "direction": "west lower",  "from": {"x": 5020, "y": 5700}, "to": {"x": 5020, "y": 5000}, "thickness": 150 }
+          ]
+          // Door from Escalera is on Escalera east wall
+        },
+
+        // ── Comedor (Dining room) ─────────────────────────────────────────
+        {
+          "name": "Comedor",
+          "walls": [
+            { "direction": "south", "from": {"x": 0, "y": 7600},     "to": {"x": 3800, "y": 7600},  "thickness": 150 },
+            { "direction": "east",  "from": {"x": 3800, "y": 7600},  "to": {"x": 3800, "y": 11650}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 3800, "y": 11650}, "to": {"x": 0, "y": 11650},    "thickness": 150 },
+            { "direction": "west",  "from": {"x": 0, "y": 11650},    "to": {"x": 0, "y": 7600},     "thickness": 200 }
+          ],
+          "doors": [
+            // Door to Living
+            { "wall": "east", "offset": 400, "width": 800, "swing": "right" },
+            // Door to Cocina
+            { "wall": "north", "offset": 1500, "width": 800, "swing": "left" }
+          ],
+          "windows": [
+            { "wall": "west", "offset": 800, "width": 1500, "height": 1400, "sill": 900 }
+          ]
+        },
+
+        // ── Living ────────────────────────────────────────────────────────
+        {
+          "name": "Living",
+          "walls": [
+            { "direction": "south left",  "from": {"x": 3800, "y": 7600},  "to": {"x": 5020, "y": 7600},  "thickness": 150 },
+            { "direction": "south right", "from": {"x": 5020, "y": 7600},  "to": {"x": 7590, "y": 7600},  "thickness": 150 },
+            { "direction": "east",        "from": {"x": 7590, "y": 7600},  "to": {"x": 7590, "y": 11650}, "thickness": 200 },
+            { "direction": "north",       "from": {"x": 7590, "y": 11650}, "to": {"x": 3800, "y": 11650}, "thickness": 150 },
+            { "direction": "west",        "from": {"x": 3800, "y": 11650}, "to": {"x": 3800, "y": 7600},  "thickness": 150 }
+          ],
+          "windows": [
+            { "wall": "east", "offset": 800, "width": 920, "height": 1400, "sill": 900 }
+          ]
+        },
+
+        // ── Cocina (Kitchen) ──────────────────────────────────────────────
+        {
+          "name": "Cocina",
+          "walls": [
+            { "direction": "south", "from": {"x": 0, "y": 11650},    "to": {"x": 3800, "y": 11650}, "thickness": 150 },
+            { "direction": "east",  "from": {"x": 3800, "y": 11650}, "to": {"x": 3800, "y": 14250}, "thickness": 150 },
+            { "direction": "north", "from": {"x": 3800, "y": 14250}, "to": {"x": 0, "y": 14250},    "thickness": 200 },
+            { "direction": "west",  "from": {"x": 0, "y": 14250},    "to": {"x": 0, "y": 11650},    "thickness": 200 }
+          ],
+          "windows": [
+            { "wall": "north", "offset": 760, "width": 760, "height": 1400, "sill": 900 },
+            { "wall": "north", "offset": 2280, "width": 760, "height": 1400, "sill": 900 }
+          ],
+          "doors": [
+            // Door to Dormitorio
+            { "wall": "east", "offset": 400, "width": 800, "swing": "right" }
+          ]
+        },
+
+        // ── Dormitorio (Bedroom) ──────────────────────────────────────────
+        {
+          "name": "Dormitorio",
+          "walls": [
+            { "direction": "south", "from": {"x": 3800, "y": 11650}, "to": {"x": 7590, "y": 11650}, "thickness": 150 },
+            { "direction": "east",  "from": {"x": 7590, "y": 11650}, "to": {"x": 7590, "y": 14250}, "thickness": 200 },
+            { "direction": "north", "from": {"x": 7590, "y": 14250}, "to": {"x": 3800, "y": 14250}, "thickness": 200 },
+            { "direction": "west",  "from": {"x": 3800, "y": 14250}, "to": {"x": 3800, "y": 11650}, "thickness": 150 }
+          ],
+          "windows": [
+            { "wall": "north", "offset": 800, "width": 1200, "height": 1400, "sill": 900 }
+          ]
+        }
+      ]
+    }
+  ]
+}

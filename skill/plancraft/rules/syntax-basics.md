@@ -2,62 +2,120 @@
 
 ## File Format
 
-Every `.pc` file is a JSONC (JSON with Comments) document. The root is a project object containing floors, which contain rooms:
+Every `.pc` file uses a compact, indentation-based DSL. The hierarchy is: project metadata at the top level, then floors (indent 0), rooms (indent 2), and elements like walls/doors/windows (indent 4):
 
-```jsonc
-{
-  "name": "Project Name",
-  "scale": 100,
-  "unit": "mm",
-  "floors": [
-    {
-      "name": "Floor Name",
-      "rooms": [
-        {
-          "name": "Room Name",
-          "walls": [ /* ... */ ],
-          "doors": [ /* ... */ ],
-          "windows": [ /* ... */ ]
-        }
-      ]
-    }
-  ]
-}
+```
+plan: "Project Name"
+scale: 100
+unit: mm
+
+floor: "Floor Name"
+  room: "Room Name"
+    wall north 0,0 5000,0 200
+    door north 1500 900 left
+    window east 1000 1200 1400 900
 ```
 
 ## Structure
 
-- The root object has `"name"`, `"scale"`, `"unit"`, and `"floors"` fields
-- **`"unit"` MUST always be `"mm"`** — internal coordinates use millimeters (communicate in meters to users: 3.8m = 3800 in the file)
-- Each floor has `"name"` and `"rooms"`
-- Each room has `"name"`, `"walls"`, and optionally `"sharedWalls"`, `"doors"`, `"windows"`, and `"openings"`
+- **`plan:`** — Project name (required)
+- **`scale:`** — Scale ratio number (optional, default `100`)
+- **`unit:`** — Unit of measurement (optional, default `mm`). **Must always be `mm`** — internal coordinates use millimeters (communicate in meters to users: 3.8m = 3800 in the file)
+- **`floor:`** — Floor section (indent 0), contains rooms
+- **`room:`** — Room section (indent 2), contains walls, doors, windows, openings, and shared wall references
 
 ## Comments
 
-JSONC supports `//` line comments and `/* */` block comments:
+The DSL supports `//` line comments:
 
-```jsonc
-{
-  "name": "My Plan",
-  // This is a line comment
-  "scale": 100,
-  /* Block comments also work */
-  "unit": "mm"
-}
+```
+plan: "My Plan"
+// This is a line comment
+scale: 100
 ```
 
-## Points
+## Coordinates
 
-All coordinate points use object notation: `{"x": 6000, "y": 4000}`
+All coordinate points use compact `x,y` notation: `5000,4000`
 
-## String Literals
+## Names
 
-All names are standard JSON strings: `"Living Room"`, `"Ground Floor"`.
+- Simple names (no spaces, no special characters) can be unquoted: `Studio`, `Kitchen`, `Hallway`
+- Names with spaces or special characters use double quotes: `"Living Room"`, `"Ground Floor"`, `"north left"`
+- Wall direction names follow the same rule: `north` (unquoted), `"step east"` (quoted)
 
 ## Numbers
 
-Numbers are standard JSON numbers: `6000`, `1.5`, `200`.
+Numbers are plain integers or decimals: `6000`, `1.5`, `200`.
 
-## Optional Fields
+## Indentation
 
-Arrays that are empty can be omitted entirely. For example, a room with no doors simply omits the `"doors"` field.
+Indentation is significant and defines the hierarchy:
+- **Indent 0** — `floor:` declarations
+- **Indent 2** (2 spaces) — `room:` declarations within a floor
+- **Indent 4** (4 spaces) — `wall`, `shared`, `door`, `window`, `opening` within a room
+
+## Walls
+
+```
+wall <direction> <x1>,<y1> <x2>,<y2> <thickness> [bulge=<n>]
+```
+
+Example:
+```
+wall north 0,0 5000,0 200
+wall east 5000,0 5000,4000 200 bulge=-0.3
+```
+
+## Shared Walls
+
+```
+shared <direction> from <sourceRoom> [sourceWall=<dir>]
+```
+
+Example:
+```
+shared west from "Living Room" sourceWall=east
+```
+
+## Doors
+
+```
+door <wall> <offset> <width> <swing>
+```
+
+Where `swing` is `left`, `right`, or `sliding`. Example:
+```
+door north 1500 900 left
+door south 500 1200 sliding
+```
+
+## Windows
+
+```
+window <wall> <offset> <width> <height> <sill>
+```
+
+Example:
+```
+window east 1000 1200 1400 900
+```
+
+## Openings
+
+```
+opening <wall> <offset> <width>
+```
+
+Example:
+```
+opening east 1200 2000
+```
+
+## Optional Elements
+
+Rooms with no doors, windows, or openings simply omit those lines. Only walls (or shared wall references) are required for a room.
+
+## Blank Lines
+
+Blank lines are ignored and can be used freely for readability.

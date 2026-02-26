@@ -1,10 +1,16 @@
 /**
- * JSON-based parser for the Plancraft format.
+ * Parser for the Plancraft format.
  *
- * Parses JSONC (JSON with Comments) source text and transforms it into
- * the internal ProjectNode AST that the resolver consumes.
+ * Supports two input formats:
+ *   1. JSONC (JSON with Comments) — the legacy format
+ *   2. Compact DSL — the indented, line-oriented format (preferred)
+ *
+ * The `parse()` function auto-detects which format the source is in
+ * and dispatches to the appropriate parser. Both produce the same
+ * ProjectNode AST that the resolver consumes.
  */
 
+import { parsePc } from "./pc-parser.js";
 import {
   DoorNode,
   FloorChild,
@@ -312,12 +318,33 @@ function transformFloor(raw: unknown, projectName: string): FloorNode {
   return { type: "floor", name, children };
 }
 
-// ── Public API ───────────────────────────────────────────────────────
+// ── Format detection ─────────────────────────────────────────────────
+
+/**
+ * Detect whether source is JSONC or the compact DSL format.
+ * JSONC starts with `{` (possibly preceded by whitespace/comments).
+ * The DSL format starts with `plan:` or a comment.
+ */
+function isJsoncFormat(source: string): boolean {
+  // Skip whitespace and look for opening brace
+  const trimmed = source.trimStart();
+  // If it starts with { or a comment followed by {, it's JSONC
+  if (trimmed.startsWith("{")) return true;
+  // If it starts with // or /* we need to look further
+  if (trimmed.startsWith("//") || trimmed.startsWith("/*")) {
+    // Strip the leading comment and check again
+    const stripped = stripJsonComments(source).trimStart();
+    return stripped.startsWith("{");
+  }
+  return false;
+}
+
+// ── JSONC parser (legacy) ────────────────────────────────────────────
 
 /**
  * Parse a Plancraft JSONC source string into a raw AST.
  */
-export function parse(source: string): ProjectNode {
+export function parseJsonc(source: string): ProjectNode {
   // Strip JSONC comments
   const stripped = stripJsonComments(source);
 
@@ -357,4 +384,16 @@ export function parse(source: string): ProjectNode {
   }
 
   return { type: "project", name, scale, unit, floors };
+}
+
+// ── Public API ───────────────────────────────────────────────────────
+
+/**
+ * Parse a Plancraft source string (auto-detects JSONC vs compact DSL).
+ */
+export function parse(source: string): ProjectNode {
+  if (isJsoncFormat(source)) {
+    return parseJsonc(source);
+  }
+  return parsePc(source);
 }

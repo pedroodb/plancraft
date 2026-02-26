@@ -1,77 +1,41 @@
-{
-  // ── Custom Element Definitions ─────────────────────────────────────
-  // Elements not in the default package can be defined inline with SVG.
-  // These are referenced by plain ID (no "default/" prefix) in placements.
-  "elements": {
-    "plant": {
-      "name": "Potted Plant",
-      "tags": ["living", "decoration"],
-      "defaultWidth": 400,
-      "defaultDepth": 400,
-      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 400 400\"><circle cx=\"200\" cy=\"200\" r=\"180\" fill=\"#e8e8e8\" stroke=\"black\" stroke-width=\"5\"/><circle cx=\"200\" cy=\"200\" r=\"100\" fill=\"#d0d0d0\" stroke=\"black\" stroke-width=\"3\"/></svg>",
-      "source": "generated"
-    },
-    "rug": {
-      "name": "Area Rug",
-      "tags": ["living", "decoration"],
-      "defaultWidth": 2000,
-      "defaultDepth": 1400,
-      "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 2000 1400\"><rect x=\"20\" y=\"20\" width=\"1960\" height=\"1360\" rx=\"30\" fill=\"#e8e8e8\" stroke=\"black\" stroke-width=\"4\"/><rect x=\"100\" y=\"100\" width=\"1800\" height=\"1200\" rx=\"20\" fill=\"#f0f0f0\" stroke=\"black\" stroke-width=\"2\"/></svg>",
-      "source": "generated"
-    }
-  },
+furniture:
 
-  // ── Furniture Placements ───────────────────────────────────────────
-  "placements": [
+elements:
+  plant: Potted Plant [living,decoration] 400x400
+    svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><circle cx="200" cy="200" r="180" fill="#e8e8e8" stroke="black" stroke-width="5"/><circle cx="200" cy="200" r="100" fill="#d0d0d0" stroke="black" stroke-width="3"/></svg>
+    source: generated
+  rug: Area Rug [living,decoration] 2000x1400
+    svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1400"><rect x="20" y="20" width="1960" height="1360" rx="30" fill="#e8e8e8" stroke="black" stroke-width="4"/><rect x="100" y="100" width="1800" height="1200" rx="20" fill="#f0f0f0" stroke="black" stroke-width="2"/></svg>
+    source: generated
 
-    // ─── Living Room (0,0)-(7000,4500) ───────────────────────────────
-    // L-shaped sofa facing the TV, coffee table in front, reading corner
-    { "element": "default/l_sofa",      "position": {"x": 1600, "y": 2800}, "room": "Living Room" },
-    { "element": "default/coffee_table", "position": {"x": 3200, "y": 2800}, "room": "Living Room" },
-    { "element": "default/tv_console",  "position": {"x": 3500, "y": 400},  "room": "Living Room" },
-    { "element": "default/bookshelf",   "position": {"x": 6200, "y": 400},  "room": "Living Room" },
-    { "element": "default/floor_lamp",  "position": {"x": 600, "y": 600},   "room": "Living Room" },
-    // Custom elements — area rug under coffee table, plant in corner
-    { "element": "rug",   "position": {"x": 2800, "y": 2800}, "room": "Living Room" },
-    { "element": "plant", "position": {"x": 6600, "y": 4000}, "room": "Living Room" },
-
-    // ─── Kitchen (7000,0)-(13000,4500) ───────────────────────────────
-    // Appliances lined along south wall, dining area in the upper half
-    { "element": "default/counter", "position": {"x": 8500, "y": 500},   "scaleWidth": 80, "room": "Kitchen" },
-    { "element": "default/stove",   "position": {"x": 10600, "y": 500},  "room": "Kitchen" },
-    { "element": "default/oven",    "position": {"x": 11400, "y": 500},  "room": "Kitchen" },
-    { "element": "default/fridge",  "position": {"x": 12600, "y": 550},  "room": "Kitchen" },
-    // Dining table with four chairs
-    { "element": "default/table",   "position": {"x": 10000, "y": 3000}, "room": "Kitchen" },
-    { "element": "default/chair",   "position": {"x": 9300, "y": 3000},  "room": "Kitchen" },
-    { "element": "default/chair",   "position": {"x": 10700, "y": 3000}, "room": "Kitchen" },
-    { "element": "default/chair",   "position": {"x": 10000, "y": 2400}, "room": "Kitchen" },
-    { "element": "default/chair",   "position": {"x": 10000, "y": 3600}, "room": "Kitchen" },
-
-    // ─── Master Bedroom (0,5700)-(4500,9000) ─────────────────────────
-    // Double bed against north wall, wardrobe rotated 90° against east area
-    { "element": "default/bed",        "position": {"x": 2000, "y": 7900}, "room": "Master Bedroom" },
-    { "element": "default/wardrobe",   "position": {"x": 3800, "y": 8400}, "rotation": 90, "room": "Master Bedroom" },
-    { "element": "default/floor_lamp", "position": {"x": 500, "y": 6200},  "room": "Master Bedroom" },
-
-    // ─── Ensuite (4500,5700)-(6500,9000) ─────────────────────────────
-    // Compact bathroom: toilet + sink near entry, shower in far corner
-    { "element": "default/toilet", "position": {"x": 5000, "y": 6200}, "room": "Ensuite" },
-    { "element": "default/sink",   "position": {"x": 5800, "y": 6000}, "room": "Ensuite" },
-    { "element": "default/shower", "position": {"x": 5950, "y": 8450}, "room": "Ensuite" },
-
-    // ─── Kids Room (6500,5700)-(9500,9000) ───────────────────────────
-    // Single bed (65% width), study desk with office chair, bookshelf
-    { "element": "default/bed",          "position": {"x": 7500, "y": 7900}, "scaleWidth": 65, "scaleDepth": 100, "lockProportions": false, "room": "Kids Room" },
-    { "element": "default/desk",         "position": {"x": 8500, "y": 6400}, "room": "Kids Room" },
-    { "element": "default/office_chair", "position": {"x": 8500, "y": 7000}, "room": "Kids Room" },
-    { "element": "default/bookshelf",    "position": {"x": 7000, "y": 7200}, "room": "Kids Room" },
-
-    // ─── Family Bathroom (9500,5700)-(13000,9000) ────────────────────
-    // Full bath suite: bathtub + shower + toilet + sink
-    { "element": "default/bathtub", "position": {"x": 10500, "y": 8050}, "room": "Family Bathroom" },
-    { "element": "default/toilet",  "position": {"x": 10000, "y": 6200}, "room": "Family Bathroom" },
-    { "element": "default/sink",    "position": {"x": 11000, "y": 6000}, "room": "Family Bathroom" },
-    { "element": "default/shower",  "position": {"x": 12450, "y": 8450}, "room": "Family Bathroom" }
-  ]
-}
+placements:
+  place default/l_sofa at 1600,2800 in "Living Room"
+  place default/coffee_table at 3200,2800 in "Living Room"
+  place default/tv_console at 3500,400 in "Living Room"
+  place default/bookshelf at 6200,400 in "Living Room"
+  place default/floor_lamp at 600,600 in "Living Room"
+  place rug at 2800,2800 in "Living Room"
+  place plant at 6600,4000 in "Living Room"
+  place default/counter at 8500,500 in Kitchen scale=80,100
+  place default/stove at 10600,500 in Kitchen
+  place default/oven at 11400,500 in Kitchen
+  place default/fridge at 12600,550 in Kitchen
+  place default/table at 10000,3000 in Kitchen
+  place default/chair at 9300,3000 in Kitchen
+  place default/chair at 10700,3000 in Kitchen
+  place default/chair at 10000,2400 in Kitchen
+  place default/chair at 10000,3600 in Kitchen
+  place default/bed at 2000,7900 in "Master Bedroom"
+  place default/wardrobe at 3800,8400 in "Master Bedroom" rotation=90
+  place default/floor_lamp at 500,6200 in "Master Bedroom"
+  place default/toilet at 5000,6200 in Ensuite
+  place default/sink at 5800,6000 in Ensuite
+  place default/shower at 5950,8450 in Ensuite
+  place default/bed at 7500,7900 in "Kids Room" scale=65,100 lockProportions=false
+  place default/desk at 8500,6400 in "Kids Room"
+  place default/office_chair at 8500,7000 in "Kids Room"
+  place default/bookshelf at 7000,7200 in "Kids Room"
+  place default/bathtub at 10500,8050 in "Family Bathroom"
+  place default/toilet at 10000,6200 in "Family Bathroom"
+  place default/sink at 11000,6000 in "Family Bathroom"
+  place default/shower at 12450,8450 in "Family Bathroom"

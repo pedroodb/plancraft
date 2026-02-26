@@ -1,70 +1,29 @@
-{
-  // Tolosa — Argentine-style ground floor ("Planta Baja")
-  // 11 rooms: Cochera, Estar, Toilette, Pasillo, Paso, Escalera,
-  //           Baño, Comedor, Living, Cocina, Dormitorio
+furniture:
 
-  "placements": [
-
-    // ─── Cochera (L-shaped garage, inner x=100-5690, y=100-4900) ────
-    // Car parked in the main rectangular section
-    { "element": "default/car", "position": {"x": 2400, "y": 2300}, "room": "Cochera" },
-
-    // ─── Estar (small living, inner x=4880-7490, y=100-3120) ────────
-    // Sofa against south wall
-    { "element": "default/sofa", "position": {"x": 6185, "y": 600}, "room": "Estar" },
-    // Coffee table in front
-    { "element": "default/coffee_table", "position": {"x": 6185, "y": 1300}, "room": "Estar" },
-    // TV console against north wall
-    { "element": "default/tv_console", "position": {"x": 6185, "y": 2900}, "room": "Estar" },
-
-    // ─── Toilette (small bathroom, inner x=5890-7490, y=3320-4900) ──
-    { "element": "default/toilet", "position": {"x": 6400, "y": 4500}, "room": "Toilette" },
-    { "element": "default/sink", "position": {"x": 7100, "y": 4600}, "room": "Toilette" },
-
-    // ─── Escalera (staircase, inner x=3875-4945, y=5775-7525) ───────
-    // Staircase scaled to fit the narrow room
-    { "element": "default/staircase", "position": {"x": 4410, "y": 6650}, "scaleWidth": 100, "scaleDepth": 68, "room": "Escalera" },
-
-    // ─── Baño (bathroom, inner x=5120-7490, y=5100-7500) ────────────
-    { "element": "default/toilet", "position": {"x": 5500, "y": 5600}, "room": "Baño" },
-    { "element": "default/sink", "position": {"x": 6300, "y": 5400}, "room": "Baño" },
-    { "element": "default/bathtub", "position": {"x": 6640, "y": 6600}, "rotation": 90, "room": "Baño" },
-
-    // ─── Comedor (dining room, inner x=100-3700, y=7700-11550) ──────
-    // Dining table centered
-    { "element": "default/table", "position": {"x": 1900, "y": 9500}, "room": "Comedor" },
-    // Four chairs around the table
-    { "element": "default/chair", "position": {"x": 1200, "y": 9500}, "room": "Comedor" },
-    { "element": "default/chair", "position": {"x": 2600, "y": 9500}, "room": "Comedor" },
-    { "element": "default/chair", "position": {"x": 1900, "y": 8900}, "room": "Comedor" },
-    { "element": "default/chair", "position": {"x": 1900, "y": 10100}, "room": "Comedor" },
-    // Bookshelf against west wall
-    { "element": "default/bookshelf", "position": {"x": 400, "y": 10800}, "rotation": 90, "room": "Comedor" },
-
-    // ─── Living (inner x=3900-7490, y=7700-11550) ───────────────────
-    // Sofa against south wall
-    { "element": "default/sofa", "position": {"x": 5700, "y": 8400}, "room": "Living" },
-    // Coffee table in front
-    { "element": "default/coffee_table", "position": {"x": 5700, "y": 9100}, "room": "Living" },
-    // Bookshelf against east wall (rotated 90°)
-    { "element": "default/bookshelf", "position": {"x": 7200, "y": 10500}, "rotation": 90, "room": "Living" },
-    // Floor lamp in NW corner
-    { "element": "default/floor_lamp", "position": {"x": 4200, "y": 11200}, "room": "Living" },
-
-    // ─── Cocina (kitchen, inner x=100-3700, y=11750-14150) ──────────
-    // Counter along north wall
-    { "element": "default/counter", "position": {"x": 1900, "y": 13850}, "room": "Cocina" },
-    // Fridge against east wall
-    { "element": "default/fridge", "position": {"x": 3350, "y": 12400}, "room": "Cocina" },
-    // Stove next to counter
-    { "element": "default/stove", "position": {"x": 600, "y": 13850}, "room": "Cocina" },
-
-    // ─── Dormitorio (bedroom, inner x=3900-7490, y=11750-14150) ─────
-    // Bed against north wall, centered
-    { "element": "default/bed", "position": {"x": 5700, "y": 13050}, "room": "Dormitorio" },
-    // Wardrobe against south wall near west
-    { "element": "default/wardrobe", "position": {"x": 4600, "y": 12000}, "room": "Dormitorio" },
-    // Floor lamp beside bed
-    { "element": "default/floor_lamp", "position": {"x": 7200, "y": 13800}, "room": "Dormitorio" }
-  ]
-}
+placements:
+  place default/car at 2400,2300 in Cochera
+  place default/sofa at 6185,600 in Estar
+  place default/coffee_table at 6185,1300 in Estar
+  place default/tv_console at 6185,2900 in Estar
+  place default/toilet at 6400,4500 in Toilette
+  place default/sink at 7100,4600 in Toilette
+  place default/staircase at 4410,6650 in Escalera scale=100,68
+  place default/toilet at 5500,5600 in Baño
+  place default/sink at 6300,5400 in Baño
+  place default/bathtub at 6640,6600 in Baño rotation=90
+  place default/table at 1900,9500 in Comedor
+  place default/chair at 1200,9500 in Comedor
+  place default/chair at 2600,9500 in Comedor
+  place default/chair at 1900,8900 in Comedor
+  place default/chair at 1900,10100 in Comedor
+  place default/bookshelf at 400,10800 in Comedor rotation=90
+  place default/sofa at 5700,8400 in Living
+  place default/coffee_table at 5700,9100 in Living
+  place default/bookshelf at 7200,10500 in Living rotation=90
+  place default/floor_lamp at 4200,11200 in Living
+  place default/counter at 1900,13850 in Cocina
+  place default/fridge at 3350,12400 in Cocina
+  place default/stove at 600,13850 in Cocina
+  place default/bed at 5700,13050 in Dormitorio
+  place default/wardrobe at 4600,12000 in Dormitorio
+  place default/floor_lamp at 7200,13800 in Dormitorio

@@ -13,6 +13,8 @@ export interface SGLine {
   y2: number;
   strokeWidth: number;
   layer: Layer;
+  /** Room(s) this element belongs to (used for dimension highlighting) */
+  roomNames?: string[];
 }
 
 export interface SGPolygon {
@@ -42,6 +44,8 @@ export interface SGText {
   fontSize: number;
   anchor: "start" | "middle" | "end";
   layer: Layer;
+  /** Room(s) this element belongs to (used for dimension highlighting) */
+  roomNames?: string[];
 }
 
 export interface SGCircle {
