@@ -12,7 +12,7 @@ export interface Scale {
 }
 
 // ── Swing direction for doors ────────────────────────────────────────
-export type SwingDirection = "left" | "right" | "sliding";
+export type SwingDirection = "left" | "right" | "double" | "sliding";
 
 // ── Wall identifier ──────────────────────────────────────────────────
 // Cardinal directions are conventional shortcuts; any string name is valid.

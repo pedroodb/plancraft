@@ -10,14 +10,18 @@ door <wall> <offset> <width> <swing>
 
 - **`wall`** — Must EXACTLY match a wall direction name defined in the same room (e.g., `north`, `east`). Never use room names or translations.
 - **`offset`** — Distance from the wall's start point to the door hinge
-- **`width`** — Door panel width (standard: 0.9m / `900` for single, 1.2m / `1200` for double)
-- **`swing`** — `left`, `right`, or `sliding`
+- **`width`** — Door panel width (standard: 0.9m / `900` for single, 1.6m / `1600` for double)
+- **`swing`** — `left`, `right`, `double`, or `sliding`
+  - `left` / `right`: single panel swinging in the specified direction
+  - `double`: two panels opening from the center outward (french doors)
+  - `sliding`: two parallel panels sliding along the wall
 
 ### Door Examples
 
 ```
 door north 1500 900 left
-door south 500 1200 sliding
+door south 500 1800 sliding
+door east 800 1600 double
 ```
 
 ## Windows

@@ -42,6 +42,9 @@ export function doorToGeometry(door: ResolvedDoor): SGNode[] {
   if (door.swing === "sliding") {
     return slidingDoorGeometry(door);
   }
+  if (door.swing === "double") {
+    return doubleDoorGeometry(door);
+  }
   return swingDoorGeometry(door);
 }
 
@@ -111,6 +114,120 @@ function swingDoorGeometry(door: ResolvedDoor): SGNode[] {
     layer: "openings",
   };
   nodes.push(openLine);
+
+  return nodes;
+}
+
+/**
+ * Double door: two panels opening from the center, each swinging outward.
+ * Left panel swings left, right panel swings right.
+ */
+function doubleDoorGeometry(door: ResolvedDoor): SGNode[] {
+  const nodes: SGNode[] = [];
+  const { dx, dy, effectiveWidth } = openingDir(door.position, door.endPosition, door.wall);
+  const totalWidth = effectiveWidth || door.width;
+  const halfWidth = totalWidth / 2;
+
+  const wallAngle = Math.atan2(dy, dx);
+
+  // Left panel: hinge at left edge, opens outward (arc from center toward left-open position)
+  const leftHinge: Point = { ...door.position };
+  const leftEnd: Point = {
+    x: leftHinge.x + dx * halfWidth,
+    y: leftHinge.y + dy * halfWidth,
+  };
+
+  // Left panel: arc sweeps from wall direction (pointing right toward center) to 90 degrees open
+  const leftArc: SGArc = {
+    type: "arc",
+    cx: leftHinge.x,
+    cy: leftHinge.y,
+    r: halfWidth,
+    startAngle: wallAngle,
+    endAngle: wallAngle + Math.PI / 2,
+    strokeWidth: LINE_WEIGHTS.openings,
+    layer: "openings",
+  };
+  nodes.push(leftArc);
+
+  // Left panel line (closed position, along wall toward center)
+  const leftPanel: SGLine = {
+    type: "line",
+    x1: leftHinge.x,
+    y1: leftHinge.y,
+    x2: leftEnd.x,
+    y2: leftEnd.y,
+    strokeWidth: LINE_WEIGHTS.openings,
+    layer: "openings",
+  };
+  nodes.push(leftPanel);
+
+  // Left panel open position line
+  const leftOpenEnd: Point = {
+    x: leftHinge.x + Math.cos(wallAngle + Math.PI / 2) * halfWidth,
+    y: leftHinge.y + Math.sin(wallAngle + Math.PI / 2) * halfWidth,
+  };
+  const leftOpenLine: SGLine = {
+    type: "line",
+    x1: leftHinge.x,
+    y1: leftHinge.y,
+    x2: leftOpenEnd.x,
+    y2: leftOpenEnd.y,
+    strokeWidth: LINE_WEIGHTS.openings,
+    layer: "openings",
+  };
+  nodes.push(leftOpenLine);
+
+  // Right panel: hinge at right edge, opens outward
+  const rightHinge: Point = {
+    x: door.position.x + dx * totalWidth,
+    y: door.position.y + dy * totalWidth,
+  };
+  const rightEnd: Point = {
+    x: rightHinge.x - dx * halfWidth,
+    y: rightHinge.y - dy * halfWidth,
+  };
+
+  // Right panel: arc sweeps from -90 degrees open to wall direction (pointing left toward center)
+  const rightArc: SGArc = {
+    type: "arc",
+    cx: rightHinge.x,
+    cy: rightHinge.y,
+    r: halfWidth,
+    startAngle: wallAngle + Math.PI - Math.PI / 2,
+    endAngle: wallAngle + Math.PI,
+    strokeWidth: LINE_WEIGHTS.openings,
+    layer: "openings",
+  };
+  nodes.push(rightArc);
+
+  // Right panel line (closed position, along wall toward center)
+  const rightPanel: SGLine = {
+    type: "line",
+    x1: rightHinge.x,
+    y1: rightHinge.y,
+    x2: rightEnd.x,
+    y2: rightEnd.y,
+    strokeWidth: LINE_WEIGHTS.openings,
+    layer: "openings",
+  };
+  nodes.push(rightPanel);
+
+  // Right panel open position line
+  const rightOpenEnd: Point = {
+    x: rightHinge.x + Math.cos(wallAngle + Math.PI - Math.PI / 2) * halfWidth,
+    y: rightHinge.y + Math.sin(wallAngle + Math.PI - Math.PI / 2) * halfWidth,
+  };
+  const rightOpenLine: SGLine = {
+    type: "line",
+    x1: rightHinge.x,
+    y1: rightHinge.y,
+    x2: rightOpenEnd.x,
+    y2: rightOpenEnd.y,
+    strokeWidth: LINE_WEIGHTS.openings,
+    layer: "openings",
+  };
+  nodes.push(rightOpenLine);
 
   return nodes;
 }

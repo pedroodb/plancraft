@@ -97,7 +97,7 @@ function stripJsonComments(source: string): string {
 // ── Validation helpers ───────────────────────────────────────────────
 
 const VALID_UNITS = new Set(["mm", "cm", "m", "ft", "in"]);
-const VALID_SWINGS = new Set(["left", "right", "sliding"]);
+const VALID_SWINGS = new Set(["left", "right", "double", "sliding"]);
 function requireString(obj: Record<string, unknown>, field: string, context: string): string {
   const val = obj[field];
   if (typeof val !== "string") {
@@ -205,7 +205,7 @@ function transformDoor(raw: unknown, roomName: string): DoorNode {
   const ctx = `Door in room "${roomName}"`;
   const swing = requireString(obj, "swing", ctx);
   if (!VALID_SWINGS.has(swing)) {
-    throw new ParseError(`${ctx}: "swing" must be one of: left, right, sliding`);
+    throw new ParseError(`${ctx}: "swing" must be one of: left, right, double, sliding`);
   }
   const offset = requireNumber(obj, "offset", ctx);
   const width = requireNumber(obj, "width", ctx);

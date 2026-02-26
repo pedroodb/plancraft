@@ -35,7 +35,7 @@ import { ParseError } from "./parser.js";
 // ── Constants ────────────────────────────────────────────────────────
 
 const VALID_UNITS = new Set<string>(["mm", "cm", "m", "ft", "in"]);
-const VALID_SWINGS = new Set<string>(["left", "right", "sliding"]);
+const VALID_SWINGS = new Set<string>(["left", "right", "double", "sliding"]);
 
 // ── Tokenizer ────────────────────────────────────────────────────────
 
@@ -223,7 +223,7 @@ function parseDoorLine(tokens: string[], lineNum: number, roomName: string): Doo
     throw new ParseError(`${ctx}: width must be a number > 0, got "${tokens[3]}"`);
   }
   if (!VALID_SWINGS.has(swing)) {
-    throw new ParseError(`${ctx}: swing must be one of: left, right, sliding`);
+    throw new ParseError(`${ctx}: swing must be one of: left, right, double, sliding`);
   }
 
   return { type: "door", wallDirection, offset, width, swing: swing as SwingDirection };
