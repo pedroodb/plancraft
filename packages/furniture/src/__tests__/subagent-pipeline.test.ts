@@ -92,11 +92,11 @@ describe("Subagent pipeline end-to-end", () => {
       const bano = findRoom("Baño");
       const layout: FurnitureLayout = {
         elements: {
-          toilet: { name: "Toilet", tags: ["bathroom"], defaultWidth: 400, defaultDepth: 600 },
+          toilet: { name: "Toilet", tags: ["bathroom"], defaultWidth: 400, defaultDepth: 600, svg: "<svg></svg>" },
         },
         placements: [{
           element: "toilet", room: "Baño", position: { x: 0, y: 0 },
-          rotation: 0, scaleWidth: 100, scaleDepth: 100,
+          rotation: 0, scaleWidth: 100, scaleDepth: 100, lockProportions: true,
           anchor: { wall: "north", along: 0.5, offset: 0 },
         }],
       };
@@ -114,11 +114,11 @@ describe("Subagent pipeline end-to-end", () => {
       const bano = findRoom("Baño");
       const layout: FurnitureLayout = {
         elements: {
-          toilet: { name: "Toilet", tags: ["bathroom"], defaultWidth: 400, defaultDepth: 600 },
+          toilet: { name: "Toilet", tags: ["bathroom"], defaultWidth: 400, defaultDepth: 600, svg: "<svg></svg>" },
         },
         placements: [{
           element: "toilet", room: "Baño", position: { x: 0, y: 0 },
-          rotation: 0, scaleWidth: 100, scaleDepth: 100,
+          rotation: 0, scaleWidth: 100, scaleDepth: 100, lockProportions: true,
           anchor: { wall: "south", along: 0.5, offset: 0 },
         }],
       };
@@ -139,6 +139,7 @@ describe("Subagent pipeline end-to-end", () => {
         rotation: 0,
         scaleWidth: 100,
         scaleDepth: 100,
+        lockProportions: true,
         anchor: { wall: "east", along: 0.5, offset: 0 },
       };
 
@@ -149,6 +150,7 @@ describe("Subagent pipeline end-to-end", () => {
             tags: ["bedroom"],
             defaultWidth: 1400,
             defaultDepth: 2000,
+            svg: "<svg></svg>",
           },
         },
         placements: [placement],
@@ -169,6 +171,7 @@ describe("Subagent pipeline end-to-end", () => {
         rotation: 0,
         scaleWidth: 80,
         scaleDepth: 80,
+        lockProportions: true,
         anchor: { wall: "north", along: 0.3, offset: 0 },
       };
 
@@ -179,6 +182,7 @@ describe("Subagent pipeline end-to-end", () => {
             tags: ["bathroom"],
             defaultWidth: 400,
             defaultDepth: 600,
+            svg: "<svg></svg>",
           },
         },
         placements: [placement],
@@ -214,24 +218,24 @@ describe("Subagent pipeline end-to-end", () => {
     it("three bathroom items on different walls don't overlap", () => {
       const layout: FurnitureLayout = {
         elements: {
-          toilet: { name: "Toilet", tags: ["bathroom"], defaultWidth: 400, defaultDepth: 600 },
-          sink: { name: "Sink", tags: ["bathroom"], defaultWidth: 500, defaultDepth: 400 },
-          shower: { name: "Shower", tags: ["bathroom"], defaultWidth: 900, defaultDepth: 900 },
+          toilet: { name: "Toilet", tags: ["bathroom"], defaultWidth: 400, defaultDepth: 600, svg: "<svg></svg>" },
+          sink: { name: "Sink", tags: ["bathroom"], defaultWidth: 500, defaultDepth: 400, svg: "<svg></svg>" },
+          shower: { name: "Shower", tags: ["bathroom"], defaultWidth: 900, defaultDepth: 900, svg: "<svg></svg>" },
         },
         placements: [
           {
             element: "toilet", room: "Baño", position: { x: 0, y: 0 },
-            rotation: 0, scaleWidth: 100, scaleDepth: 100,
+            rotation: 0, scaleWidth: 100, scaleDepth: 100, lockProportions: true,
             anchor: { wall: "north", along: 0.2, offset: 0 },
           },
           {
             element: "sink", room: "Baño", position: { x: 0, y: 0 },
-            rotation: 0, scaleWidth: 100, scaleDepth: 100,
+            rotation: 0, scaleWidth: 100, scaleDepth: 100, lockProportions: true,
             anchor: { wall: "north", along: 0.7, offset: 0 },
           },
           {
             element: "shower", room: "Baño", position: { x: 0, y: 0 },
-            rotation: 0, scaleWidth: 80, scaleDepth: 80,
+            rotation: 0, scaleWidth: 80, scaleDepth: 80, lockProportions: true,
             anchor: { wall: "east", along: 0.5, offset: 0 },
           },
         ],
