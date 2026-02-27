@@ -284,6 +284,52 @@ describe("validateStructure", () => {
     assert.ok(warnings[0].message.includes("Kitchen"));
   });
 
+  it("detects duplicate doors on partially overlapping collinear walls", () => {
+    // Kitchen south: (10000,4000)→(6000,4000), length=4000, door offset 1500
+    // Bathroom south: (7000,4000)→(10000,4000), length=3000, door offset 1050
+    // Walls are collinear, overlap in x range [7000,10000], doors overlap
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [
+          {
+            name: "Kitchen",
+            walls: [
+              { direction: "north", from: { x: 6000, y: 0 }, to: { x: 10000, y: 0 }, thickness: 200 },
+              { direction: "east", from: { x: 10000, y: 0 }, to: { x: 10000, y: 4000 }, thickness: 200 },
+              { direction: "south", from: { x: 10000, y: 4000 }, to: { x: 6000, y: 4000 }, thickness: 200 },
+              { direction: "west", from: { x: 6000, y: 4000 }, to: { x: 6000, y: 0 }, thickness: 200 },
+            ],
+            doors: [
+              { wall: "south", offset: 1500, width: 900, swing: "right" },
+            ],
+          },
+          {
+            name: "Bathroom",
+            walls: [
+              { direction: "south", from: { x: 7000, y: 4000 }, to: { x: 10000, y: 4000 }, thickness: 150 },
+              { direction: "east", from: { x: 10000, y: 4000 }, to: { x: 10000, y: 8000 }, thickness: 200 },
+              { direction: "north", from: { x: 10000, y: 8000 }, to: { x: 7000, y: 8000 }, thickness: 200 },
+              { direction: "west", from: { x: 7000, y: 8000 }, to: { x: 7000, y: 4000 }, thickness: 150 },
+            ],
+            doors: [
+              { wall: "south", offset: 1050, width: 900, swing: "left" },
+            ],
+          },
+        ],
+      }],
+    });
+    const resolved = resolve(parse(source));
+    const warnings = validateStructure(resolved);
+    assert.equal(warnings.length, 1);
+    assert.equal(warnings[0].type, "duplicate_door");
+    assert.ok(warnings[0].message.includes("Kitchen"));
+    assert.ok(warnings[0].message.includes("Bathroom"));
+  });
+
   it("no warning when door is defined in only one room", () => {
     const source = JSON.stringify({
       name: "Test",
