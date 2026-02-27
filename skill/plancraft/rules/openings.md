@@ -87,6 +87,32 @@ When placing multiple doors/windows on the same wall, ensure their ranges don't 
 - Element A occupies `[offsetA, offsetA + widthA]`
 - Element B must start after element A ends: `offsetB >= offsetA + widthA + 100` (leave 100mm gap minimum)
 
+### Interior Doors on Boundary Walls
+
+When two rooms share a boundary (identical wall coordinates), define the connecting door in **ONE room only**. The renderer clips the door opening from both overlapping walls automatically. Defining the door in both rooms creates a duplicate arc/panel.
+
+**Wrong** — duplicate door (renders two overlapping arcs):
+```
+room: "Living Room"
+  wall east 6000,0 6000,4000 200
+  door east 1500 900 left        // door here
+room: Kitchen
+  wall west 6000,4000 6000,0 200
+  door west 1500 900 right       // AND here = duplicate!
+```
+
+**Correct** — door defined once:
+```
+room: "Living Room"
+  wall east 6000,0 6000,4000 200
+  door east 1500 900 left        // door only here
+room: Kitchen
+  wall west 6000,4000 6000,0 200
+  // no door — Living Room's door already cuts through this wall
+```
+
+The compiler will warn about duplicate doors on overlapping wall segments. Fix by removing the door from one of the two rooms.
+
 ### Openings
 
 Use openings for archways, pass-throughs, and open-plan transitions. Same offset + width rules apply.

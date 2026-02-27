@@ -17,6 +17,7 @@ import {
   ResolvedWall,
   ResolvedWindow,
   RoomNode,
+  StructuralWarning,
   WallNode,
   WindowNode,
 } from "./ast/types.js";
@@ -686,5 +687,144 @@ function resolveOpening(
     width: opening.width,
     wall,
   };
+}
+
+// ── Structural validation ────────────────────────────────────────────
+
+/**
+ * Normalize a wall key so that A→B and B→A produce the same string.
+ * Sorts endpoints by x first, then y.
+ */
+function normalizedWallKey(from: Point, to: Point): string {
+  const a = from;
+  const b = to;
+  if (a.x < b.x || (a.x === b.x && a.y < b.y)) {
+    return `${a.x},${a.y}-${b.x},${b.y}`;
+  }
+  return `${b.x},${b.y}-${a.x},${a.y}`;
+}
+
+/**
+ * Compute the offset range [start, end] of a door along the wall's from→to
+ * direction. For a reversed wall (B→A vs A→B), the offset is inverted.
+ */
+function doorOffsetRange(
+  door: ResolvedDoor,
+  wall: ResolvedWall,
+  isReversed: boolean,
+): [number, number] {
+  // Find original DoorNode offset from the wall's from→to direction.
+  // ResolvedDoor.position is the absolute point at door.offset along the wall.
+  // We project it back to get the offset along the wall.
+  const dx = wall.to.x - wall.from.x;
+  const dy = wall.to.y - wall.from.y;
+  const wallLen = Math.sqrt(dx * dx + dy * dy);
+  if (wallLen === 0) return [0, 0];
+
+  // Project door position onto wall line to get offset
+  const pdx = door.position.x - wall.from.x;
+  const pdy = door.position.y - wall.from.y;
+  const offset = (pdx * dx + pdy * dy) / wallLen;
+
+  let start = offset;
+  let end = offset + door.width;
+
+  if (isReversed) {
+    // The other wall goes in the opposite direction, so flip the range
+    start = wallLen - end;
+    end = start + door.width;
+  }
+
+  return [start, end];
+}
+
+/**
+ * Check if two numeric ranges overlap with a tolerance.
+ */
+function rangesOverlap(
+  a: [number, number],
+  b: [number, number],
+  tolerance: number,
+): boolean {
+  return a[0] < b[1] - tolerance && b[0] < a[1] - tolerance;
+}
+
+/**
+ * Check if two walls have the same geometry but are defined in opposite
+ * directions (A→B vs B→A).
+ */
+function isReversedWall(w1: ResolvedWall, w2: ResolvedWall): boolean {
+  const eps = 1;
+  return (
+    Math.abs(w1.from.x - w2.to.x) < eps &&
+    Math.abs(w1.from.y - w2.to.y) < eps &&
+    Math.abs(w1.to.x - w2.from.x) < eps &&
+    Math.abs(w1.to.y - w2.from.y) < eps
+  );
+}
+
+/**
+ * Validate the resolved project for structural issues.
+ * Currently detects duplicate doors on overlapping wall segments between
+ * adjacent rooms.
+ */
+export function validateStructure(
+  project: ResolvedProject,
+): StructuralWarning[] {
+  const warnings: StructuralWarning[] = [];
+
+  for (const floor of project.floors) {
+    // Map walls by normalized geometry key
+    const wallMap = new Map<
+      string,
+      { roomName: string; wall: ResolvedWall; doors: ResolvedDoor[] }[]
+    >();
+
+    for (const room of floor.rooms) {
+      for (const wall of room.walls) {
+        const key = normalizedWallKey(wall.from, wall.to);
+        if (!wallMap.has(key)) wallMap.set(key, []);
+        // Collect doors that belong to this specific wall
+        const wallDoors = room.doors.filter((d) => d.wall === wall);
+        wallMap.get(key)!.push({
+          roomName: room.name,
+          wall,
+          doors: wallDoors,
+        });
+      }
+    }
+
+    // Check wall pairs with shared geometry for overlapping doors
+    for (const entries of wallMap.values()) {
+      if (entries.length < 2) continue;
+
+      for (let i = 0; i < entries.length; i++) {
+        for (let j = i + 1; j < entries.length; j++) {
+          const e1 = entries[i];
+          const e2 = entries[j];
+          if (e1.doors.length === 0 || e2.doors.length === 0) continue;
+
+          const reversed = isReversedWall(e1.wall, e2.wall);
+
+          for (const d1 of e1.doors) {
+            const range1 = doorOffsetRange(d1, e1.wall, false);
+            for (const d2 of e2.doors) {
+              const range2 = doorOffsetRange(d2, e2.wall, reversed);
+              if (rangesOverlap(range1, range2, 50)) {
+                warnings.push({
+                  type: "duplicate_door",
+                  message: `Duplicate door: "${e1.roomName}" ${d1.wallDirection} wall and "${e2.roomName}" ${d2.wallDirection} wall have overlapping doors on the same boundary. Define the door in one room only.`,
+                  room1: e1.roomName,
+                  room2: e2.roomName,
+                });
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return warnings;
 }
 

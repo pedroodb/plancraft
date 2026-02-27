@@ -168,3 +168,12 @@ export interface ResolvedProject {
   unit: Unit;
   floors: ResolvedFloor[];
 }
+
+// ── Structural validation warnings ──────────────────────────────────
+
+export interface StructuralWarning {
+  type: "duplicate_door";
+  message: string;
+  room1: string;
+  room2: string;
+}

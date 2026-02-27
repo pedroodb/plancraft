@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import * as assert from "node:assert/strict";
 import { parse } from "../parser.js";
-import { resolve, ResolveError } from "../resolver.js";
+import { resolve, ResolveError, validateStructure } from "../resolver.js";
 
 describe("Resolver", () => {
   const MINIMAL = JSON.stringify({
@@ -235,5 +235,90 @@ describe("Resolver", () => {
     const curvedRoom = resolve(parse(curvedSource)).floors[0].rooms[0];
     assert.ok(curvedRoom.area > straightRoom.area,
       `Curved room area (${curvedRoom.area}) should be larger than straight (${straightRoom.area})`);
+  });
+});
+
+describe("validateStructure", () => {
+  it("detects duplicate doors on overlapping boundary walls", () => {
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [
+          {
+            name: "Living Room",
+            walls: [
+              { direction: "north", from: { x: 0, y: 0 }, to: { x: 6000, y: 0 }, thickness: 200 },
+              { direction: "east", from: { x: 6000, y: 0 }, to: { x: 6000, y: 4000 }, thickness: 200 },
+              { direction: "south", from: { x: 6000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+              { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+            ],
+            doors: [
+              { wall: "east", offset: 1500, width: 900, swing: "left" },
+            ],
+          },
+          {
+            name: "Kitchen",
+            walls: [
+              { direction: "north", from: { x: 6000, y: 0 }, to: { x: 12000, y: 0 }, thickness: 200 },
+              { direction: "east", from: { x: 12000, y: 0 }, to: { x: 12000, y: 4000 }, thickness: 200 },
+              { direction: "south", from: { x: 12000, y: 4000 }, to: { x: 6000, y: 4000 }, thickness: 200 },
+              // West wall is same segment as Living Room's east wall, reversed
+              { direction: "west", from: { x: 6000, y: 4000 }, to: { x: 6000, y: 0 }, thickness: 200 },
+            ],
+            doors: [
+              // Duplicate door on the same boundary wall
+              { wall: "west", offset: 1500, width: 900, swing: "right" },
+            ],
+          },
+        ],
+      }],
+    });
+    const resolved = resolve(parse(source));
+    const warnings = validateStructure(resolved);
+    assert.equal(warnings.length, 1);
+    assert.equal(warnings[0].type, "duplicate_door");
+    assert.ok(warnings[0].message.includes("Living Room"));
+    assert.ok(warnings[0].message.includes("Kitchen"));
+  });
+
+  it("no warning when door is defined in only one room", () => {
+    const source = JSON.stringify({
+      name: "Test",
+      scale: 100,
+      unit: "mm",
+      floors: [{
+        name: "F1",
+        rooms: [
+          {
+            name: "Living Room",
+            walls: [
+              { direction: "north", from: { x: 0, y: 0 }, to: { x: 6000, y: 0 }, thickness: 200 },
+              { direction: "east", from: { x: 6000, y: 0 }, to: { x: 6000, y: 4000 }, thickness: 200 },
+              { direction: "south", from: { x: 6000, y: 4000 }, to: { x: 0, y: 4000 }, thickness: 200 },
+              { direction: "west", from: { x: 0, y: 4000 }, to: { x: 0, y: 0 }, thickness: 200 },
+            ],
+            doors: [
+              { wall: "east", offset: 1500, width: 900, swing: "left" },
+            ],
+          },
+          {
+            name: "Kitchen",
+            walls: [
+              { direction: "north", from: { x: 6000, y: 0 }, to: { x: 12000, y: 0 }, thickness: 200 },
+              { direction: "east", from: { x: 12000, y: 0 }, to: { x: 12000, y: 4000 }, thickness: 200 },
+              { direction: "south", from: { x: 12000, y: 4000 }, to: { x: 6000, y: 4000 }, thickness: 200 },
+              { direction: "west", from: { x: 6000, y: 4000 }, to: { x: 6000, y: 0 }, thickness: 200 },
+            ],
+            // No door on west wall — correct!
+          },
+        ],
+      }],
+    });
+    const resolved = resolve(parse(source));
+    const warnings = validateStructure(resolved);
+    assert.equal(warnings.length, 0);
   });
 });

@@ -1,7 +1,7 @@
 export { parse, parseJsonc, ParseError } from "./parser.js";
 export { parsePc } from "./pc-parser.js";
 export { serialize } from "./serializer.js";
-export { resolve, ResolveError, arcFromBulge, sampleArc, pointAlongArc, getArcLength } from "./resolver.js";
+export { resolve, ResolveError, validateStructure, arcFromBulge, sampleArc, pointAlongArc, getArcLength } from "./resolver.js";
 export type {
   // Units and basic types
   Unit,
@@ -27,4 +27,5 @@ export type {
   ResolvedRoom,
   ResolvedFloor,
   ResolvedProject,
+  StructuralWarning,
 } from "./ast/types.js";
