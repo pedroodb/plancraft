@@ -183,8 +183,10 @@ placements:
 
 - **ALWAYS use `get_room_geometry` first**: Never guess positions. Read the room bounds and compute from them.
 - **Check warnings**: `add_furniture_placement` and `replace_furniture_layout` return spatial warnings. If you see overlap or out-of-room warnings, fix positions immediately.
-- **Keep clearance**: Leave at least 600mm between furniture and walls for walkways
+- **Keep clearance**: Leave at least 300mm between any two furniture items. Leave 600mm for walkways.
+- **Door clearance**: Keep 800mm+ clearance from door swing arcs. Never place furniture in front of a door.
 - **Align to walls**: Furniture against walls looks natural — place the center at `wall_inner_edge + depth/2`
+- **Check wall length**: Before anchoring an item to a wall, verify the item's width fits within the wall's length. A 2000mm sofa does NOT fit on a 1500mm wall.
 - **Remember rotation swaps dimensions**: A 1000x500 wardrobe at rotation=90 has effective dimensions 500x1000
 - **Group by function**: Kitchen appliances along the counter wall, bathroom fixtures along the plumbing wall
 - **Use rotation**: Orient beds with headboard against wall (rotation 0 = head at top)
@@ -192,6 +194,14 @@ placements:
 - **Use scale for sizing**: Use `scale` percentages rather than guessing mm sizes
 - **Create custom elements**: If a piece doesn't exist in built-in packages, create it with `create_furniture_element`
 - **Set the room field**: Always set the room name when placing furniture — this enables spatial validation
+
+### Common Mistakes to Avoid
+
+- **Coffee table at room center**: Do NOT place the coffee table at `rel 0.5,0.5` — it will likely overlap the sofa. Place it 600-800mm in front of the sofa instead.
+- **Bathroom fixtures near doors**: Do NOT place toilet or sink on walls with doors or within the door swing arc. Check door positions first.
+- **Oversized items on short walls**: Do NOT anchor a 3000mm counter to a 2500mm wall — it will extend past the wall. Scale down or pick a longer wall.
+- **Too many items in small rooms**: Rooms under 4m² should have at most 2 items. A clean layout with fewer items is ALWAYS better than a cluttered layout with overlaps.
+- **Ignoring spatial warnings**: ALWAYS fix spatial alerts before adding more items. Overlapping furniture is never acceptable.
 
 ### 6. Furniture Self-Review Checklist
 
