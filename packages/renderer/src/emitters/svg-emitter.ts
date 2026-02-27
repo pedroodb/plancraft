@@ -53,13 +53,13 @@ export function emitSVG(scene: SGGroup, opts: Partial<SVGEmitterOptions> = {}): 
   );
 
   // Background
-  lines.push(`  <rect x="${minX}" y="${minY}" width="${width}" height="${height}" fill="white"/>`);
+  lines.push(`  <rect x="${minX}" y="${minY}" width="${width}" height="${height}" fill="#FAF9F5"/>`);
 
   // Hatch pattern for wall fills
   const hatchSize = 60 * options.scaleRatio / 100;
   lines.push(`  <defs>`);
   lines.push(`    <pattern id="wall-hatch" patternUnits="userSpaceOnUse" width="${hatchSize}" height="${hatchSize}" patternTransform="rotate(45)">`);
-  lines.push(`      <line x1="0" y1="0" x2="0" y2="${hatchSize}" stroke="#666" stroke-width="${hatchSize * 0.15}"/>`);
+  lines.push(`      <line x1="0" y1="0" x2="0" y2="${hatchSize}" stroke="#8B8578" stroke-width="${hatchSize * 0.15}"/>`);
   lines.push(`    </pattern>`);
   lines.push(`  </defs>`);
 
@@ -145,14 +145,14 @@ function emitPolygon(
   const sw = poly.strokeWidth * opts.scaleRatio;
 
   if (poly.layer === "walls") {
-    // Architectural wall rendering: hatched fill with black outline
+    // Architectural wall rendering: hatched fill with warm dark outline
     lines.push(
-      `${indent}<polygon points="${points}" fill="url(#wall-hatch)" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
+      `${indent}<polygon points="${points}" fill="url(#wall-hatch)" stroke="#2C2A26" stroke-width="${sw}" stroke-linejoin="miter"/>`,
     );
   } else {
-    // Non-wall polygons: always use black stroke so outlines are visible
+    // Non-wall polygons: warm dark stroke for visible outlines
     lines.push(
-      `${indent}<polygon points="${points}" fill="${poly.fill}" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
+      `${indent}<polygon points="${points}" fill="${poly.fill}" stroke="#2C2A26" stroke-width="${sw}" stroke-linejoin="miter"/>`,
     );
   }
 }
@@ -167,11 +167,11 @@ function emitPath(
 
   if (pathNode.layer === "walls") {
     lines.push(
-      `${indent}<path d="${pathNode.d}" fill="url(#wall-hatch)" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
+      `${indent}<path d="${pathNode.d}" fill="url(#wall-hatch)" stroke="#2C2A26" stroke-width="${sw}" stroke-linejoin="miter"/>`,
     );
   } else {
     lines.push(
-      `${indent}<path d="${pathNode.d}" fill="${pathNode.fill}" stroke="black" stroke-width="${sw}" stroke-linejoin="miter"/>`,
+      `${indent}<path d="${pathNode.d}" fill="${pathNode.fill}" stroke="#2C2A26" stroke-width="${sw}" stroke-linejoin="miter"/>`,
     );
   }
 }
@@ -184,7 +184,7 @@ function emitLine(
 ): void {
   const sw = line.strokeWidth * opts.scaleRatio;
   lines.push(
-    `${indent}<line x1="${line.x1}" y1="${line.y1}" x2="${line.x2}" y2="${line.y2}" stroke="black" stroke-width="${sw}"/>`,
+    `${indent}<line x1="${line.x1}" y1="${line.y1}" x2="${line.x2}" y2="${line.y2}" stroke="#2C2A26" stroke-width="${sw}"/>`,
   );
 }
 
@@ -210,7 +210,7 @@ function emitArc(
 
   const d = `M ${startX} ${startY} A ${arc.r} ${arc.r} 0 ${largeArc} ${sweep} ${endX} ${endY}`;
   lines.push(
-    `${indent}<path d="${d}" fill="none" stroke="black" stroke-width="${sw}"/>`,
+    `${indent}<path d="${d}" fill="none" stroke="#2C2A26" stroke-width="${sw}"/>`,
   );
 }
 
@@ -222,7 +222,7 @@ function emitCircle(
 ): void {
   const sw = circle.strokeWidth * opts.scaleRatio;
   lines.push(
-    `${indent}<circle cx="${circle.cx}" cy="${circle.cy}" r="${circle.r}" fill="${circle.fill}" stroke="black" stroke-width="${sw}"/>`,
+    `${indent}<circle cx="${circle.cx}" cy="${circle.cy}" r="${circle.r}" fill="${circle.fill}" stroke="#2C2A26" stroke-width="${sw}"/>`,
   );
 }
 
@@ -239,7 +239,7 @@ function emitText(
     `${indent}<g transform="translate(${text.x},${text.y}) scale(1,-1)">`,
   );
   lines.push(
-    `${indent}  <text x="0" y="0" font-family="Arial, sans-serif" font-size="${fontSize}" text-anchor="${text.anchor}" dominant-baseline="central" fill="black">${escapeXml(text.content)}</text>`,
+    `${indent}  <text x="0" y="0" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-size="${fontSize}" text-anchor="${text.anchor}" dominant-baseline="central" fill="#3D3929">${escapeXml(text.content)}</text>`,
   );
   lines.push(`${indent}</g>`);
 }
@@ -273,7 +273,17 @@ function emitSvgEmbed(
     .replace(/<script[\s\S]*?\/>/gi, "")
     .replace(/\bon\w+\s*=\s*"[^"]*"/gi, "")
     .replace(/\bon\w+\s*=\s*'[^']*'/gi, "")
-    .replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, "");
+    .replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, "")
+    // Warm and darken furniture fills for contrast on cream background
+    .replace(/fill="#e8e8e8"/gi, 'fill="#D5D3CB"')
+    .replace(/fill="#f0f0f0"/gi, 'fill="#E2E0D8"')
+    .replace(/fill="#d0d0d0"/gi, 'fill="#C5C3BB"')
+    .replace(/fill="#c0c0c0"/gi, 'fill="#B5B3AB"')
+    .replace(/fill="#b0b0b0"/gi, 'fill="#A5A39B"')
+    .replace(/fill="#a0a0a0"/gi, 'fill="#908E86"')
+    // Soften pure black strokes to warm dark
+    .replace(/stroke="black"/gi, 'stroke="#2C2A26"')
+    .replace(/stroke="#000000"/gi, 'stroke="#2C2A26"');
   lines.push(`${indent}  ${sanitized}`);
   lines.push(`${indent}</g>`);
 }
