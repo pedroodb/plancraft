@@ -75,7 +75,7 @@ describe("Renderer", () => {
     assert.ok(svg.includes("5000"));
   });
 
-  it("handles multi-room plans with shared walls", () => {
+  it("handles multi-room plans with adjacent walls (auto-deduplication)", () => {
     const source = JSON.stringify({
       name: "Multi",
       scale: 100,
@@ -109,7 +109,7 @@ describe("Renderer", () => {
     const scene = buildScene(resolved);
     const svg = emitSVG(scene, { scaleRatio: 100 });
 
-    // Should have 7 wall polygons (4 for A + 3 for B, shared wall not duplicated)
+    // Should have 7 wall polygons (4 for A + 3 for B, overlapping wall auto-deduplicated)
     const polygonMatches = svg.match(/<polygon/g);
     assert.ok(polygonMatches);
     assert.equal(polygonMatches.length, 7);

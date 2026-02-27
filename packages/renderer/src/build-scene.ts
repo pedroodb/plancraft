@@ -409,7 +409,7 @@ function findOverlappingOpenings(
 function buildFloorScene(floor: ResolvedFloor): SGGroup {
   const children: SGNode[] = [];
 
-  // Track which walls we've already drawn (to avoid duplicating shared walls)
+  // Track which walls we've already drawn (to avoid duplicating overlapping walls between adjacent rooms)
   const drawnWalls = new Set<string>();
 
   // Collect ALL openings from every room/wall with absolute start/end positions.

@@ -548,7 +548,7 @@ function collectWallAABBsByRoom(project: ResolvedProject): Map<string, { aabb: A
  * - Furniture-furniture overlaps are only checked between items in the SAME room
  *   (walls separate rooms, so cross-room overlap is a false positive)
  * - Furniture-wall overlaps only check walls belonging to the furniture's declared room
- *   (prevents false positives from shared/adjacent walls)
+ *   (prevents false positives from adjacent/overlapping walls)
  * - Tolerances account for AABB axis-aligned approximation of rotated items
  */
 export function validateFurniturePlacement(

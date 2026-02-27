@@ -21,7 +21,6 @@ Architectural floor plans have traditionally been trapped in proprietary CAD sof
   - [Project Root](#project-root)
   - [Rooms and Walls](#rooms-and-walls)
   - [Doors, Windows, and Openings](#doors-windows-and-openings)
-  - [Shared Walls](#shared-walls)
   - [Dimensions and Labels](#dimensions-and-labels)
   - [Non-Rectangular Rooms](#non-rectangular-rooms)
   - [Comments](#comments)
@@ -203,31 +202,31 @@ Placed as arrays inside room objects, referencing walls by direction name:
 
 - **`wall`** / **`offset`** / **`width`** -- Same as doors.
 
-### Shared Walls
+### Adjacent Rooms
 
-When two rooms share a wall, use `sharedWalls` to reference an existing wall instead of defining duplicate geometry:
+When two rooms share a boundary, define all walls explicitly in each room with matching coordinates at the shared boundary. The renderer automatically deduplicates walls with identical geometry, so there's no need for special syntax:
 
 ```jsonc
+{
+  "name": "Living Room",
+  "walls": [
+    { "direction": "north", "from": {"x": 0, "y": 0}, "to": {"x": 6000, "y": 0}, "thickness": 200 },
+    { "direction": "east",  "from": {"x": 6000, "y": 0}, "to": {"x": 6000, "y": 4000}, "thickness": 200 },
+    { "direction": "south", "from": {"x": 6000, "y": 4000}, "to": {"x": 0, "y": 4000}, "thickness": 200 },
+    { "direction": "west",  "from": {"x": 0, "y": 4000}, "to": {"x": 0, "y": 0}, "thickness": 200 }
+  ]
+}
+// Kitchen shares the east wall of Living Room — just define it explicitly:
 {
   "name": "Kitchen",
   "walls": [
     { "direction": "north", "from": {"x": 6000, "y": 0}, "to": {"x": 10000, "y": 0}, "thickness": 200 },
     { "direction": "east",  "from": {"x": 10000, "y": 0}, "to": {"x": 10000, "y": 4000}, "thickness": 200 },
-    { "direction": "south", "from": {"x": 10000, "y": 4000}, "to": {"x": 6000, "y": 4000}, "thickness": 200 }
-  ],
-  "sharedWalls": [
-    { "direction": "west", "sourceRoom": "Living Room", "sourceWall": "east" }
+    { "direction": "south", "from": {"x": 10000, "y": 4000}, "to": {"x": 6000, "y": 4000}, "thickness": 200 },
+    { "direction": "west",  "from": {"x": 6000, "y": 4000}, "to": {"x": 6000, "y": 0}, "thickness": 200 }
   ]
 }
 ```
-
-**Shared wall fields:**
-
-- **`direction`** -- The wall direction name in this room.
-- **`sourceRoom`** -- The room that originally defines the wall.
-- **`sourceWall`** -- The wall direction name in the source room. Defaults to `direction` if omitted.
-
-**Important:** Define rooms in dependency order. A room using `sharedWalls` must come after the room it references.
 
 ### Dimensions and Labels
 
@@ -528,7 +527,7 @@ The skill includes 14 rule files organized by topic:
 | `structure-guide.md` | Step-by-step structure workflow and self-review checklist |
 | `walls.md` | Wall definitions, thickness conventions, polygon closure |
 | `openings.md` | Doors, windows, openings, sliding doors, placement rules |
-| `rooms.md` | Room blocks, shared walls, custom wall names, dependency order |
+| `rooms.md` | Room blocks, adjacent rooms, custom wall names |
 | `coordinates.md` | Coordinate system, units, absolute positioning |
 | `measurement-extraction.md` | Extracting and verifying dimensions from reference images |
 | `dimensions.md` | Dimension annotations and dimension chain syntax |
@@ -657,7 +656,7 @@ furniture packs → [furniture] loadPackage ────────→ [rendere
 ### `@plancraft/dsl`
 
 - **Parser** -- Parses JSONC, validates structure, produces typed raw AST.
-- **Resolver** -- Computes wall polygons, resolves shared walls, calculates room areas/centers, resolves opening positions.
+- **Resolver** -- Computes wall polygons, calculates room areas/centers, resolves opening positions.
 
 ### `@plancraft/furniture`
 
@@ -697,7 +696,7 @@ The `examples/` directory contains sample floor plans:
 | File | Description |
 |------|-------------|
 | `studio-apartment.pc` | Single room with one door, one window, dimensions, and a label |
-| `two-bedroom.pc` | Two-room apartment with shared walls, doors, windows, and dimensions |
+| `two-bedroom.pc` | Two-room apartment with adjacent rooms, doors, windows, and dimensions |
 | `tolosa.pc` | Complex 11-room house with garage, staircase, multiple door/window types |
 | `tolosa.pcf` | Furniture layout for the Tolosa house |
 
