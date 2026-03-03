@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false
+  },
+  "include": ["src/__tests__"],
+  "references": [
+    { "path": "." },
+    { "path": "../dsl" },
+    { "path": "../renderer" }
+  ]
+}

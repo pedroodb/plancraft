@@ -1,0 +1,86 @@
+// Casa Chorizo — Traditional Argentine row house
+// Long narrow lot, rooms in a line along the party wall (west),
+// galería (covered gallery) for circulation, and open patio (east).
+// Typical of Buenos Aires, La Plata, and other Argentine cities (1880–1940).
+
+plan: "Casa Chorizo"
+
+floor: "Planta Baja"
+
+  // === Habitaciones principales (lado oeste, medianera) ===
+
+  room: Sala
+    wall south 0,0 4200,0 200
+    wall east 4200,0 4200,4500 150
+    wall north 4200,4500 0,4500 150
+    wall west 0,4500 0,0 200
+    window south 500 1500 1400 900
+    door east 1800 900 left
+    door north 1500 900 left
+
+  room: "Dormitorio 1"
+    wall south 0,4500 4200,4500 150
+    wall east 4200,4500 4200,8500 150
+    wall north 4200,8500 0,8500 150
+    wall west 0,8500 0,4500 200
+    door east 1500 900 left
+    door north 1500 900 left
+
+  room: "Dormitorio 2"
+    wall south 0,8500 4200,8500 150
+    wall east 4200,8500 4200,12500 150
+    wall north 4200,12500 0,12500 150
+    wall west 0,12500 0,8500 200
+    door east 1500 900 left
+    door north 1500 900 left
+
+  room: Comedor
+    wall south 0,12500 4200,12500 150
+    wall east 4200,12500 4200,16000 150
+    wall north 4200,16000 0,16000 150
+    wall west 0,16000 0,12500 200
+    door east 1000 900 left
+    door north 1500 900 left
+
+  room: Cocina
+    wall south 0,16000 4200,16000 150
+    wall east 4200,16000 4200,19000 150
+    wall north 4200,19000 0,19000 200
+    wall west 0,19000 0,16000 200
+    window north 1500 1200 1400 900
+
+  // === Circulación central ===
+
+  room: Zaguán
+    wall south 4200,0 5800,0 200
+    wall east 5800,0 5800,4500 150
+    wall north 5800,4500 4200,4500 150
+    wall west 4200,4500 4200,0 150
+    door south 300 1000 double
+    opening east 1500 1500
+    opening north 200 1200
+
+  room: Galería
+    wall south 4200,4500 5800,4500 150
+    wall east 5800,4500 5800,16000 150
+    wall north 5800,16000 4200,16000 150
+    wall west 4200,16000 4200,4500 150
+    opening east 500 1200
+    opening east 4000 1200
+    opening east 7500 1200
+
+  room: Baño
+    wall south 4200,16000 5800,16000 150
+    wall east 5800,16000 5800,19000 200
+    wall north 5800,19000 4200,19000 200
+    wall west 4200,19000 4200,16000 150
+    door west 1100 800 right
+    window north 400 600 1000 1200
+
+  // === Patio (lado este) ===
+
+  room: Patio
+    wall south 5800,0 8600,0 200
+    wall east 8600,0 8600,19000 200
+    wall north 8600,19000 5800,19000 200
+    wall west 5800,19000 5800,0 150

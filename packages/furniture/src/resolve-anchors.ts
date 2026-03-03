@@ -109,12 +109,15 @@ function resolveWallAnchor(
   effectiveWidth: number,
   effectiveDepth: number,
 ): Point {
-  // Find the matching wall (by direction name or compass side)
-  const wall = room.walls.find(
-    (w) =>
-      w.direction.toLowerCase() === anchor.wall.toLowerCase() ||
-      w.side.toLowerCase() === anchor.wall.toLowerCase(),
-  );
+  // Find the matching wall — prefer DSL direction match, fall back to computed side.
+  // This two-pass approach is critical: when DSL labels don't match compass convention
+  // (e.g. DSL "south" at low-Y has computed side "north"), a single OR condition would
+  // match the wrong wall if its side happens to equal the anchor name before the
+  // correct direction-named wall is reached in the array.
+  const anchorLower = anchor.wall.toLowerCase();
+  const wall =
+    room.walls.find((w) => w.direction.toLowerCase() === anchorLower) ??
+    room.walls.find((w) => w.side.toLowerCase() === anchorLower);
 
   if (!wall) {
     // Wall not found — fall back to room center

@@ -54,7 +54,7 @@ export interface FurnitureAABB {
 }
 
 export interface SpatialWarning {
-  type: "wall_overlap" | "furniture_overlap" | "out_of_room" | "wall_gap" | "door_blocked";
+  type: "wall_overlap" | "furniture_overlap" | "out_of_room" | "wall_gap" | "door_blocked" | "wall_proximity" | "passability" | "duplicate_fixture";
   message: string;
   /** Index of the furniture placement */
   placementIndex: number;
@@ -579,9 +579,9 @@ export function validateFurniturePlacement(
         const b = roomItems[j];
         if (aabbOverlap(a.aabb, b.aabb)) {
           const depth = aabbOverlapDepth(a.aabb, b.aabb);
-          // Only warn if overlap is significant (>100mm) — smaller overlaps
-          // are often intentional (chair at desk, items touching)
-          if (depth > 100) {
+          // Only warn if overlap is significant (>50mm) — smaller overlaps
+          // are often intentional (items touching)
+          if (depth > 50) {
             warnings.push({
               type: "furniture_overlap",
               message: `${a.element} (#${a.index}) overlaps with ${b.element} (#${b.index}) by ~${Math.round(depth)}mm`,
@@ -676,6 +676,104 @@ export function validateFurniturePlacement(
             placementIndex: furn.index,
           });
         }
+      }
+    }
+  }
+
+  // 5. Check wall-adjacent items are actually near a wall (not floating in the room center)
+  const WALL_ADJACENT_ELEMENTS = new Set([
+    "toilet", "sink", "shower", "bathtub",
+    "counter", "stove", "oven", "fridge",
+    "bed", "wardrobe",
+    "sofa", "l_sofa", "sectional_sofa", "tv_console", "bookshelf",
+    "desk", "executive_desk", "whiteboard",
+  ]);
+  const WALL_PROXIMITY_THRESHOLD = 500; // mm — max gap between item edge and nearest wall
+
+  for (const furn of furnitureAABBs) {
+    if (!furn.room) continue;
+    const elName = furn.element.includes("/") ? furn.element.split("/").pop()! : furn.element;
+    if (!WALL_ADJACENT_ELEMENTS.has(elName)) continue;
+
+    const roomGeo = roomGeometries.find(
+      (r) => r.name.toLowerCase() === furn.room!.toLowerCase(),
+    );
+    if (!roomGeo) continue;
+
+    const inner = roomGeo.innerBoundingBox;
+    const fa = furn.aabb;
+    const distToWest = fa.minX - inner.minX;
+    const distToEast = inner.maxX - fa.maxX;
+    const distToNorth = fa.minY - inner.minY;
+    const distToSouth = inner.maxY - fa.maxY;
+    const minDist = Math.min(distToWest, distToEast, distToNorth, distToSouth);
+
+    if (minDist > WALL_PROXIMITY_THRESHOLD) {
+      warnings.push({
+        type: "wall_proximity",
+        message: `${furn.element} (#${furn.index}) is ~${Math.round(minDist)}mm from any wall — this item should be placed against a wall, not in the middle of the room`,
+        placementIndex: furn.index,
+      });
+    }
+  }
+
+  // 6. Check doorway passability — furniture near doors should leave at least 600mm passage
+  const MIN_PASSAGE_WIDTH = 600; // mm
+  for (const furn of furnitureAABBs) {
+    if (!furn.room) continue;
+
+    for (const dc of doorClearances) {
+      if (dc.roomName.toLowerCase() !== furn.room.toLowerCase()) continue;
+
+      const doorCenter = {
+        x: (dc.aabb.minX + dc.aabb.maxX) / 2,
+        y: (dc.aabb.minY + dc.aabb.maxY) / 2,
+      };
+      const doorWidth = dc.door.width;
+      const checkRadius = doorWidth + MIN_PASSAGE_WIDTH;
+
+      const furnCenterDist = Math.sqrt(
+        (furn.center.x - doorCenter.x) ** 2 + (furn.center.y - doorCenter.y) ** 2,
+      );
+      if (furnCenterDist > checkRadius + Math.max(furn.width, furn.height)) continue;
+
+      const gapX = Math.max(0, furn.aabb.minX - dc.aabb.maxX, dc.aabb.minX - furn.aabb.maxX);
+      const gapY = Math.max(0, furn.aabb.minY - dc.aabb.maxY, dc.aabb.minY - furn.aabb.maxY);
+      const gap = Math.max(gapX, gapY);
+
+      if (gap > 0 && gap < MIN_PASSAGE_WIDTH) {
+        warnings.push({
+          type: "passability",
+          message: `${furn.element} (#${furn.index}) leaves only ~${Math.round(gap)}mm passage near door on ${dc.door.wallDirection} wall — need at least ${MIN_PASSAGE_WIDTH}mm`,
+          placementIndex: furn.index,
+        });
+      }
+    }
+  }
+
+  // 7. Check duplicate fixtures/appliances per room — items that should appear at most once
+  const UNIQUE_PER_ROOM = new Set([
+    "stove", "oven", "fridge", "refrigerator", "dishwasher",
+    "toilet", "bathtub", "shower",
+    "bed", "double_bed", "single_bed", "king_bed",
+    "counter",
+  ]);
+  for (const [roomKey, roomItems] of furnitureByRoom) {
+    const seen = new Map<string, FurnitureAABB>();
+    for (const furn of roomItems) {
+      const elName = furn.element.includes("/") ? furn.element.split("/").pop()! : furn.element;
+      if (!UNIQUE_PER_ROOM.has(elName)) continue;
+
+      const existing = seen.get(elName);
+      if (existing) {
+        warnings.push({
+          type: "duplicate_fixture",
+          message: `${furn.element} (#${furn.index}) is a duplicate — "${roomKey}" already has one (#${existing.index})`,
+          placementIndex: furn.index,
+          otherIndex: existing.index,
+        });
+      } else {
+        seen.set(elName, furn);
       }
     }
   }

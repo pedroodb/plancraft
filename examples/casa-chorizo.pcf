@@ -1,0 +1,50 @@
+furniture:
+
+elements:
+  aljibe: Aljibe [patio,decoration] 800x800
+    svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><circle cx="400" cy="400" r="360" fill="#e8e8e8" stroke="black" stroke-width="5"/><circle cx="400" cy="400" r="200" fill="none" stroke="black" stroke-width="3"/></svg>
+    source: generated
+
+  maceta: Maceta [patio,decoration] 500x500
+    svg: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><circle cx="250" cy="250" r="220" fill="#e8e8e8" stroke="black" stroke-width="4"/><circle cx="250" cy="250" r="120" fill="none" stroke="black" stroke-width="2" stroke-dasharray="8,4"/></svg>
+    source: generated
+
+placements:
+  // Sala — formal living room (street-facing)
+  place default/sofa at 1100,2250 in Sala rotation=90
+  place default/coffee_table at 2300,2250 in Sala
+  place default/floor_lamp at 400,600 in Sala
+
+  // Dormitorio 1
+  place default/bed at 1200,6500 in "Dormitorio 1" rotation=90
+  place default/wardrobe at 3500,5200 in "Dormitorio 1"
+
+  // Dormitorio 2
+  place default/bed at 1200,10500 in "Dormitorio 2" rotation=90
+  place default/wardrobe at 3500,9200 in "Dormitorio 2"
+
+  // Comedor — dining room
+  place default/table at 2000,14250 in Comedor
+  place default/chair at 1300,14250 in Comedor
+  place default/chair at 2700,14250 in Comedor
+  place default/chair at 2000,13650 in Comedor
+  place default/chair at 2000,14850 in Comedor
+
+  // Cocina — kitchen
+  place default/counter at 600,17500 in Cocina rotation=90
+  place default/stove at 600,18400 in Cocina rotation=90
+  place default/fridge at 3500,16600 in Cocina
+
+  // Baño — bathroom
+  place default/toilet at 4700,17200 in Baño
+  place default/sink at 5300,17200 in Baño
+  place default/shower at 5050,18300 in Baño
+
+  // Galería — covered gallery
+  place default/chair at 5000,8000 in Galería
+  place default/chair at 5000,12000 in Galería
+
+  // Patio — courtyard
+  place aljibe at 7200,9500 in Patio
+  place maceta at 6400,3000 in Patio
+  place maceta at 6400,16000 in Patio
